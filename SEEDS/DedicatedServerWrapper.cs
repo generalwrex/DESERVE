@@ -20,9 +20,15 @@ namespace SEEDS
 		private const string MainGameInstance = "392503BDB6F8C1E34A232489E2A0C6D4";
 		private const string MainGameSignalShutdownMethod = "DA95E633B86E22CF269880CE57124695";
 
+		public static string ServerCoreNamespace = "168638249D29224100DB50BB468E7C07";
+		public static string ServerCoreClass = "7BAD4AFD06B91BCD63EA57F7C0D4F408";
+
+		public static string ServerCoreNullRenderField = "53A34747D8E8EDA65E601C194BECE141";
+
 		public static MethodInfo DedicatedServerStartupMethod { get { return m_dedicatedServerAssembly.GetType(DedicatedServerNamespace + "." + DedicatedServerClass).GetMethod(DedicatedServerMainMethod, BindingFlags.Static | BindingFlags.NonPublic); } }
 		public static MethodInfo DedicatedServerShutdownMethod { get { return m_sandboxGameAssembly.GetType(MainGameNamespace + "." + MainGameClass + "." + MainGameInstance).GetMethod(MainGameSignalShutdownMethod, BindingFlags.Static | BindingFlags.Public); } }
-	
+		public static FieldInfo DedicatedServerNullRenderField { get { return m_sandboxGameAssembly.GetType(ServerCoreNamespace + "." + ServerCoreClass).GetField(ServerCoreNullRenderField, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy); } }
+
 		public DedicatedServerWrapper()
 		{
 			if (m_dedicatedServerAssembly == null)

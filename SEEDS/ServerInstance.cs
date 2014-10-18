@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using SysUtils.Utils;
+using VRage.Common.Utils;
 
 namespace SEEDS
 {
@@ -59,6 +61,10 @@ namespace SEEDS
 		{
 			try
 			{
+				if (MyLog.Default != null)
+					MyLog.Default.Close();
+				MyFileSystem.Reset(); 
+				DedicatedServerWrapper.DedicatedServerNullRenderField.SetValue(null, true);
 				DedicatedServerWrapper.DedicatedServerStartupMethod.Invoke(null, args as object[]);
 			}
 			catch (Exception ex)
