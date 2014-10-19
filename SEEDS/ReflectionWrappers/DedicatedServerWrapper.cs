@@ -26,20 +26,10 @@ namespace SEEDS
 		public static string ServerCoreNullRenderField = "53A34747D8E8EDA65E601C194BECE141";
 
 		public static MethodInfo DedicatedServerStartupMethod { get { return m_dedicatedServerAssembly.GetType(DedicatedServerNamespace + "." + DedicatedServerClass).GetMethod(DedicatedServerMainMethod, BindingFlags.Static | BindingFlags.NonPublic); } }
+
+		public static FieldInfo MainGameInstanceField { get { return m_sandboxGameAssembly.GetType(MainGameNamespace + "." + MainGameClass).GetField(MainGameInstance, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy); } }
 		public static MethodInfo DedicatedServerShutdownMethod { get { return m_sandboxGameAssembly.GetType(MainGameNamespace + "." + MainGameClass + "." + MainGameInstance).GetMethod(MainGameSignalShutdownMethod, BindingFlags.Static | BindingFlags.Public); } }
+		
 		public static FieldInfo DedicatedServerNullRenderField { get { return m_sandboxGameAssembly.GetType(ServerCoreNamespace + "." + ServerCoreClass).GetField(ServerCoreNullRenderField, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy); } }
-
-		public DedicatedServerWrapper()
-		{
-			if (m_dedicatedServerAssembly == null)
-			{
-				m_dedicatedServerAssembly = Assembly.UnsafeLoadFrom("SpaceEngineersDedicated.exe");
-			}
-
-			if (m_sandboxGameAssembly == null)
-			{
-				m_sandboxGameAssembly = Assembly.UnsafeLoadFrom("Sandbox.Game.dll");
-			}
-		}
 	}
 }

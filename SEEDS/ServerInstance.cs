@@ -12,7 +12,7 @@ namespace SEEDS
 {
 	class ServerInstance
 	{
-		#region Attributes
+		#region Fields
 		private string saveFile;
 		private Thread m_serverThread;
 		private DedicatedServerWrapper m_server;
@@ -52,7 +52,7 @@ namespace SEEDS
 
 		public void Stop()
 		{
-			DedicatedServerWrapper.DedicatedServerShutdownMethod.Invoke(null, null);
+			DedicatedServerWrapper.DedicatedServerShutdownMethod.Invoke(DedicatedServerWrapper.MainGameInstanceField.GetValue(null), null);
 			m_serverThread.Join(60000);
 			m_serverThread.Abort();
 		}

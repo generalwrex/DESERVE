@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -7,14 +8,21 @@ namespace SEEDS
 {
 	public class CommandLineArgs
 	{
+		#region Fields
+		#endregion
+
+		#region Properties
 		public string AutostartWorld { get; set; }
-		public bool debug { get; set; }
+		public bool Debug { get; set; }
+		public string LogDirectory { get; set; }
+		#endregion
 
 		public CommandLineArgs(string[] args)
 		{
 			// Set Defaults.
 			AutostartWorld = "";
-			debug = false;
+			Debug = false;
+			LogDirectory = Directory.GetCurrentDirectory() + "\\SEEDS";
 
 			// Process Commandline.
 			int numArgs = args.GetLength(0);
@@ -36,12 +44,13 @@ namespace SEEDS
 						}
 						break;
 					case "-debug":
-						debug = true;
+						Debug = true;
 						break;
 				}
 
 				i++;
 			}
 		}
+
 	}
 }

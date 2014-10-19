@@ -7,7 +7,7 @@ namespace SEEDS
 {
 	class ServerManager
 	{
-		#region Attributes
+		#region Fields
 		private List<ServerInstance> m_serverInstances;
 		#endregion
 

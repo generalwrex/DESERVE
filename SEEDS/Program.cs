@@ -10,9 +10,10 @@ namespace SEEDS
 {
 	class SEEDS
 	{
-		#region Attributes
+		#region Fields
 		private CommandLineArgs m_commandLineArgs;
 		private ServerManager m_serverManager;
+		private LogManager m_logManager;
 		#endregion
 
 		#region Properties
@@ -30,13 +31,10 @@ namespace SEEDS
 		public SEEDS(string[] args)
 		{
 			m_commandLineArgs = new CommandLineArgs(args);
-			m_serverManager = new ServerManager();
-			m_serverManager.StartServer("Project Vengeance");
+			m_logManager = new LogManager(m_commandLineArgs.LogDirectory);
 
-			while (m_serverManager.ServerInstances.Count > 0)
-			{
-				Thread.Sleep(50);
-			}
+			LogManager.MainLog.WriteLineAndConsole("Test");
+			m_serverManager = new ServerManager();
 		}
 		#endregion
 	}
