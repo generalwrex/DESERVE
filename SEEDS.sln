@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEDS", "SEEDS\SEEDS.csproj", "{441D0AF4-A65E-4C1A-9F8A-D43D80A47A5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEDSRemote", "SEEDSRemote\SEEDSRemote.csproj", "{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,10 @@ Global
 		{441D0AF4-A65E-4C1A-9F8A-D43D80A47A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{441D0AF4-A65E-4C1A-9F8A-D43D80A47A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{441D0AF4-A65E-4C1A-9F8A-D43D80A47A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

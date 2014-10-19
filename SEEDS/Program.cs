@@ -35,7 +35,16 @@ namespace SEEDS
 
 			LogManager.MainLog.WriteLineAndConsole("Test");
 			m_serverManager = new ServerManager();
+
+			SetupWCFServices();
+	
 		}
+
+		public void SetupWCFServices()
+		{
+			ServicesManager.SetupServerManagerService();
+		}
+
 		#endregion
 	}
 }

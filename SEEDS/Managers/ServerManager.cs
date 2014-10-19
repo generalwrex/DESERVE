@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+
 
 namespace SEEDS
 {
-	class ServerManager
+	[DataContract]
+	class ServerManager : IServerManager
 	{
 		#region Fields
 		private List<ServerInstance> m_serverInstances;
 		#endregion
 
 		#region Properties
+		[DataMember]
 		public List<ServerInstance> ServerInstances { get { return m_serverInstances; } }
 		#endregion
 
@@ -19,6 +23,11 @@ namespace SEEDS
 		public ServerManager()
 		{
 			m_serverInstances = new List<ServerInstance>();
+		}
+
+		public List<ServerInstance> GetServerInstances()
+		{
+			return m_serverInstances;
 		}
 
 		public void StartServer(string saveFile)

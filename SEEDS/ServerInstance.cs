@@ -5,11 +5,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Runtime.Serialization;
 using SysUtils.Utils;
 using VRage.Common.Utils;
 
 namespace SEEDS
 {
+	[DataContract]
 	class ServerInstance
 	{
 		#region Fields
