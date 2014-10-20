@@ -30,8 +30,6 @@ namespace SEEDS
 			MainLog = new LogInstance(m_logDirectory, _MAIN_LOG_NAME);
 		}
 		#endregion
-
-
 	}
 
 	class LogInstance
