@@ -13,7 +13,7 @@ using SysUtils.Utils;
 namespace SEEDS
 {
 	[DataContract]
-	class ServerManager : IServerManager
+	public class ServerManager : IServerManager
 	{
 		#region Fields
 		private List<ServerInstance> m_serverInstances;
@@ -59,7 +59,7 @@ namespace SEEDS
 	}
 
 	[DataContract]
-	class ServerInstance
+	public class ServerInstance
 	{
 		#region Fields
 		private String m_saveFile;
