@@ -62,20 +62,23 @@ namespace SEEDS
 	class ServerInstance
 	{
 		#region Fields
-		private string saveFile;
+		private String m_saveFile;
 		private Thread m_serverThread;
 		private DedicatedServerWrapper m_server;
+		private Boolean m_isRunning;
 
 		#endregion
 
 		#region Properties
+		public String Name { get { return m_saveFile; } }
+		public Boolean IsRunning { get { return m_isRunning; } }
 		#endregion
 
 		#region Methods
 
 		public ServerInstance(string saveFile)
 		{
-			this.saveFile = saveFile;
+			this.m_saveFile = saveFile;
 			m_server = new DedicatedServerWrapper();
 		}
 

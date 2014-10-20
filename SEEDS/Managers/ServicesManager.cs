@@ -22,11 +22,11 @@ namespace SEEDS
 
 		#region "Methods"
 
-		public static bool SetupServerManagerService()
+		public static bool SetupServerManagerService(ServerManager serverManager)
 		{
 			try
 			{
-				m_serverManagerHost = CreateServiceEndpoint(typeof(ServerManager), typeof(IServerManager), "ServerManager/", "ServerManager");
+				m_serverManagerHost = CreateServiceEndpoint(serverManager, typeof(IServerManager), "ServerManager/", "ServerManager");
 				m_serverManagerHost.Open();
 			}
 			catch (CommunicationException ex)
@@ -39,12 +39,12 @@ namespace SEEDS
 			return true;
 		}
 
-		private static ServiceHost CreateServiceEndpoint(Type serviceType, Type contractType, string urlExtension, string name)
+		private static ServiceHost CreateServiceEndpoint(ServerManager serverManager, Type contractType, string urlExtension, string name)
 		{
 			try
 			{
 				Uri baseAddress = new Uri("http://localhost:8005/SEEDS/" + urlExtension);
-				ServiceHost selfHost = new ServiceHost(serviceType, baseAddress);
+				ServiceHost selfHost = new ServiceHost(serverManager, baseAddress);
 
 				WSHttpBinding binding = new WSHttpBinding();
 				binding.Security.Mode = SecurityMode.Message;
