@@ -48,7 +48,7 @@ namespace DESERVE //DEdicated SERVer Enhanced
 					new String[] {
 						"-path",
 						seInstancePath + args.Instance,
-						"-console",
+						"-noconsole",
 					}
 				};
 
