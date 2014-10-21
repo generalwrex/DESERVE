@@ -21,6 +21,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		private const String StopMethod = "DA95E633B86E22CF269880CE57124695";
 
 		private Boolean m_isRunning;
+		private ManualResetEvent m_waitEvent;
 		#endregion
 
 		#region Events
@@ -54,6 +55,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 			: base(Assembly, Namespace, Class)
 		{
 			StartupMethod = Assembly.EntryPoint.Name;
+			m_waitEvent = new ManualResetEvent(false);
 		}
 
 		public Thread StartServer(Object args)
@@ -64,6 +66,11 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 			serverThread.CurrentCulture = CultureInfo.InvariantCulture;
 			serverThread.CurrentUICulture = CultureInfo.InvariantCulture;
 			serverThread.Start(args);
+
+			SandboxGameWrapper.MainGame.RegisterOnLoadedAction((Action)(() => this.m_waitEvent.Set()));
+
+			// Wait for map to load.
+			m_waitEvent.WaitOne();
 
 			IsRunning = true;
 			return serverThread;

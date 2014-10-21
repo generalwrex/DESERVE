@@ -17,7 +17,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		#region Fields
 		private CommandLineArgs m_commandLineArgs;
 		private LogManager m_logManager;
-		private ManualResetEvent m_waitEvent;
 
 		#endregion
 
@@ -45,17 +44,11 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		{
 			m_commandLineArgs = new CommandLineArgs(args);
 			m_logManager = new LogManager(m_commandLineArgs.LogDirectory);
-			m_waitEvent = new ManualResetEvent(false);
 		}
 
 		private void Run()
 		{
 			ServerInstance.Start(m_commandLineArgs);
-
-			SandboxGameWrapper.MainGame.RegisterOnLoadedAction((Action) (() => this.m_waitEvent.Set()));
-
-			// Wait for map to load.
-			m_waitEvent.WaitOne();
 
 			if (m_commandLineArgs.AutosaveMinutes > 0)
 			{
