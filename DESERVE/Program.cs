@@ -1,4 +1,5 @@
-﻿using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
+﻿using DESERVE.Managers;
+using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace DESERVE
+namespace DESERVE //DEdicated SERVer, Enhanced
 {
 	class DESERVE
 	{

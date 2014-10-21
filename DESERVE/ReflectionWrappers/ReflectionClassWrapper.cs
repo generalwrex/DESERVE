@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DESERVE.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -103,113 +104,91 @@ namespace DESERVE.ReflectionWrappers
 
 		private Object CallObjectMethod(Object obj, MethodInfo methodInfo, Object[] args)
 		{
+			if (obj == null)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole("Error: CallObjectMethod recieved a null referance object while trying to call " + AssemblyName + "." + ClassName + "." + methodInfo.Name);
+			}
 			return methodInfo.Invoke(obj, args);
 		}
 
-		private static FieldInfo GetStaticField(Type objectType, String fieldName)
+		private FieldInfo GetStaticField(String fieldName)
 		{
-			try
+			FieldInfo field = m_classType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			if (field == null)
+				field = m_classType.BaseType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			if (field == null)
 			{
-				FieldInfo field = objectType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (field == null)
-					field = objectType.BaseType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				return field;
+				LogManager.ErrorLog.WriteLineAndConsole("Reflection Field not found: " + AssemblyName + "." + ClassName + "." + fieldName);
 			}
-			catch (Exception ex)
-			{
-
-			}
-			return null;
+			
+			return field;
 		}
 
-		private static FieldInfo GetObjectField(Object gameEntity, String fieldName)
+		private FieldInfo GetObjectField(Object gameEntity, String fieldName)
 		{
-			try
+			if (gameEntity == null)
 			{
-				FieldInfo field = gameEntity.GetType().GetField(fieldName);
-				if (field == null)
+				LogManager.ErrorLog.WriteLineAndConsole("Error: GetObjectField recieved a null referance object while trying to find " + AssemblyName + "." + ClassName + "." + fieldName);
+				return null;
+			}
+
+			FieldInfo field = m_classType.GetField(fieldName);
+			if (field == null)
+			{
+				//Recurse up through the class heirarchy to try to find the field
+				Type type = m_classType;
+				while (type != typeof(Object))
 				{
-					//Recurse up through the class heirarchy to try to find the field
-					Type type = gameEntity.GetType();
-					while (type != typeof(Object))
-					{
-						field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-						if (field != null)
-							break;
+					field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+					if (field != null)
+						break;
 
-						type = type.BaseType;
-					}
+					type = type.BaseType;
 				}
-				return field;
 			}
-			catch (Exception ex)
+			if (field == null)
 			{
-
+				LogManager.ErrorLog.WriteLineAndConsole("Reflection Field not found: " + AssemblyName + "." + ClassName + "." + fieldName);
 			}
-			return null;
+			return field;
 		}
 
 		protected Object GetStaticFieldValue(String fieldName)
 		{
-			try
+			FieldInfo field = GetStaticField(fieldName);
+			if (field != null)
 			{
-				FieldInfo field = GetStaticField(m_classType, fieldName);
-				if (field != null)
-				{
-					return field.GetValue(null);
-				}
-			}
-			catch (Exception ex)
-			{
-
+				return field.GetValue(null);
 			}
 			return null;
 		}
 
 		protected Object GetObjectFieldValue(Object gameEntity, String fieldName)
 		{
-			try
-			{
-				FieldInfo field = GetObjectField(gameEntity, fieldName);
-				if (field != null)
-				{
-					return field.GetValue(null);
-				}
-			}
-			catch (Exception ex)
-			{
+			FieldInfo field = GetObjectField(gameEntity, fieldName);
 
+			if (field != null)
+			{
+				return field.GetValue(null);
 			}
 			return null;
 		}
 
 		protected void SetStaticFieldValue(String fieldName, Object value)
 		{
-			try
+			FieldInfo field = GetStaticField(fieldName);
+			if (field != null)
 			{
-				FieldInfo field = GetStaticField(m_classType, fieldName);
-				if (field == null)
-					return;
 				field.SetValue(null, value);
-			}
-			catch (Exception ex)
-			{
-
 			}
 		}
 
 		protected void SetObjectFieldValue(Object gameEntity, String fieldName, Object value)
 		{
-			try
+			FieldInfo field = GetObjectField(gameEntity, fieldName);
+			if (field != null)
 			{
-				FieldInfo field = GetObjectField(gameEntity, fieldName);
-				if (field == null)
-					return;
 				field.SetValue(gameEntity, value);
-			}
-			catch (Exception ex)
-			{
-
 			}
 		}
 		#endregion

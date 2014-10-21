@@ -1,4 +1,5 @@
-﻿using DESERVE.ReflectionWrappers.SandboxGameWrappers;
+﻿using DESERVE.Managers;
+using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -22,10 +23,30 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		private Boolean m_isRunning;
 		#endregion
 
+		#region Events
+		public delegate void ServerRunningEvent(Boolean isRunning);
+		public event ServerRunningEvent IsRunningChanged;
+		#endregion
+
 		#region Properties
 		public override String ClassName { get { return "Program"; } }
 		public override String AssemblyName { get { return "SpaceEngineersDedicated"; } }
-		public Boolean IsRunning { get { return m_isRunning; } }
+		public Boolean IsRunning 
+		{ 
+			get { return m_isRunning; }
+			set
+			{
+				if (m_isRunning == value)
+				{
+					return;
+				}
+				m_isRunning = value;
+				if (IsRunningChanged != null)
+				{
+					IsRunningChanged(m_isRunning);
+				}
+			}
+		}
 		#endregion
 
 		#region Methods

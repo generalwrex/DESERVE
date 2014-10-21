@@ -11,17 +11,16 @@ using SysUtils.Utils;
 using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using System.ServiceModel;
+using DESERVE.Managers;
 
 
-namespace DESERVE //DEdicated SERVer Enhanced
+namespace DESERVE.Managers
 {
-	[ServiceContract]
 	public static class ServerInstance
 	{
 		#region Fields
 		private static String m_saveFile;
 		private static Thread m_serverThread;
-		private static Boolean m_isRunning;
 
 		private static DedicatedServerWrapper m_dedicatedServerWrapper;
 		private static SandboxGameWrapper m_sandboxGameWrapper;
@@ -30,13 +29,15 @@ namespace DESERVE //DEdicated SERVer Enhanced
 
 		#endregion
 
+		#region Events
+		#endregion
+
 		#region Properties
 		public static String Name { get { return m_saveFile; } }
 		public static Boolean IsRunning { get { return DedicatedServerWrapper.Program.IsRunning; } }
 		#endregion
 
 		#region Methods
-		[OperationContract]
 		public static void Start(CommandLineArgs args)
 		{
 			m_saveFile = args.Instance;
@@ -56,16 +57,13 @@ namespace DESERVE //DEdicated SERVer Enhanced
 			m_serverThread = DedicatedServerWrapper.Program.StartServer(serverArgs);
 		}
 
-		[OperationContract]
 		public static void Stop()
 		{
 			SandboxGameWrapper.MainGame.SignalShutdown();
 			m_serverThread.Join(60000);
 			m_serverThread.Abort();
-			m_isRunning = false;
 		}
 
-		[OperationContract]
 		public static void Save()
 		{
 			SandboxGameWrapper.WorldManager.Save();
