@@ -24,6 +24,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		public DedicatedServerWrapper(Assembly dedicatedServerAssembly)
 			: base(dedicatedServerAssembly)
 		{
+			String EntryPoint = dedicatedServerAssembly.EntryPoint.Name;
 			m_program = new Program(dedicatedServerAssembly, DedicatedServerNamespace);
 		}
 		#endregion

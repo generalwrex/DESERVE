@@ -26,11 +26,13 @@ namespace DESERVE //DEdicated SERVer Enhanced
 		private static DedicatedServerWrapper m_dedicatedServerWrapper;
 		private static SandboxGameWrapper m_sandboxGameWrapper;
 
+		private const String seInstancePath = "C:\\ProgramData\\SpaceEngineersDedicated\\";
+
 		#endregion
 
 		#region Properties
 		public static String Name { get { return m_saveFile; } }
-		public static Boolean IsRunning { get { return m_isRunning; } }
+		public static Boolean IsRunning { get { return DedicatedServerWrapper.Program.IsRunning; } }
 		#endregion
 
 		#region Methods
@@ -41,17 +43,17 @@ namespace DESERVE //DEdicated SERVer Enhanced
 			m_dedicatedServerWrapper = new DedicatedServerWrapper(Assembly.UnsafeLoadFrom("SpaceEngineersDedicated.exe"));
 			m_sandboxGameWrapper = new SandboxGameWrapper(Assembly.UnsafeLoadFrom("Sandbox.Game.dll"));
 
-			object[] serverArgs = new object[]
+			Object[] serverArgs = new Object[]
 				{
-					args.Instance,
-					"",
-					true,
-					true
+					new String[] {
+						"-path",
+						seInstancePath + args.Instance,
+						"-console",
+					}
 				};
 
 			SandboxGameWrapper.ServerCore.NullRender = true;
 			m_serverThread = DedicatedServerWrapper.Program.StartServer(serverArgs);
-			m_isRunning = true;
 		}
 
 		[OperationContract]
@@ -61,6 +63,12 @@ namespace DESERVE //DEdicated SERVer Enhanced
 			m_serverThread.Join(60000);
 			m_serverThread.Abort();
 			m_isRunning = false;
+		}
+
+		[OperationContract]
+		public static void Save()
+		{
+			SandboxGameWrapper.WorldManager.Save();
 		}
 		#endregion
 	}

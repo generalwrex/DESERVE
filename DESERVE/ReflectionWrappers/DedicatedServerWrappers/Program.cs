@@ -16,7 +16,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		#region Fields
 		private const String Class = "49BCFF86BA276A9C7C0D269C2924DE2D";
 
-		private const String StartupMethod = "26A7ABEA729FAE1F24679E21470F8E98";
+		private String StartupMethod;
 		private const String StopMethod = "DA95E633B86E22CF269880CE57124695";
 
 		private Boolean m_isRunning;
@@ -32,6 +32,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		public Program(Assembly Assembly, String Namespace)
 			: base(Assembly, Namespace, Class)
 		{
+			StartupMethod = Assembly.EntryPoint.Name;
 		}
 
 		public Thread StartServer(Object args)

@@ -46,7 +46,7 @@ namespace DESERVE
 
 		private void Run()
 		{
-			//ServerInstance.Start(m_commandLineArgs); //Not working atm.
+			ServerInstance.Start(m_commandLineArgs);
 
 			if (m_commandLineArgs.AutosaveSeconds > 0)
 			{
