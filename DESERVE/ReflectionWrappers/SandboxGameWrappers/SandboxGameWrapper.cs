@@ -15,13 +15,11 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 
 		private static MainGame m_mainGame;
-		private static ServerCore m_serverCore;
 		private static WorldManager m_worldManager;
 		#endregion
 
 		#region Properties
 		public static MainGame MainGame { get { return m_mainGame; } }
-		public static ServerCore ServerCore { get { return m_serverCore; } }
 		public static WorldManager WorldManager { get { return m_worldManager; } }
 		#endregion
 
@@ -30,7 +28,6 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			: base(Assembly)
 		{
 			m_mainGame = new MainGame(Assembly, MainGameNamespace);
-			m_serverCore = new ServerCore(Assembly, ServerCoreNamespace);
 			m_worldManager = new WorldManager(Assembly, WorldManagerNamespace);
 		}
 		#endregion

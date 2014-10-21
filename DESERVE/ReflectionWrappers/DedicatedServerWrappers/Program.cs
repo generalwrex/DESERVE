@@ -83,7 +83,6 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 				if (MyLog.Default != null)
 					MyLog.Default.Close();
 				MyFileSystem.Reset();
-				SandboxGameWrapper.ServerCore.NullRender = true;
 				m_isRunning = true;
 				DedicatedServerWrapper.Program.Start(args as Object[]);
 			}

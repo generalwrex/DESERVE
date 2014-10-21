@@ -109,7 +109,6 @@
     <Compile Include="ReflectionWrappers\ReflectionAssemblyWrapper.cs" />
     <Compile Include="Managers\ServerInstance.cs" />
     <Compile Include="ReflectionWrappers\ReflectionClassWrapper.cs" />
-    <Compile Include="ReflectionWrappers\SandboxGameWrappers\ServerCore.cs" />
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>

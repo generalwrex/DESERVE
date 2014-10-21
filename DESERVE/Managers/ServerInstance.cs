@@ -53,7 +53,6 @@ namespace DESERVE.Managers
 					}
 				};
 
-			SandboxGameWrapper.ServerCore.NullRender = true;
 			m_serverThread = DedicatedServerWrapper.Program.StartServer(serverArgs);
 		}
 
