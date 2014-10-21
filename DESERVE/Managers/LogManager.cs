@@ -10,8 +10,8 @@ namespace DESERVE.Managers
 	class LogManager
 	{
 		#region Fields
-		private const String _ERROR_LOG_NAME = "SEEDS_Error.log";
-		private const String _MAIN_LOG_NAME = "SEEDS.log";
+		private const String _ERROR_LOG_NAME = "DESERVE_Error.log";
+		private const String _MAIN_LOG_NAME = "DESERVE.log";
 
 		private String m_logDirectory;
 		#endregion
