@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Globalization;
 using VRage.Common.Utils;
 using SysUtils.Utils;
+using SEEDS.ReflectionWrappers.DedicatedServerWrappers;
+using SEEDS.ReflectionWrappers.SandboxGameWrappers;
 
 
 namespace SEEDS
@@ -93,37 +95,15 @@ namespace SEEDS
 					true
 				};
 
-			MethodInfo startupMethod = DedicatedServerWrapper.DedicatedServerStartupMethod;
-			m_serverThread = new Thread(new ParameterizedThreadStart(this.ThreadStart));
+			m_serverThread = DedicatedServerWrapper.Program.StartServer(args);
 
-			m_serverThread.IsBackground = true;
-			m_serverThread.CurrentCulture = CultureInfo.InvariantCulture;
-			m_serverThread.CurrentUICulture = CultureInfo.InvariantCulture;
-			m_serverThread.Start((object)args);
 		}
 
 		public void Stop()
 		{
-			DedicatedServerWrapper.DedicatedServerShutdownMethod.Invoke(DedicatedServerWrapper.MainGameInstanceField.GetValue(null), null);
+			SandboxGameWrapper.MainGame.SignalShutdown();
 			m_serverThread.Join(60000);
 			m_serverThread.Abort();
-		}
-
-		private void ThreadStart(object args)
-		{
-			try
-			{
-				if (MyLog.Default != null)
-					MyLog.Default.Close();
-				MyFileSystem.Reset();
-				DedicatedServerWrapper.DedicatedServerNullRenderField.SetValue(null, true);
-				DedicatedServerWrapper.DedicatedServerStartupMethod.Invoke(null, args as object[]);
-			}
-			catch (Exception ex)
-			{
-				int i = 0;
-				i++;
-			}
 		}
 		#endregion
 	}

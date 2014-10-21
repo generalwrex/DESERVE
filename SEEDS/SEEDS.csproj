@@ -97,14 +97,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLineArgs.cs" />
-    <Compile Include="ReflectionWrappers\DedicatedServerWrapper.cs" />
+    <Compile Include="ReflectionWrappers\DedicatedServerWrappers\DedicatedServerWrapper.cs" />
     <Compile Include="Managers\LogManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionWrappers\ReflectionClassWrapper.cs" />
+    <Compile Include="ReflectionWrappers\DedicatedServerWrappers\Program.cs" />
+    <Compile Include="ReflectionWrappers\SandboxGameWrappers\MainGame.cs" />
+    <Compile Include="ReflectionWrappers\SandboxCommonWrapper\SandboxCommonWrapper.cs" />
+    <Compile Include="ReflectionWrappers\SandboxGameWrappers\SandboxGameWrapper.cs" />
+    <Compile Include="ReflectionWrappers\ReflectionAssemblyWrapper.cs" />
     <Compile Include="Managers\ServerManager.cs" />
     <Compile Include="IServices.cs" />
     <Compile Include="Managers\ServicesManager.cs" />
+    <Compile Include="ReflectionWrappers\ReflectionClassWrapper.cs" />
+    <Compile Include="ReflectionWrappers\SandboxGameWrappers\ServerCore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
