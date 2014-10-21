@@ -35,9 +35,13 @@ namespace SEEDS
 
 			LogManager.MainLog.WriteLineAndConsole("Test");
 			m_serverManager = new ServerManager();
+			m_serverManager.StartServer("Project Vengeance");
+			//SetupWCFServices(m_serverManager);
 
-			SetupWCFServices(m_serverManager);
-	
+			while (m_serverManager.ServerInstances.Count > 0)
+			{
+				Thread.Sleep(500);
+			}
 		}
 
 		public void SetupWCFServices(ServerManager serverManager)

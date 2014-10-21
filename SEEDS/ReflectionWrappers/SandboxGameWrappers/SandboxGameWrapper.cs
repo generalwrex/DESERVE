@@ -22,11 +22,11 @@ namespace SEEDS.ReflectionWrappers.SandboxGameWrappers
 		#endregion
 
 		#region Methods
-		public SandboxGameWrapper()
-			: base(Assembly.UnsafeLoadFrom("Sandbox.Game.dll"))
+		public SandboxGameWrapper(Assembly Assembly)
+			: base(Assembly)
 		{
-			m_mainGame = new MainGame(MainGameNamespace);
-			m_serverCore = new ServerCore(ServerCoreNamespace);
+			m_mainGame = new MainGame(Assembly, MainGameNamespace);
+			m_serverCore = new ServerCore(Assembly, ServerCoreNamespace);
 		}
 		#endregion
 	}

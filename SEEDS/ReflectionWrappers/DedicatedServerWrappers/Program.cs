@@ -24,10 +24,9 @@ namespace SEEDS.ReflectionWrappers.DedicatedServerWrappers
 		#endregion
 
 		#region Methods
-		public Program(String Namespace)
-			: base(Namespace)
+		public Program(Assembly Assembly, String Namespace)
+			: base(Assembly, Namespace, Class)
 		{
-			m_class = Class;
 		}
 
 		public Thread StartServer(Object args)

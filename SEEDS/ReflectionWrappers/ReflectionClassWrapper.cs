@@ -18,12 +18,14 @@ namespace SEEDS.ReflectionWrappers
 		#endregion
 
 		#region Methods
-		protected ReflectionClassWrapper(String Namespace)
+		protected ReflectionClassWrapper(Assembly Assembly, String Namespace, String Class)
 		{
 			m_namespace = Namespace;
+			m_class = Class;
+			m_classType = Assembly.GetType(Namespace + "." + Class);
 		}
 
-		protected MethodInfo GetStaticMethod(String methodName, Object[] args)
+		private MethodInfo GetStaticMethod(String methodName, Object[] args)
 		{
 			Type[] argTypes = new Type[args.Length];
 			
@@ -34,15 +36,16 @@ namespace SEEDS.ReflectionWrappers
 				i++;
 			}
 
-			return m_classType.GetMethod(methodName,
-				BindingFlags.Public | BindingFlags.Static,
+			MethodInfo methodInfo = m_classType.GetMethod(methodName,
+				BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static,
 				null,
 				CallingConventions.Standard,
 				argTypes,
 				null);
+			return methodInfo;
 		}
 
-		protected MethodInfo GetObjectMethod(String methodName, Object[] args)
+		private MethodInfo GetObjectMethod(String methodName, Object[] args)
 		{
 			Type[] argTypes = new Type[args.Length];
 
@@ -95,7 +98,7 @@ namespace SEEDS.ReflectionWrappers
 			methodInfo.Invoke(obj, args);
 		}
 
-		protected static FieldInfo GetStaticField(Type objectType, String fieldName)
+		private static FieldInfo GetStaticField(Type objectType, String fieldName)
 		{
 			try
 			{
@@ -110,7 +113,7 @@ namespace SEEDS.ReflectionWrappers
 			}
 		}
 
-		protected static FieldInfo GetObjectField(Object gameEntity, String fieldName)
+		private static FieldInfo GetObjectField(Object gameEntity, String fieldName)
 		{
 			try
 			{
@@ -153,11 +156,11 @@ namespace SEEDS.ReflectionWrappers
 			return null;
 		}
 
-		protected Object GetObjectFieldValue(Object obj, String fieldName)
+		protected Object GetObjectFieldValue(Object gameEntity, String fieldName)
 		{
 			try
 			{
-				FieldInfo field = GetObjectField(obj, fieldName);
+				FieldInfo field = GetObjectField(gameEntity, fieldName);
 				if (field != null)
 				{
 					return field.GetValue(null);
@@ -170,14 +173,32 @@ namespace SEEDS.ReflectionWrappers
 			return null;
 		}
 
-		protected void SetStaticFieldValue(String field, Object value)
+		protected void SetStaticFieldValue(String fieldName, Object value)
 		{
-
+			try
+			{
+				FieldInfo field = GetStaticField(m_classType, fieldName);
+				if (field == null)
+					return;
+				field.SetValue(null, value);
+			}
+			catch (Exception ex)
+			{
+			}
 		}
 
-		protected void SetObjectFieldValue(Object obj, String field, Object value)
+		protected void SetObjectFieldValue(Object gameEntity, String fieldName, Object value)
 		{
-
+			try
+			{
+				FieldInfo field = GetObjectField(gameEntity, fieldName);
+				if (field == null)
+					return;
+				field.SetValue(gameEntity, value);
+			}
+			catch (Exception ex)
+			{
+			}
 		}
 		#endregion
 	}

@@ -21,10 +21,10 @@ namespace SEEDS.ReflectionWrappers.DedicatedServerWrappers
 		#endregion
 
 		#region Methods
-		public DedicatedServerWrapper()
-			: base(Assembly.UnsafeLoadFrom("DedicatedServer.exe"))
+		public DedicatedServerWrapper(Assembly dedicatedServerAssembly)
+			: base(dedicatedServerAssembly)
 		{
-			m_program = new Program(DedicatedServerNamespace);
+			m_program = new Program(dedicatedServerAssembly, DedicatedServerNamespace);
 		}
 		#endregion
 	}

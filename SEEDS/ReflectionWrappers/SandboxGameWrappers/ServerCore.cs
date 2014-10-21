@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace SEEDS.ReflectionWrappers.SandboxGameWrappers
@@ -21,10 +22,9 @@ namespace SEEDS.ReflectionWrappers.SandboxGameWrappers
 		#endregion
 
 		#region Methods
-		public ServerCore(String Namespace)
-			: base(Namespace)
+		public ServerCore(Assembly Assembly, String Namespace)
+			: base(Assembly, Namespace, Class)
 		{
-			m_class = Class;
 		}
 		#endregion
 	}

@@ -37,11 +37,11 @@ namespace SEEDS
 			return m_serverInstances;
 		}
 
-		public void StartServer(string saveFile)
+		public void StartServer(String saveFile)
 		{
 			ServerInstance server = new ServerInstance(saveFile);
 			m_serverInstances.Add(server);
-			server.Start();
+			server.Start(saveFile);
 		}
 
 		public void StopServer(ServerInstance server)
@@ -66,7 +66,8 @@ namespace SEEDS
 		#region Fields
 		private String m_saveFile;
 		private Thread m_serverThread;
-		private DedicatedServerWrapper m_server;
+		private DedicatedServerWrapper m_dedicatedServerWrapper;
+		private SandboxGameWrapper m_sandboxGameWrapper;
 		private Boolean m_isRunning;
 
 		#endregion
@@ -81,20 +82,22 @@ namespace SEEDS
 		public ServerInstance(string saveFile)
 		{
 			this.m_saveFile = saveFile;
-			m_server = new DedicatedServerWrapper();
+			m_dedicatedServerWrapper = new DedicatedServerWrapper(Assembly.UnsafeLoadFrom("SpaceEngineersDedicated.exe"));
+			m_sandboxGameWrapper = new SandboxGameWrapper(Assembly.UnsafeLoadFrom("Sandbox.Game.dll"));
 		}
 
-		public void Start()
+		public void Start(String saveFile)
 		{
 
 			object[] args = new object[]
 				{
-					"Project Vengeance",
+					saveFile,
 					"",
 					true,
 					true
 				};
 
+			SandboxGameWrapper.ServerCore.NullRender = true;
 			m_serverThread = DedicatedServerWrapper.Program.StartServer(args);
 
 		}
