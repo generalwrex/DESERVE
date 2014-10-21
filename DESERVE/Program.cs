@@ -57,10 +57,9 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			// Wait for map to load.
 			m_waitEvent.WaitOne();
 
-
-			if (m_commandLineArgs.AutosaveSeconds > 0)
+			if (m_commandLineArgs.AutosaveMinutes > 0)
 			{
-				System.Timers.Timer autoSave = new System.Timers.Timer(m_commandLineArgs.AutosaveSeconds * 1000);
+				System.Timers.Timer autoSave = new System.Timers.Timer(m_commandLineArgs.AutosaveMinutes * 60000);
 				autoSave.AutoReset = true;
 				autoSave.Elapsed += AutoSave;
 				autoSave.Start();

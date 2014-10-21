@@ -12,7 +12,7 @@ namespace DESERVE
 		#endregion
 
 		#region Properties
-		public Int32 AutosaveSeconds { get; set; }
+		public Int32 AutosaveMinutes { get; set; }
 		public String Instance { get; set; }
 		public Boolean Debug { get; set; }
 		public String LogDirectory { get; set; }
@@ -21,7 +21,7 @@ namespace DESERVE
 		public CommandLineArgs(string[] args)
 		{
 			// Set Defaults.
-			AutosaveSeconds = -1;
+			AutosaveMinutes = -1;
 			Instance = "";
 			Debug = false;
 			LogDirectory = Directory.GetCurrentDirectory() + "\\DESERVE";
@@ -40,7 +40,7 @@ namespace DESERVE
 							Int32 autoSave;
 							if (Int32.TryParse(args[i + 1], out autoSave))
 							{
-								AutosaveSeconds = autoSave;
+								AutosaveMinutes = autoSave;
 								i++;
 							}
 							else
