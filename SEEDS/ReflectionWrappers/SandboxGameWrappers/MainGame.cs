@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SEEDS.ReflectionWrappers.SandboxGameWrappers
+namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
 	class MainGame : ReflectionClassWrapper
 	{
@@ -15,6 +15,8 @@ namespace SEEDS.ReflectionWrappers.SandboxGameWrappers
 		#endregion
 
 		#region Properties
+		public override String ClassName { get { return "MainGame"; } }
+		public override String AssemblyName { get { return "Sandbox.Game"; } }
 		#endregion
 
 		#region Methods

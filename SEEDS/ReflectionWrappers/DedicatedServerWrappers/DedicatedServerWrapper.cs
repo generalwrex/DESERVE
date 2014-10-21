@@ -1,11 +1,11 @@
-﻿using SEEDS.ReflectionWrappers.DedicatedServerWrappers;
+﻿using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SEEDS.ReflectionWrappers.DedicatedServerWrappers
+namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 {
 	class DedicatedServerWrapper : ReflectionAssemblyWrapper
 	{

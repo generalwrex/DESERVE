@@ -7,7 +7,7 @@
     <ProjectGuid>{441D0AF4-A65E-4C1A-9F8A-D43D80A47A5A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SEEDS</RootNamespace>
+    <RootNamespace>DESERVE</RootNamespace>
     <AssemblyName>SEEDS</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -107,9 +107,7 @@
     <Compile Include="ReflectionWrappers\SandboxCommonWrapper\SandboxCommonWrapper.cs" />
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\SandboxGameWrapper.cs" />
     <Compile Include="ReflectionWrappers\ReflectionAssemblyWrapper.cs" />
-    <Compile Include="Managers\ServerManager.cs" />
-    <Compile Include="IServices.cs" />
-    <Compile Include="Managers\ServicesManager.cs" />
+    <Compile Include="Managers\ServerInstance.cs" />
     <Compile Include="ReflectionWrappers\ReflectionClassWrapper.cs" />
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\ServerCore.cs" />
   </ItemGroup>

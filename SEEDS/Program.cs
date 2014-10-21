@@ -6,13 +6,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SEEDS
+namespace DESERVE
 {
-	class SEEDS
+	class DESERVE
 	{
 		#region Fields
 		private CommandLineArgs m_commandLineArgs;
-		private ServerManager m_serverManager;
 		private LogManager m_logManager;
 		#endregion
 
@@ -25,30 +24,23 @@ namespace SEEDS
 		#region Methods
 		static void Main(string[] args)
 		{
-			SEEDS program = new SEEDS(args);
+			DESERVE program = new DESERVE(args);
+
+			ServerInstance.Start("Test");
+
+			while (ServerInstance.IsRunning)
+			{
+				Thread.Sleep(200);
+			}
 		}
 
-		public SEEDS(string[] args)
+		public DESERVE(string[] args)
 		{
 			m_commandLineArgs = new CommandLineArgs(args);
 			m_logManager = new LogManager(m_commandLineArgs.LogDirectory);
 
-			LogManager.MainLog.WriteLineAndConsole("Test");
-			m_serverManager = new ServerManager();
-			m_serverManager.StartServer("Project Vengeance");
-			//SetupWCFServices(m_serverManager);
-
-			while (m_serverManager.ServerInstances.Count > 0)
-			{
-				Thread.Sleep(500);
-			}
+			LogManager.MainLog.WriteLineAndConsole("DESERVE " + VersionString);
 		}
-
-		public void SetupWCFServices(ServerManager serverManager)
-		{
-			ServicesManager.SetupServerManagerService(serverManager);
-		}
-
 		#endregion
 	}
 }

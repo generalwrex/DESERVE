@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using SEEDS.ReflectionWrappers;
+using DESERVE.ReflectionWrappers;
 
-namespace SEEDS.ReflectionWrappers
+namespace DESERVE.ReflectionWrappers
 {
 	class ReflectionAssemblyWrapper
 	{

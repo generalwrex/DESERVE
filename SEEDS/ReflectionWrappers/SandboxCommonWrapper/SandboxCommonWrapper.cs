@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SEEDS.ReflectionWrappers.SandboxCommonWrapper
+namespace DESERVE.ReflectionWrappers.SandboxCommonWrapper
 {
 	class SandboxCommonWrapper : ReflectionAssemblyWrapper
 	{

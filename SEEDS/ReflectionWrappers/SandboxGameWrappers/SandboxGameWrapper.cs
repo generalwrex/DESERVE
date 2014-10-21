@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SEEDS.ReflectionWrappers.SandboxGameWrappers
+namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
 	class SandboxGameWrapper : ReflectionAssemblyWrapper
 	{

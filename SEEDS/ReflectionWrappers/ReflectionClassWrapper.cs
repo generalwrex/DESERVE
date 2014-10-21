@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SEEDS.ReflectionWrappers
+namespace DESERVE.ReflectionWrappers
 {
-	class ReflectionClassWrapper
+	abstract class ReflectionClassWrapper
 	{
 		#region Fields
 		protected String m_namespace;
@@ -15,6 +15,8 @@ namespace SEEDS.ReflectionWrappers
 		#endregion
 
 		#region Properties
+		public abstract String ClassName { get; }
+		public abstract String AssemblyName { get;}
 		#endregion
 
 		#region Methods
@@ -66,13 +68,15 @@ namespace SEEDS.ReflectionWrappers
 
 		protected void CallStaticMethod(String methodName, Object[] args)
 		{
-			try
-			{
-				CallStaticMethod(GetStaticMethod(methodName, args), args);
-			}
-			catch (Exception ex)
-			{
+			MethodInfo methodInfo = GetStaticMethod(methodName, args);
 
+			if (methodInfo != null)
+			{
+				CallStaticMethod(methodInfo, args);
+			}
+			else
+			{
+				LogManager.ErrorLog.WriteLineAndConsole("Reflection Method not found: " + AssemblyName + "." + ClassName + "." + methodName);
 			}
 		}
 

@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEDS", "SEEDS\SEEDS.csproj", "{441D0AF4-A65E-4C1A-9F8A-D43D80A47A5A}"
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DESERVE", "SEEDS\DESERVE.csproj", "{441D0AF4-A65E-4C1A-9F8A-D43D80A47A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEEDSRemote", "SEEDSRemote\SEEDSRemote.csproj", "{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DESERVERemote", "SEEDSRemote\DESERVERemote.csproj", "{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿using SEEDS.ReflectionWrappers.SandboxGameWrappers;
+﻿using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,7 +9,7 @@ using System.Threading;
 using SysUtils.Utils;
 using VRage.Common.Utils;
 
-namespace SEEDS.ReflectionWrappers.DedicatedServerWrappers
+namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 {
 	class Program : ReflectionClassWrapper
 	{
@@ -18,9 +18,12 @@ namespace SEEDS.ReflectionWrappers.DedicatedServerWrappers
 
 		private const String StartupMethod = "26A7ABEA729FAE1F24679E21470F8E98";
 		private const String StopMethod = "DA95E633B86E22CF269880CE57124695";
+
 		#endregion
 
 		#region Properties
+		public override String ClassName { get { return "Program"; } }
+		public override String AssemblyName { get { return "SpaceEngineersDedicated"; } }
 		#endregion
 
 		#region Methods
