@@ -56,37 +56,43 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 				autoSave.Elapsed += AutoSave;
 				autoSave.Start();
 			}
-			String input = null;
-			Boolean quit = false;
-			while (!quit)
+
+			Console.WriteLine();
+			Console.WriteLine("Server Loaded.");
+			Console.WriteLine();
+			Console.WriteLine("Press Escape to shut down server. F1 for more commands.");
+			while (ServerInstance.IsRunning)
 			{
-				input = Console.ReadLine();
-
-				switch (input)
+				if (Console.KeyAvailable)
 				{
-					case "save":
-						SandboxGameWrapper.WorldManager.Save();
-						break;
-						
-					case "stop":
-						ServerInstance.Stop();
-						break;
-
-					case "start":
-						ServerInstance.Start(m_commandLineArgs);
-						break;
-
-					case "quit":
-						quit = true;
-						break;
+					ConsoleKeyInfo key = Console.ReadKey(true);
+					switch (key.Key)
+					{
+						case ConsoleKey.Escape:
+							ServerInstance.Stop();
+							break;
+						case ConsoleKey.F1:
+							Console.WriteLine("F1 - This help dialog.");
+							Console.WriteLine("HOME - Save world.");
+							Console.WriteLine("ESCAPE - Save and Shutdown.");
+							break;
+						case ConsoleKey.Home:
+							Console.WriteLine("Saving World.");
+							SandboxGameWrapper.WorldManager.Save();
+							break;
+						default:
+							break;
+					}
 				}
-				input = null;
 			}
 		}
 
 		private void AutoSave(object sender, ElapsedEventArgs e)
 		{
-			throw new NotImplementedException();
+			if (ServerInstance.IsRunning)
+			{
+				ServerInstance.Save();
+			}
 		}
 		#endregion
 	}

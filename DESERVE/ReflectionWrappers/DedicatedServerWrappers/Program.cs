@@ -65,6 +65,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 			serverThread.CurrentUICulture = CultureInfo.InvariantCulture;
 			serverThread.Start(args);
 
+			IsRunning = true;
 			return serverThread;
 		}
 
