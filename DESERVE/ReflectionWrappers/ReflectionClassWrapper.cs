@@ -66,40 +66,44 @@ namespace DESERVE.ReflectionWrappers
 				null);
 		}
 
-		protected void CallStaticMethod(String methodName, Object[] args)
+		protected Object CallStaticMethod(String methodName, Object[] args)
 		{
 			MethodInfo methodInfo = GetStaticMethod(methodName, args);
 
 			if (methodInfo != null)
 			{
-				CallStaticMethod(methodInfo, args);
+				return CallStaticMethod(methodInfo, args);
 			}
 			else
 			{
 				LogManager.ErrorLog.WriteLineAndConsole("Reflection Method not found: " + AssemblyName + "." + ClassName + "." + methodName);
 			}
+			return null;
 		}
 
-		private void CallStaticMethod(MethodInfo methodInfo, Object[] args)
+		private Object CallStaticMethod(MethodInfo methodInfo, Object[] args)
 		{
-			methodInfo.Invoke(null, args);
+			return methodInfo.Invoke(null, args);
 		}
 
-		protected void CallObjectMethod(Object obj, String methodName, Object[] args)
+		protected Object CallObjectMethod(Object obj, String methodName, Object[] args)
 		{
-			try
+			MethodInfo methodInfo = GetObjectMethod(methodName, args);
+
+			if (methodInfo != null)
 			{
-				CallObjectMethod(obj, GetObjectMethod(methodName, args), args);
+				return CallObjectMethod(obj, GetObjectMethod(methodName, args), args);
 			}
-			catch (Exception ex)
+			else
 			{
-				LogManager.ErrorLog.WriteLine("EXCEPTION: " + ex.Message + "/n " + ex.StackTrace);
+				LogManager.ErrorLog.WriteLineAndConsole("Reflection Method not found: " + AssemblyName + "." + ClassName + "." + methodName);
 			}
+			return null;
 		}
 
-		private void CallObjectMethod(Object obj, MethodInfo methodInfo, Object[] args)
+		private Object CallObjectMethod(Object obj, MethodInfo methodInfo, Object[] args)
 		{
-			methodInfo.Invoke(obj, args);
+			return methodInfo.Invoke(obj, args);
 		}
 
 		private static FieldInfo GetStaticField(Type objectType, String fieldName)
@@ -113,8 +117,9 @@ namespace DESERVE.ReflectionWrappers
 			}
 			catch (Exception ex)
 			{
-				return null;
+
 			}
+			return null;
 		}
 
 		private static FieldInfo GetObjectField(Object gameEntity, String fieldName)
@@ -139,8 +144,9 @@ namespace DESERVE.ReflectionWrappers
 			}
 			catch (Exception ex)
 			{
-				return null;
+
 			}
+			return null;
 		}
 
 		protected Object GetStaticFieldValue(String fieldName)
@@ -188,6 +194,7 @@ namespace DESERVE.ReflectionWrappers
 			}
 			catch (Exception ex)
 			{
+
 			}
 		}
 
@@ -202,6 +209,7 @@ namespace DESERVE.ReflectionWrappers
 			}
 			catch (Exception ex)
 			{
+
 			}
 		}
 		#endregion

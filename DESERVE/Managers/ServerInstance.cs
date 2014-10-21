@@ -35,22 +35,22 @@ namespace DESERVE //DEdicated SERVer Enhanced
 
 		#region Methods
 		[OperationContract]
-		public static void Start(String saveFile)
+		public static void Start(CommandLineArgs args)
 		{
-			m_saveFile = saveFile;
+			m_saveFile = args.Instance;
 			m_dedicatedServerWrapper = new DedicatedServerWrapper(Assembly.UnsafeLoadFrom("SpaceEngineersDedicated.exe"));
 			m_sandboxGameWrapper = new SandboxGameWrapper(Assembly.UnsafeLoadFrom("Sandbox.Game.dll"));
 
-			object[] args = new object[]
+			object[] serverArgs = new object[]
 				{
-					saveFile,
+					args.Instance,
 					"",
 					true,
 					true
 				};
 
 			SandboxGameWrapper.ServerCore.NullRender = true;
-			m_serverThread = DedicatedServerWrapper.Program.StartServer(args);
+			m_serverThread = DedicatedServerWrapper.Program.StartServer(serverArgs);
 			m_isRunning = true;
 		}
 

@@ -19,11 +19,13 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		private const String StartupMethod = "26A7ABEA729FAE1F24679E21470F8E98";
 		private const String StopMethod = "DA95E633B86E22CF269880CE57124695";
 
+		private Boolean m_isRunning;
 		#endregion
 
 		#region Properties
 		public override String ClassName { get { return "Program"; } }
 		public override String AssemblyName { get { return "SpaceEngineersDedicated"; } }
+		public Boolean IsRunning { get { return m_isRunning; } }
 		#endregion
 
 		#region Methods
@@ -52,13 +54,15 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 					MyLog.Default.Close();
 				MyFileSystem.Reset();
 				SandboxGameWrapper.ServerCore.NullRender = true;
+				m_isRunning = true;
 				DedicatedServerWrapper.Program.Start(args as Object[]);
 			}
 			catch (Exception ex)
 			{
-				int i = 0;
-				i++;
+				LogManager.MainLog.WriteLineAndConsole("Unhandled Exception! Server Stopped.");
+				LogManager.ErrorLog.WriteLine("Unhandled Exception caused server to crash. Exception: " + ex.ToString());
 			}
+			m_isRunning = false;
 		}
 
 		private void Start(Object[] args)
