@@ -43,7 +43,7 @@
             this.SaveNameColumn});
 			this.OLV_ServerInstances.Location = new System.Drawing.Point(25, 12);
 			this.OLV_ServerInstances.Name = "OLV_ServerInstances";
-			this.OLV_ServerInstances.Size = new System.Drawing.Size(334, 104);
+			this.OLV_ServerInstances.Size = new System.Drawing.Size(361, 104);
 			this.OLV_ServerInstances.TabIndex = 0;
 			this.OLV_ServerInstances.UseCompatibleStateImageBehavior = false;
 			this.OLV_ServerInstances.View = System.Windows.Forms.View.Details;
@@ -76,7 +76,7 @@
 			// 
 			// BTN_Save
 			// 
-			this.BTN_Save.Location = new System.Drawing.Point(253, 134);
+			this.BTN_Save.Location = new System.Drawing.Point(280, 134);
 			this.BTN_Save.Name = "BTN_Save";
 			this.BTN_Save.Size = new System.Drawing.Size(106, 23);
 			this.BTN_Save.TabIndex = 3;
@@ -89,13 +89,13 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.ClientSize = new System.Drawing.Size(388, 172);
+			this.ClientSize = new System.Drawing.Size(861, 460);
 			this.Controls.Add(this.BTN_Save);
 			this.Controls.Add(this.BTN_StopServer);
 			this.Controls.Add(this.BTN_StartServer);
 			this.Controls.Add(this.OLV_ServerInstances);
 			this.Name = "DESERVEManagerForm";
-			this.Text = "SEEDS Remote";
+			this.Text = "DESERVE Manager v";
 			((System.ComponentModel.ISupportInitialize)(this.OLV_ServerInstances)).EndInit();
 			this.ResumeLayout(false);
 
