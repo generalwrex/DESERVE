@@ -72,7 +72,6 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 
 			// Wait for map to load.
 			m_waitEvent.WaitOne();
-			SandboxGameWrapper.MPSession.InitAPIGateway();
 
 			LogManager.MainLog.WriteLineAndConsole("DESERVE: Server loaded.");
 

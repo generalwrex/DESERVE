@@ -31,11 +31,14 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		/// The main entry point for the application.
 		/// </summary>
 		/// <param name="args"></param>
-		static void Main(string[] args)
+		static void Main(String[] args)
 		{
 			DESERVE program = new DESERVE(args);
 
 			LogManager.MainLog.WriteLineAndConsole("DESERVE Initialized. Version " + VersionString);
+ 
+			LogManager.MainLog.WriteLineAndConsole("DESERVE Arguments: " + program.m_commandLineArgs.ToString());
+
 			program.Run();
 			LogManager.MainLog.WriteLineAndConsole("DESERVE Quit.");
 		}

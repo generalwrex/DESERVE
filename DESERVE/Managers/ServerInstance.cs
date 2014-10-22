@@ -54,6 +54,14 @@ namespace DESERVE.Managers
 				};
 
 			m_serverThread = DedicatedServerWrapper.Program.StartServer(serverArgs);
+			if (args.ModAPI)
+			{
+				SandboxGameWrapper.MPSession.InitAPIGateway();
+			}
+			else
+			{
+				LogManager.MainLog.WriteLineAndConsole("DESERVE: MyAPIGateway not loaded.");
+			}
 		}
 
 		public static void Stop()
