@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using System.ServiceModel;
 
 namespace DESERVE //DEdicated SERVer, Enhanced
 {
@@ -18,6 +19,8 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		private CommandLineArgs m_commandLineArgs;
 		private LogManager m_logManager;
 
+		private ServerMarshall m_serverMarshall;
+		private ServiceHost m_pipedService;
 		#endregion
 
 		#region Properties
@@ -44,6 +47,15 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		{
 			m_commandLineArgs = new CommandLineArgs(args);
 			m_logManager = new LogManager(m_commandLineArgs.LogDirectory);
+
+
+			m_serverMarshall = new ServerMarshall();
+
+			string endpoint = "net.pipe://localhost/DESERVE/Marshall";
+			int maxConnections = 5;
+
+			m_pipedService = ServicesManager.CreatePipedService(m_serverMarshall, new Uri("http://localhost:1337/DESERVE"), endpoint, maxConnections);
+			m_pipedService.StartService();
 		}
 
 		private void Run()

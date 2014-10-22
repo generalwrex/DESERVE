@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SEEDSRemote
+namespace DESERVE.Manager
 {
 	static class Program
 	{
@@ -23,7 +23,7 @@ namespace SEEDSRemote
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new SEEDSRemoteForm());
+			Application.Run(new DESERVEManagerForm());
 		}
 	}
 }

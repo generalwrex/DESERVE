@@ -7,9 +7,9 @@
     <ProjectGuid>{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SEEDSRemote</RootNamespace>
-    <AssemblyName>SEEDSRemote</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>DESERVE.Manager</RootNamespace>
+    <AssemblyName>DESERVEManager</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -52,21 +52,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SEEDSRemoteForm.cs">
+    <Compile Include="DESERVEManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SEEDSRemoteForm.Designer.cs">
-      <DependentUpon>SEEDSRemoteForm.cs</DependentUpon>
+    <Compile Include="DESERVEManagerForm.Designer.cs">
+      <DependentUpon>DESERVEManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\ServerManager\Reference.cs">
+    <Compile Include="Service References\ServerMarshalClient\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SEEDSRemoteForm.resx">
-      <DependentUpon>SEEDSRemoteForm.cs</DependentUpon>
+    <EmbeddedResource Include="DESERVEManagerForm.resx">
+      <DependentUpon>DESERVEManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -87,19 +87,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Service References\ServerManager\item.xsd">
+    <None Include="Service References\ServerMarshalClient\ServerMarshall.wsdl" />
+    <None Include="Service References\ServerMarshalClient\uesamples.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServerManager\item1.xsd">
+    <None Include="Service References\ServerMarshalClient\uesamples1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServerManager\item2.xsd">
+    <None Include="Service References\ServerMarshalClient\uesamples2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServerManager\SEEDSRemote.ServerManager.ServerInstance.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ServerManager\ServerManager.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -108,19 +105,19 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ServerManager\" />
+    <WCFMetadataStorage Include="Service References\ServerMarshalClient\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ServerManager\item.disco" />
+    <None Include="Service References\ServerMarshalClient\uesamples.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ServerManager\configuration91.svcinfo" />
+    <None Include="Service References\ServerMarshalClient\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ServerManager\configuration.svcinfo" />
+    <None Include="Service References\ServerMarshalClient\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ServerManager\Reference.svcmap">
+    <None Include="Service References\ServerMarshalClient\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

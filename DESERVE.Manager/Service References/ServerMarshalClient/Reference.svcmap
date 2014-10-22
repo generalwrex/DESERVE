@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5054318f-ddb6-4c4b-9c38-4951fa85f193" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:1337/DESERVE" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="uesamples.disco" MetadataType="Disco" ID="ac0da3c6-184e-47ab-bbad-8a8460042db5" SourceId="1" SourceUrl="http://localhost:8001/uesamples?disco" />
+    <MetadataFile FileName="uesamples.xsd" MetadataType="Schema" ID="b3f21377-6ecb-488c-a595-1cbf6a11377d" SourceId="1" SourceUrl="http://localhost:8001/uesamples?xsd=xsd1" />
+    <MetadataFile FileName="uesamples1.xsd" MetadataType="Schema" ID="1d649a98-4c5c-45e1-9917-68b75ae8c93f" SourceId="1" SourceUrl="http://localhost:8001/uesamples?xsd=xsd2" />
+    <MetadataFile FileName="uesamples2.xsd" MetadataType="Schema" ID="6b3689a1-5f98-455f-bde5-4ffd7e57386e" SourceId="1" SourceUrl="http://localhost:8001/uesamples?xsd=xsd0" />
+    <MetadataFile FileName="ServerMarshall.wsdl" MetadataType="Wsdl" ID="ba8cf418-14bd-4e31-ade2-1d217097631d" SourceId="1" SourceUrl="http://localhost:8001/uesamples?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
