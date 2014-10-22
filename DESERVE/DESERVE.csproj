@@ -105,6 +105,7 @@
     <Compile Include="ReflectionWrappers\DedicatedServerWrappers\Program.cs" />
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\MainGame.cs" />
     <Compile Include="ReflectionWrappers\SandboxCommonWrapper\SandboxCommonWrapper.cs" />
+    <Compile Include="ReflectionWrappers\SandboxGameWrappers\MPSession.cs" />
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\SandboxGameWrapper.cs" />
     <Compile Include="ReflectionWrappers\ReflectionAssemblyWrapper.cs" />
     <Compile Include="Managers\ServerInstance.cs" />

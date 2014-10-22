@@ -38,6 +38,10 @@ namespace DESERVE.Managers
 		#region Fields
 		private String m_logFile;
 		private StringBuilder m_stringBuilder;
+		private String m_logDirectory;
+		private String m_logName;
+		private Boolean m_initialized;
+
 		private static readonly object _logLock = new object();
 		#endregion
 
@@ -47,24 +51,51 @@ namespace DESERVE.Managers
 		#region Methods
 		public LogInstance(String logDirectory, String logName)
 		{
-			if (!Directory.Exists(logDirectory))
+			m_logDirectory = logDirectory;
+			m_logName = logName;
+			m_initialized = false;
+		}
+
+		private void Init()
+		{
+			if (!Directory.Exists(m_logDirectory))
 			{
 				try
 				{
-					Directory.CreateDirectory(logDirectory);
+					Directory.CreateDirectory(m_logDirectory);
 				}
 				catch (Exception ex)
 				{
-					LogManager.ErrorLog.WriteLineAndConsole("Failed to create log directory " + logDirectory + " - " + ex.Message);
+					LogManager.ErrorLog.WriteLineAndConsole("Failed to create log directory " + m_logDirectory + " - " + ex.Message);
 					throw;
 				}
 			}
 			m_stringBuilder = new StringBuilder();
-			m_logFile = logDirectory + "\\" + logName;
+			m_logFile = m_logDirectory + "\\" + m_logName;
+			if (File.Exists(m_logFile))
+			{
+				FileInfo oldLog = new FileInfo(m_logFile);
+				String oldLogName = oldLog.FullName;
+				oldLogName = oldLogName.Remove(oldLogName.Length - oldLog.Extension.Length);
+
+				DateTime logCreated = oldLog.LastWriteTime;
+
+				oldLogName += logCreated.ToString("_yyyy_MMM_dd_HHmm_ss");
+				oldLogName += ".log";
+				
+				File.Move(oldLog.FullName, oldLogName);
+			}
+			m_initialized = true;
+			WriteLine(Timestamp() + " - " + ThreadInfo() + " -> " + "Log File Opened.");
 		}
 
 		public void WriteLine(String message)
 		{
+			if (!m_initialized)
+			{
+				Init();
+			}
+
 			if (m_logFile != null)
 			{
 				try
@@ -83,42 +114,21 @@ namespace DESERVE.Managers
 
 		public void WriteLineAndConsole(String message)
 		{
-			message = FormatMessage(message);
-			Console.WriteLine(message);
-			WriteLine(message);
+			String timestamp = Timestamp();
+			String thread = ThreadInfo();
+			Console.WriteLine(timestamp + ": " + message);
+			WriteLine(timestamp + " - " + thread + " -> " + message);
 		}
 
-		private String FormatMessage(String message)
-		{
-			lock (_logLock)
-			{
-				m_stringBuilder.Clear();
-				AppendTimestamp();
-				m_stringBuilder.Append(" - ");
-				AppendThreadInfo();
-				m_stringBuilder.Append(" -> ");
-				m_stringBuilder.Append(message);
-				message = m_stringBuilder.ToString();
-				m_stringBuilder.Clear();
-			}
-			return message;
-		}
-
-		private void AppendThreadInfo()
-		{
-			m_stringBuilder.Append("Thread: " + Thread.CurrentThread.ManagedThreadId.ToString());
-		}
-
-		private void AppendTimestamp()
+		private String Timestamp()
 		{
 			DateTimeOffset now = DateTimeOffset.Now;
-			StringBuilderExtensions.Concat(m_stringBuilder, now.Year, 4U, '0', 10U, false).Append('-');
-			StringBuilderExtensions.Concat(m_stringBuilder, now.Month, 2U).Append('-');
-			StringBuilderExtensions.Concat(m_stringBuilder, now.Day, 2U).Append(' ');
-			StringBuilderExtensions.Concat(m_stringBuilder, now.Hour, 2U).Append(':');
-			StringBuilderExtensions.Concat(m_stringBuilder, now.Minute, 2U).Append(':');
-			StringBuilderExtensions.Concat(m_stringBuilder, now.Second, 2U).Append('.');
-			StringBuilderExtensions.Concat(m_stringBuilder, now.Millisecond, 3U);
+			return now.ToString("yyyy-MM-dd HH.mm:ss.fff");
+		}
+
+		private String ThreadInfo()
+		{
+			return Thread.CurrentThread.ManagedThreadId.ToString();
 		}
 		#endregion
 	}

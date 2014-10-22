@@ -60,6 +60,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 
 		public Thread StartServer(Object args)
 		{
+			LogManager.MainLog.WriteLineAndConsole("DESERVE: Loading server.");
 			Thread serverThread = new Thread(new ParameterizedThreadStart(this.ThreadStart));
 
 			serverThread.IsBackground = true;
@@ -71,6 +72,9 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 
 			// Wait for map to load.
 			m_waitEvent.WaitOne();
+			SandboxGameWrapper.MPSession.InitAPIGateway();
+
+			LogManager.MainLog.WriteLineAndConsole("DESERVE: Server loaded.");
 
 			IsRunning = true;
 			return serverThread;

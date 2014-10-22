@@ -69,6 +69,10 @@ namespace DESERVE.ReflectionWrappers
 
 		protected Object CallStaticMethod(String methodName, Object[] args)
 		{
+			if (args == null)
+			{
+				args = new Object[] { };
+			}
 			MethodInfo methodInfo = GetStaticMethod(methodName, args);
 
 			if (methodInfo != null)
@@ -89,6 +93,10 @@ namespace DESERVE.ReflectionWrappers
 
 		protected Object CallObjectMethod(Object obj, String methodName, Object[] args)
 		{
+			if (args == null)
+			{
+				args = new Object[] { };
+			}
 			MethodInfo methodInfo = GetObjectMethod(methodName, args);
 
 			if (methodInfo != null)
