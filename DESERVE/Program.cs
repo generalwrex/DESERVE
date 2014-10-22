@@ -25,7 +25,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 		#region Properties
 		static public Version Version { get { return Assembly.GetEntryAssembly().GetName().Version; } }
-		static public String BuildBranch { get { return "Dev"; } }
+		static public String BuildBranch { get { return "DevBuild"; } }
 		static public String VersionString { get { return Version.ToString(3) + " " + BuildBranch; } }
 		#endregion
 
@@ -34,13 +34,16 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		/// The main entry point for the application.
 		/// </summary>
 		/// <param name="args"></param>
-		static void Main(string[] args)
+		static void Main(String[] args)
 		{
 			DESERVE program = new DESERVE(args);
 
-			LogManager.MainLog.WriteLineAndConsole("DESERVE " + VersionString);
+			LogManager.MainLog.WriteLineAndConsole("DESERVE Initialized. Version " + VersionString);
+ 
+			LogManager.MainLog.WriteLineAndConsole("DESERVE Arguments: " + program.m_commandLineArgs.ToString());
+
 			program.Run();
-			LogManager.MainLog.WriteLineAndConsole("DESERVE Shutting Down.");
+			LogManager.MainLog.WriteLineAndConsole("DESERVE Quit.");
 		}
 
 		public DESERVE(string[] args)
@@ -71,9 +74,9 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			}
 
 			Console.WriteLine();
-			Console.WriteLine("Server Loaded.");
+			Console.WriteLine("DESERVE: Server Loaded.");
 			Console.WriteLine();
-			Console.WriteLine("Press Escape to shut down server. F1 for more commands.");
+			Console.WriteLine("DESERVE: Press Escape to shut down server. F1 for more commands.");
 			while (ServerInstance.IsRunning)
 			{
 				if (Console.KeyAvailable)
@@ -85,12 +88,13 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 							ServerInstance.Stop();
 							break;
 						case ConsoleKey.F1:
-							Console.WriteLine("F1 - This help dialog.");
-							Console.WriteLine("HOME - Save world.");
-							Console.WriteLine("ESCAPE - Save and Shutdown.");
+							Console.WriteLine("DESERVE: Commands");
+							Console.WriteLine("    F1 - This help dialog.");
+							Console.WriteLine("    HOME - Save world.");
+							Console.WriteLine("    ESCAPE - Save and Shutdown.");
 							break;
 						case ConsoleKey.Home:
-							Console.WriteLine("Saving World.");
+							Console.WriteLine("DESERVE: Saving World.");
 							SandboxGameWrapper.WorldManager.Save();
 							break;
 						default:

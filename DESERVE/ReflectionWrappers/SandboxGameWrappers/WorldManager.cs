@@ -63,6 +63,8 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		{
 			IsSaving = true;
 
+			LogManager.MainLog.WriteLineAndConsole("DESERVE: Saving world.");
+
 			DateTime saveStartTime = DateTime.Now;
 
 			String arg0 = "";
@@ -76,11 +78,11 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			if (result)
 			{
 				TimeSpan timeToSave = DateTime.Now - saveStartTime;
-				LogManager.MainLog.WriteLineAndConsole("Save complete and took " + timeToSave.TotalSeconds + " seconds");
+				LogManager.MainLog.WriteLineAndConsole("DESERVE: Save complete and took " + timeToSave.TotalSeconds + " seconds");
 			}
 			else
 			{
-				LogManager.ErrorLog.WriteLineAndConsole("Save Failed!");
+				LogManager.ErrorLog.WriteLineAndConsole("DESERVE: Save Failed!");
 			}
 
 			IsSaving = false;

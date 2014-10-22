@@ -16,6 +16,7 @@ namespace DESERVE
 		public String Instance { get; set; }
 		public Boolean Debug { get; set; }
 		public String LogDirectory { get; set; }
+		public Boolean ModAPI { get; set; }
 		#endregion
 
 		public CommandLineArgs(string[] args)
@@ -25,6 +26,7 @@ namespace DESERVE
 			Instance = "";
 			Debug = false;
 			LogDirectory = Directory.GetCurrentDirectory() + "\\DESERVE";
+			ModAPI = false;
 
 			// Process Commandline.
 			int numArgs = args.GetLength(0);
@@ -53,6 +55,9 @@ namespace DESERVE
 							Console.WriteLine("Argument Error: -autosave duration not specified.");
 						}
 						break;
+					case "-debug":
+						Debug = true;
+						break;
 					case "-instance":
 						if (i + 1 != numArgs)
 						{
@@ -64,13 +69,29 @@ namespace DESERVE
 							Console.WriteLine("Argument Error: -autostart world not specified.");
 						}
 						break;
-					case "-debug":
-						Debug = true;
+					case "-logdir":
+						if (i + 1 != numArgs)
+						{
+							Instance = args[i + 1];
+							i++;
+						}
+						else
+						{
+							Console.WriteLine("Argument Error: -logdir directory not specified.");
+						}
+						break;
+					case "-modapi":
+						ModAPI = true;
 						break;
 				}
 
 				i++;
 			}
+		}
+
+		public override string ToString()
+		{
+			return "-autosave " + AutosaveMinutes.ToString() + " " + (Debug ? "-debug " : "") + "-instance \"" + Instance + "\" -logdir " + LogDirectory + (ModAPI ? "-modapi " : "");
 		}
 
 	}
