@@ -23,7 +23,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		private LogManager m_logManager;
 		private PluginManager m_pluginManager;
 
-		private ServerMarshall m_serverMarshall;
 		private ServiceHost m_pipedService;
 		private static DESERVE m_instance;
 		#endregion
@@ -68,14 +67,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 			if (DESERVE.Arguments.WCF)
 			{
-				m_serverMarshall = new ServerMarshall();
-
-				string endpoint = "net.pipe://localhost/DESERVE/" + Arguments.Instance;
-				int maxConnections = 5;
-				ushort port = 8000;
-
-				m_pipedService = ServicesManager.CreatePipedService(m_serverMarshall, new Uri("http://localhost:" + port + "/DESERVE/" + Arguments.Instance), endpoint, maxConnections);
-
+				m_pipedService = ServicesManager.CreatePipedService(Arguments.Instance, 5);
 			}
 		}
 

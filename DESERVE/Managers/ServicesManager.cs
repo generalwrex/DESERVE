@@ -28,22 +28,22 @@ namespace DESERVE.Managers
 
 		#region "Methods"
 
-		public static ServiceHost CreatePipedService(ServerMarshall marshall, Uri baseAddress, string endpoint, int maxConnections)
+		public static ServiceHost CreatePipedService(string instanceName, int maxConnections)
 		{
 			try
 			{
-				m_pipedServerService = new ServiceHost(marshall, baseAddress);
+				m_pipedServerService = new ServiceHost(typeof(ServerMarshall), new Uri("http://localhost:8000/DESERVE"));
 
 				NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
 
 				binding.MaxConnections = maxConnections;
 
-				m_pipedServerService.AddServiceEndpoint(typeof(IServerMarshall), binding, endpoint);
+				m_pipedServerService.AddServiceEndpoint(typeof(IServerMarshall), binding, "net.pipe://localhost/DESERVE/" + instanceName);
 
-				ServiceBehaviorAttribute behavior = m_pipedServerService.Description.Behaviors.Find<ServiceBehaviorAttribute>();
-				behavior.InstanceContextMode = InstanceContextMode.Single;
+
 
 				ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+				smb.HttpGetEnabled = true; // for updating service references
 				m_pipedServerService.Description.Behaviors.Add(smb);
 
 				LogManager.MainLog.WriteLineAndConsole("Piped Service Created Successfully!");

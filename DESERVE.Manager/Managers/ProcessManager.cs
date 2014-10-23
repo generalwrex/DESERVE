@@ -3,6 +3,8 @@ using System.Diagnostics;
 
 using System.Windows.Forms;
 
+using DESERVE.Manager.Marshall;
+
 namespace DESERVE.Managers
 {
 	internal static class ProcessManager

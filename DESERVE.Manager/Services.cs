@@ -5,6 +5,8 @@ using System.Windows.Forms;
 
 using DESERVE.Managers;
 
+using DESERVE.Manager.Marshall;
+
 namespace DESERVE.Manager
 {
 	internal class Services

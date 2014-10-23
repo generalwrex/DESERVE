@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using System.Runtime.Serialization;
+
 namespace DESERVE
 {
+	[DataContract]
 	public class CommandLineArgs
 	{
 		#region Fields

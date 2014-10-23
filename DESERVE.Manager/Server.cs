@@ -1,5 +1,7 @@
 ﻿using DESERVE.Managers;
 
+using DESERVE.Manager.Marshall;
+
 namespace DESERVE.Manager
 {
 	public class Server
@@ -8,17 +10,17 @@ namespace DESERVE.Manager
 		
 		public string Name
 		{
-			get { return m_clientMarshall.Name; }
+			get { return m_clientMarshall.get_Name(); }
 		}
 
 		public bool IsRunning
 		{
-			get { return m_clientMarshall.IsRunning; }
+			get { return m_clientMarshall.get_IsRunning(); }
 		}
 
 		public CommandLineArgs Arguments
 		{
-			get { return m_clientMarshall.Arguments; }
+			get { return m_clientMarshall.get_Arguments(); }
 		}
 
 		public void ConnectToServer(string instanceName)
