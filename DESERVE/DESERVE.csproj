@@ -94,6 +94,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\APIGateway.cs" />
+    <Compile Include="API\Extensions\DeserveCubeBuilder.cs" />
+    <Compile Include="API\Extensions\DeserveEntities.cs" />
+    <Compile Include="API\Extensions\DeserveMultiplayer.cs" />
+    <Compile Include="API\Extensions\DeservePlayerCollection.cs" />
+    <Compile Include="API\Extensions\DeserveSession.cs" />
+    <Compile Include="API\Extensions\DeserveTerminalActionsHelper.cs" />
+    <Compile Include="API\Extensions\DeserveUtilities.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Managers\IServerMarshall.cs" />
     <Compile Include="Managers\PluginManager.cs" />

@@ -11,10 +11,11 @@ namespace DESERVE.ReflectionWrappers
 	{
 
 		#region Fields
-		protected Assembly m_assembly;
+		protected static Assembly m_assembly;
 		#endregion
 
 		#region Properties
+		public static Assembly Assembly { get { return m_assembly; } }
 		#endregion
 
 		#region Methods

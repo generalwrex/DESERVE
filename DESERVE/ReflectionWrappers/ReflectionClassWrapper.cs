@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DESERVE.ReflectionWrappers
 {
-	abstract class ReflectionClassWrapper
+	public abstract class ReflectionClassWrapper
 	{
 		#region Fields
 		protected String m_namespace;
