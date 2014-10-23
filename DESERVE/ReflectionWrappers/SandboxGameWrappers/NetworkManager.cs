@@ -60,7 +60,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		private void ChatMessageRecieved(ulong remoteUserId, string message, ChatEntryTypeEnum entryType)
 		{
-			LogManager.ChatLog.WriteLineAndConsole( + ": " + message);
+			LogManager.ChatLog.WriteLineAndConsole(remoteUserId + ": " + message);
 			if (OnChatMessage != null)
 			{
 				OnChatMessage(remoteUserId, message, entryType);

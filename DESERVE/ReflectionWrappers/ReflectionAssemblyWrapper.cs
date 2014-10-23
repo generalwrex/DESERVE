@@ -22,7 +22,7 @@ namespace DESERVE.ReflectionWrappers
 
 		public ReflectionAssemblyWrapper(Assembly assembly)
 		{
-			this.m_assembly = assembly;
+			m_assembly = assembly;
 		}
 		#endregion
 	}

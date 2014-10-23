@@ -19,13 +19,15 @@ namespace DESERVE.API
 
 		public APIGateway()
 		{
+			/*
 			Session = new DeserveSession();
 			Entities = new DeserveEntities();
 			Players = new DeservePlayerCollection();
 			CubeBuilder = new DeserveCubeBuilder();
 			TerminalActionsHelper = new DeserveTerminalActionsHelper();
 			Utilities = new DeserveUtilities();
-			Multiplayer = new DeserveMultiplayer();
+			Multiplayer = new DeserveMultiplayer();'
+			*/
 		}
 	}
 }
