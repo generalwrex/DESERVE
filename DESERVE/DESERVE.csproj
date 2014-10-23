@@ -59,9 +59,6 @@
     <Reference Include="SharpDX">
       <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct3D9">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\SharpDX.Direct3D9.dll</HintPath>
-    </Reference>
     <Reference Include="SharpDX.XAudio2">
       <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\SharpDX.XAudio2.dll</HintPath>
     </Reference>
