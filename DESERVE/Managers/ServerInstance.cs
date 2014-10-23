@@ -32,7 +32,6 @@ namespace DESERVE.Managers
 
 		#region Properties
 		public static String Name { get { return m_saveFile; } }
-		public static Boolean IsRunning { get { return DedicatedServerWrapper.Program.IsRunning; } }
 		#endregion
 
 		#region Methods

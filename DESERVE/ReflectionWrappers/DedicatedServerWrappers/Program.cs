@@ -25,14 +25,15 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		#endregion
 
 		#region Events
-		public delegate void ServerRunningEvent(Boolean isRunning);
-		public event ServerRunningEvent IsRunningChanged;
+		public delegate void ServerRunningEvent();
+		public event ServerRunningEvent OnServerStarted;
+		public event ServerRunningEvent OnServerStopped;
 		#endregion
 
 		#region Properties
 		public override String ClassName { get { return "Program"; } }
 		public override String AssemblyName { get { return "SpaceEngineersDedicated"; } }
-		public Boolean IsRunning 
+		private Boolean isRunning 
 		{ 
 			get { return m_isRunning; }
 			set
@@ -42,12 +43,23 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 					return;
 				}
 				m_isRunning = value;
-				if (IsRunningChanged != null)
+				if (m_isRunning)
 				{
-					IsRunningChanged(m_isRunning);
+					if (OnServerStarted != null)
+					{
+						OnServerStarted();
+					}
+				}
+				else
+				{
+					if (OnServerStopped != null)
+					{
+						OnServerStopped();
+					}
 				}
 			}
 		}
+		public Boolean IsRunning { get { return isRunning; } }
 		#endregion
 
 		#region Methods
@@ -61,7 +73,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		public Thread StartServer(Object args)
 		{
 			LogManager.MainLog.WriteLineAndConsole("DESERVE: Loading server.");
-
+			
 			SandboxGameWrapper.MainGame.RegisterOnLoadedAction((Action)(() => this.m_waitEvent.Set()));
 
 			Thread serverThread = new Thread(new ParameterizedThreadStart(this.ThreadStart));
@@ -76,7 +88,8 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 
 			LogManager.MainLog.WriteLineAndConsole("DESERVE: Server loaded.");
 
-			IsRunning = true;
+			isRunning = true;
+
 			return serverThread;
 		}
 
@@ -87,7 +100,6 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 				if (MyLog.Default != null)
 					MyLog.Default.Close();
 				MyFileSystem.Reset();
-				m_isRunning = true;
 				DedicatedServerWrapper.Program.Start(args as Object[]);
 			}
 			catch (Exception ex)
@@ -95,7 +107,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 				LogManager.MainLog.WriteLineAndConsole("Unhandled Exception! Server Stopped.");
 				LogManager.ErrorLog.WriteLine("Unhandled Exception caused server to crash. Exception: " + ex.ToString());
 			}
-			m_isRunning = false;
+			isRunning = false;
 		}
 
 		private void Start(Object[] args)
