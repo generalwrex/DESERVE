@@ -9,10 +9,9 @@ using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 
 namespace DESERVE.Managers
 {
-	
+
 	class ServerMarshall : IServerMarshall
 	{
-
 		public ServerMarshall()
 		{
 

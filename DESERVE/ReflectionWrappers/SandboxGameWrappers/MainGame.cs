@@ -30,7 +30,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			: base(Assembly, Namespace, Class)
 		{
 			SetupReflection();
-			
+
 		}
 
 		private void SetupReflection()
@@ -84,6 +84,5 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			m_registerOnLoaded.Call(Instance, new Object[] { action });
 		}
 		#endregion
-
 	}
 }

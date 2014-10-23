@@ -9,7 +9,6 @@ namespace DESERVE.ReflectionWrappers
 {
 	class ReflectionAssemblyWrapper
 	{
-
 		#region Fields
 		protected static Assembly m_assembly;
 		#endregion

@@ -26,11 +26,12 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 			String EntryPoint = dedicatedServerAssembly.EntryPoint.Name;
 			m_program = new Program(dedicatedServerAssembly, DedicatedServerNamespace);
 		}
-		#endregion
+
 
 		internal void Init()
 		{
 			m_program.Init();
 		}
+		#endregion
 	}
 }

@@ -32,8 +32,8 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		#region Properties
 		public override String ClassName { get { return "Program"; } }
 		public override String AssemblyName { get { return "SpaceEngineersDedicated"; } }
-		private Boolean isRunning 
-		{ 
+		private Boolean isRunning
+		{
 			get { return m_isRunning; }
 			set
 			{
@@ -84,7 +84,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		public Thread StartServer(Object args)
 		{
 			LogManager.MainLog.WriteLineAndConsole("DESERVE: Loading server.");
-			
+
 			SandboxGameWrapper.MainGame.RegisterOnLoadedAction((Action)(() => this.m_waitEvent.Set()));
 
 			Thread serverThread = new Thread(new ParameterizedThreadStart(this.ThreadStart));

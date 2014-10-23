@@ -35,7 +35,6 @@ namespace DESERVE.Managers
 			ChatLog = new LogInstance(m_logDirectory, _CHAT_LOG_NAME);
 		}
 		#endregion
-
 	}
 
 	public class LogInstance
@@ -87,7 +86,7 @@ namespace DESERVE.Managers
 
 				oldLogName += logCreated.ToString("_yyyy_MMM_dd_HHmm_ss");
 				oldLogName += ".log";
-				
+
 				File.Move(oldLog.FullName, oldLogName);
 			}
 			m_initialized = true;
@@ -108,7 +107,7 @@ namespace DESERVE.Managers
 					TextWriter m_Writer = new StreamWriter(m_logFile, true);
 					TextWriter.Synchronized(m_Writer).WriteLine(message);
 					m_Writer.Close();
-						
+
 				}
 				catch (Exception ex)
 				{

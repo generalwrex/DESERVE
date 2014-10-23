@@ -210,12 +210,15 @@ namespace DESERVE.Managers
 	/// </summary>
 	public class PluginInfo
 	{
+		#region Fields
 		internal Assembly Assembly;
 		public String Directory;
 		public Guid Guid;
 		public IPlugin MainClass;
 		public Type MainClassType;
+		#endregion
 
+		#region Methods
 		static public Boolean operator ==(PluginInfo obj1, PluginInfo obj2)
 		{
 			// If both are null, or both are same instance, return true.
@@ -256,6 +259,7 @@ namespace DESERVE.Managers
 			}
 			return value;
 		}
+		#endregion
 	}
 
 	/// <summary>

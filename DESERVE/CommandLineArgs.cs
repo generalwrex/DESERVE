@@ -27,6 +27,7 @@ namespace DESERVE
 		public Boolean WCF { get; set; }
 		#endregion
 
+		#region Methods
 		public CommandLineArgs(string[] args)
 		{
 			// Set Defaults.
@@ -112,5 +113,6 @@ namespace DESERVE
 		{
 			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : "-autosave " + AutosaveMinutes.ToString() + " " + (Debug ? "-debug " : "") + "-instance \"" + Instance + "\" -logdir \"" + LogDirectory + "\" " + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
 		}
+		#endregion
 	}
 }

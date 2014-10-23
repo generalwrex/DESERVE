@@ -12,6 +12,7 @@ namespace DESERVE.API
 {
 	public class DeserveTerminalActionsHelper : ReflectionClassWrapper, IMyTerminalActionsHelper
 	{
+		#region Wrapper
 		#region Fields
 		private const String Class = "";
 		#endregion
@@ -29,6 +30,7 @@ namespace DESERVE.API
 			: base(SandboxGameWrapper.Assembly, Namespace, Class)
 		{
 		}
+		#endregion
 		#endregion
 
 		#region Interface Implimentation

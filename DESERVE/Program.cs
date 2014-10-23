@@ -94,8 +94,8 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 			if (DESERVE.Arguments.WCF && !ServicesManager.IsOpened)
 				m_pipedService.StartService();
-			
-				
+
+
 			Console.WriteLine();
 			Console.WriteLine("DESERVE: Server Loaded.");
 			Console.WriteLine();

@@ -17,11 +17,16 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		private Boolean m_isSaving;
 		#endregion
 
+		#region Events
+		public delegate void SavingEventHandler(Boolean isSaving);
+		public event SavingEventHandler IsSavingChanged;
+		#endregion
+
 		#region Properties
 		public override String ClassName { get { return "WorldManager"; } }
 		public override String AssemblyName { get { return "Sandbox.Game"; } }
 		public Object Instance { get { return m_instance.GetValue(null); } }
-		public Boolean IsSaving 
+		public Boolean IsSaving
 		{
 			get { return m_isSaving; }
 			set
@@ -37,11 +42,6 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 				}
 			}
 		}
-		#endregion
-
-		#region Events
-		public delegate void SavingEventHandler(Boolean isSaving);
-		public event SavingEventHandler IsSavingChanged;
 		#endregion
 
 		#region Methods
@@ -108,10 +108,5 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			IsSaving = false;
 		}
 		#endregion
-	}
-
-	public class ServerSavingEventHandler
-	{
-
 	}
 }

@@ -18,7 +18,7 @@ namespace DESERVE.ReflectionWrappers
 
 		#region Properties
 		public abstract String ClassName { get; }
-		public abstract String AssemblyName { get;}
+		public abstract String AssemblyName { get; }
 		#endregion
 
 		#region Methods

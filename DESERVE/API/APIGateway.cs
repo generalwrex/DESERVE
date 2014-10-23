@@ -9,6 +9,7 @@ namespace DESERVE.API
 {
 	class APIGateway
 	{
+		#region Fields
 		public static DeserveSession Session;
 		public static DeserveEntities Entities;
 		public static DeservePlayerCollection Players;
@@ -16,7 +17,9 @@ namespace DESERVE.API
 		public static DeserveTerminalActionsHelper TerminalActionsHelper;
 		public static DeserveUtilities Utilities;
 		public static DeserveMultiplayer Multiplayer;
+		#endregion
 
+		#region Methods
 		public APIGateway()
 		{
 			/*
@@ -29,5 +32,6 @@ namespace DESERVE.API
 			Multiplayer = new DeserveMultiplayer();'
 			*/
 		}
+		#endregion
 	}
 }

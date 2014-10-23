@@ -9,7 +9,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
 	class SteamNetworkWrapper : ReflectionClassWrapper
 	{
-				#region Fields
+		#region Fields
 		private const string Class = "8920513CC2D9F0BEBCDC74DBD637049F";
 
 		private ReflectionField m_networkManagerInstance;

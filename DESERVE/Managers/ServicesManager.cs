@@ -13,20 +13,20 @@ namespace DESERVE.Managers
 {
 	static class ServicesManager
 	{
-		#region "Fields"
+		#region Fields
 
 		private static ServiceHost m_pipedServerService;
 		private static bool m_isOpen;
 		#endregion
 
-		#region "Properties"
+		#region Properties
 		public static bool IsOpened
 		{
 			get { return m_isOpen; }
 		}
 		#endregion
 
-		#region "Methods"
+		#region Methods
 
 		public static ServiceHost CreatePipedService(string instanceName, int maxConnections)
 		{
@@ -77,10 +77,9 @@ namespace DESERVE.Managers
 		public static void StopService(this ServiceHost service)
 		{
 			service.Abort();
-			LogManager.ErrorLog.WriteLineAndConsole("Service '"+ service.BaseAddresses.FirstOrDefault().ToString() + "' Stopped");	
+			LogManager.ErrorLog.WriteLineAndConsole("Service '" + service.BaseAddresses.FirstOrDefault().ToString() + "' Stopped");
 		}
 
 		#endregion
-
 	}
 }
