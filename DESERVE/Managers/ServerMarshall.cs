@@ -5,6 +5,7 @@ using System.Text;
 
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 
 namespace DESERVE.Managers
 {
@@ -18,7 +19,7 @@ namespace DESERVE.Managers
 		}
 
 		public String Name { get { return ServerInstance.Name; } }
-		public Boolean IsRunning { get { return ServerInstance.IsRunning; } }
+		public Boolean IsRunning { get { return DedicatedServerWrapper.Program.IsRunning; } }
 		public CommandLineArgs Arguments { get { return DESERVE.Arguments; } }
 
 		public void Stop()

@@ -137,7 +137,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 		private void AutoSave(object sender, ElapsedEventArgs e)
 		{
-			if (ServerInstance.IsRunning)
+			if (DedicatedServerWrapper.Program.IsRunning)
 			{
 				ServerInstance.Save();
 			}
