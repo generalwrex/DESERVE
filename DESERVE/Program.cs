@@ -108,7 +108,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			Console.WriteLine("DESERVE: Server Loaded.");
 			Console.WriteLine();
 			Console.WriteLine("DESERVE: Press Escape to shut down server. F1 for more commands.");
-			while (ServerInstance.IsRunning)
+			while (DedicatedServerWrapper.Program.IsRunning)
 			{
 				if (Console.KeyAvailable)
 				{
