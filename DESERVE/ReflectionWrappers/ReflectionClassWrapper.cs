@@ -28,6 +28,8 @@ namespace DESERVE.ReflectionWrappers
 			m_classType = Assembly.GetType(Namespace + "." + Class);
 		}
 
+		public virtual void Init() { }
+
 		private MethodInfo GetStaticMethod(String methodName, Object[] args)
 		{
 			Type[] argTypes = new Type[args.Length];

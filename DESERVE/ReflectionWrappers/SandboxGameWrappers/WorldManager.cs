@@ -13,7 +13,6 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		private const String Class = "D580AE7552E79DAB03A3D64B1F7B67F9";
 		private const String SaveWorldMethod = "50092B623574C842837BD09CE21A96D6";
 		private const String InstanceField = "AE8262481750DAB9C8D416E4DBB9BA04";
-		//EE9A1A091545C2CA834E022D5E2B4227 Game Shutdown method? Seems to Save & Quit while cleaning up.
 
 		private Boolean m_isSaving;
 		#endregion

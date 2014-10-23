@@ -28,5 +28,10 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 			m_program = new Program(dedicatedServerAssembly, DedicatedServerNamespace);
 		}
 		#endregion
+
+		internal void Init()
+		{
+			m_program.Init();
+		}
 	}
 }

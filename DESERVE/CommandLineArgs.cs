@@ -17,6 +17,8 @@ namespace DESERVE
 		public Boolean Debug { get; set; }
 		public String LogDirectory { get; set; }
 		public Boolean ModAPI { get; set; }
+		public Boolean Plugins { get; set; }
+		public Boolean WCF { get; set; }
 		#endregion
 
 		public CommandLineArgs(string[] args)
@@ -27,6 +29,8 @@ namespace DESERVE
 			Debug = false;
 			LogDirectory = Directory.GetCurrentDirectory() + "\\DESERVE";
 			ModAPI = false;
+			Plugins = false;
+			WCF = false;
 
 			// Process Commandline.
 			int numArgs = args.GetLength(0);
@@ -83,6 +87,12 @@ namespace DESERVE
 					case "-modapi":
 						ModAPI = true;
 						break;
+					case "-plugins":
+						Plugins = true;
+						break;
+					case "-wcf":
+						WCF = true;
+						break;
 				}
 
 				i++;
@@ -91,8 +101,7 @@ namespace DESERVE
 
 		public override string ToString()
 		{
-			return "-autosave " + AutosaveMinutes.ToString() + " " + (Debug ? "-debug " : "") + "-instance \"" + Instance + "\" -logdir " + LogDirectory + (ModAPI ? "-modapi " : "");
+			return "-autosave " + AutosaveMinutes.ToString() + " " + (Debug ? "-debug " : "") + "-instance \"" + Instance + "\" -logdir \"" + LogDirectory + "\" " + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : "");
 		}
-
 	}
 }

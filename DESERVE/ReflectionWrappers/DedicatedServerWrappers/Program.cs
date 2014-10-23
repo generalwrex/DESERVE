@@ -61,14 +61,15 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		public Thread StartServer(Object args)
 		{
 			LogManager.MainLog.WriteLineAndConsole("DESERVE: Loading server.");
+
+			SandboxGameWrapper.MainGame.RegisterOnLoadedAction((Action)(() => this.m_waitEvent.Set()));
+
 			Thread serverThread = new Thread(new ParameterizedThreadStart(this.ThreadStart));
 
 			serverThread.IsBackground = true;
 			serverThread.CurrentCulture = CultureInfo.InvariantCulture;
 			serverThread.CurrentUICulture = CultureInfo.InvariantCulture;
 			serverThread.Start(args);
-
-			SandboxGameWrapper.MainGame.RegisterOnLoadedAction((Action)(() => this.m_waitEvent.Set()));
 
 			// Wait for map to load.
 			m_waitEvent.WaitOne();

@@ -16,17 +16,25 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 	class DESERVE
 	{
 		#region Fields
+		private const String _SE_INSTANCE_PATH = "C:\\ProgramData\\SpaceEngineersDedicated\\";
+		private const Int32 _PLUGIN_UPDATE_FREQUENCY = 200; //Measured in ms;
+
 		private CommandLineArgs m_commandLineArgs;
 		private LogManager m_logManager;
+		private PluginManager m_pluginManager;
 
 		private ServerMarshall m_serverMarshall;
 		private ServiceHost m_pipedService;
+		private static DESERVE m_instance;
 		#endregion
 
 		#region Properties
-		static public Version Version { get { return Assembly.GetEntryAssembly().GetName().Version; } }
-		static public String BuildBranch { get { return "DevBuild"; } }
-		static public String VersionString { get { return Version.ToString(3) + " " + BuildBranch; } }
+		public static Version Version { get { return Assembly.GetEntryAssembly().GetName().Version; } }
+		public static String BuildBranch { get { return "DevBuild"; } }
+		public static String VersionString { get { return Version.ToString(3) + " " + BuildBranch; } }
+		public static DESERVE Instance { get { return m_instance; } }
+		public static String InstanceDirectory { get { return _SE_INSTANCE_PATH + DESERVE.Arguments.Instance; } }
+		public static CommandLineArgs Arguments { get { return Instance.m_commandLineArgs; } }
 		#endregion
 
 		#region Methods
@@ -38,9 +46,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		{
 			DESERVE program = new DESERVE(args);
 
-			LogManager.MainLog.WriteLineAndConsole("DESERVE Initialized. Version " + VersionString);
- 
-			LogManager.MainLog.WriteLineAndConsole("DESERVE Arguments: " + program.m_commandLineArgs.ToString());
 
 			program.Run();
 			LogManager.MainLog.WriteLineAndConsole("DESERVE Quit.");
@@ -48,29 +53,50 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 		public DESERVE(string[] args)
 		{
+			m_instance = this;
 			m_commandLineArgs = new CommandLineArgs(args);
-			m_logManager = new LogManager(m_commandLineArgs.LogDirectory);
+			m_logManager = new LogManager(DESERVE.Arguments.LogDirectory);
 
+			LogManager.MainLog.WriteLineAndConsole("DESERVE Initialized. Version " + VersionString);
 
-			m_serverMarshall = new ServerMarshall();
+			LogManager.MainLog.WriteLineAndConsole("DESERVE Arguments: " + DESERVE.Arguments.ToString());
 
-			string endpoint = "net.pipe://localhost/DESERVE/Marshall";
-			int maxConnections = 5;
+			if (DESERVE.Arguments.Plugins)
+			{
+				m_pluginManager = new PluginManager();
+			}
 
-			m_pipedService = ServicesManager.CreatePipedService(m_serverMarshall, new Uri("http://localhost:1337/DESERVE"), endpoint, maxConnections);
-			m_pipedService.StartService();
+			if (DESERVE.Arguments.WCF)
+			{
+				m_serverMarshall = new ServerMarshall();
+
+				string endpoint = "net.pipe://localhost/DESERVE/Marshall";
+				int maxConnections = 5;
+
+				m_pipedService = ServicesManager.CreatePipedService(m_serverMarshall, new Uri("http://localhost:1337/DESERVE"), endpoint, maxConnections);
+				m_pipedService.StartService();
+			}
 		}
 
 		private void Run()
 		{
-			ServerInstance.Start(m_commandLineArgs);
+			ServerInstance.Start(DESERVE.Arguments);
 
-			if (m_commandLineArgs.AutosaveMinutes > 0)
+			if (DESERVE.Arguments.AutosaveMinutes > 0)
 			{
-				System.Timers.Timer autoSave = new System.Timers.Timer(m_commandLineArgs.AutosaveMinutes * 60000);
+				System.Timers.Timer autoSave = new System.Timers.Timer(DESERVE.Arguments.AutosaveMinutes * 60000);
 				autoSave.AutoReset = true;
 				autoSave.Elapsed += AutoSave;
 				autoSave.Start();
+			}
+
+			if (DESERVE.Arguments.Plugins)
+			{
+				m_pluginManager.InitializeAllPlugins();
+				System.Timers.Timer pluginUpdate = new System.Timers.Timer(_PLUGIN_UPDATE_FREQUENCY);
+				pluginUpdate.AutoReset = true;
+				pluginUpdate.Elapsed += m_pluginManager.Update;
+				pluginUpdate.Start();
 			}
 
 			Console.WriteLine();

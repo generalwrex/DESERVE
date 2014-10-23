@@ -25,10 +25,13 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		{
 		}
 
-		public void InitAPIGateway()
+		public override void Init()
 		{
-			CallStaticMethod(APIGatewayInitMethod, null);
-			LogManager.MainLog.WriteLineAndConsole("DESERVE: MyAPIGateway initialized.");
+			if (DESERVE.Arguments.ModAPI)
+			{
+				CallStaticMethod(APIGatewayInitMethod, null);
+				LogManager.MainLog.WriteLineAndConsole("DESERVE: MyAPIGateway initialized.");
+			}
 		}
 		#endregion
 	}

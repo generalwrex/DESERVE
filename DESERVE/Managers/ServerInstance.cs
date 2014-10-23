@@ -25,8 +25,6 @@ namespace DESERVE.Managers
 		private static DedicatedServerWrapper m_dedicatedServerWrapper;
 		private static SandboxGameWrapper m_sandboxGameWrapper;
 
-		private const String seInstancePath = "C:\\ProgramData\\SpaceEngineersDedicated\\";
-
 		#endregion
 
 		#region Events
@@ -48,20 +46,15 @@ namespace DESERVE.Managers
 				{
 					new String[] {
 						"-path",
-						seInstancePath + args.Instance,
+						DESERVE.InstanceDirectory,
 						"-noconsole",
 					}
 				};
 
 			m_serverThread = DedicatedServerWrapper.Program.StartServer(serverArgs);
-			if (args.ModAPI)
-			{
-				SandboxGameWrapper.MPSession.InitAPIGateway();
-			}
-			else
-			{
-				LogManager.MainLog.WriteLineAndConsole("DESERVE: MyAPIGateway not loaded.");
-			}
+
+			m_dedicatedServerWrapper.Init();
+			m_sandboxGameWrapper.Init();
 		}
 
 		public static void Stop()

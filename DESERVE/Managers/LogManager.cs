@@ -7,11 +7,12 @@ using System.Threading;
 
 namespace DESERVE.Managers
 {
-	class LogManager
+	internal class LogManager
 	{
 		#region Fields
 		private const String _ERROR_LOG_NAME = "DESERVE_Error.log";
 		private const String _MAIN_LOG_NAME = "DESERVE.log";
+		private const String _CHAT_LOG_NAME = "DESERVE_Chat.log";
 
 		private String m_logDirectory;
 		#endregion
@@ -21,6 +22,8 @@ namespace DESERVE.Managers
 
 		static public LogInstance ErrorLog { get; set; }
 		static public LogInstance MainLog { get; set; }
+		static public LogInstance ChatLog { get; set; }
+
 		#endregion
 
 		#region Methods
@@ -29,11 +32,13 @@ namespace DESERVE.Managers
 			m_logDirectory = logDirectory;
 			ErrorLog = new LogInstance(m_logDirectory, _ERROR_LOG_NAME);
 			MainLog = new LogInstance(m_logDirectory, _MAIN_LOG_NAME);
+			ChatLog = new LogInstance(m_logDirectory, _CHAT_LOG_NAME);
 		}
 		#endregion
+
 	}
 
-	class LogInstance
+	public class LogInstance
 	{
 		#region Fields
 		private String m_logFile;
@@ -86,7 +91,7 @@ namespace DESERVE.Managers
 				File.Move(oldLog.FullName, oldLogName);
 			}
 			m_initialized = true;
-			WriteLine(Timestamp() + " - " + ThreadInfo() + " -> " + "Log File Opened.");
+			WriteLine(Timestamp() + " - Thread: " + ThreadInfo() + " -> " + "Log File Opened.");
 		}
 
 		public void WriteLine(String message)
@@ -117,7 +122,7 @@ namespace DESERVE.Managers
 			String timestamp = Timestamp();
 			String thread = ThreadInfo();
 			Console.WriteLine(timestamp + ": " + message);
-			WriteLine(timestamp + " - " + thread + " -> " + message);
+			WriteLine(timestamp + " - Thread: " + thread + " -> " + message);
 		}
 
 		private String Timestamp()

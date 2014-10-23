@@ -99,6 +99,7 @@
   <ItemGroup>
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Managers\IServerMarshall.cs" />
+    <Compile Include="Managers\PluginManager.cs" />
     <Compile Include="Managers\ServerMarshall.cs" />
     <Compile Include="Managers\ServicesManager.cs" />
     <Compile Include="ReflectionWrappers\DedicatedServerWrappers\DedicatedServerWrapper.cs" />
@@ -109,10 +110,12 @@
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\MainGame.cs" />
     <Compile Include="ReflectionWrappers\SandboxCommonWrapper\SandboxCommonWrapper.cs" />
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\MPSession.cs" />
+    <Compile Include="ReflectionWrappers\SandboxGameWrappers\NetworkManager.cs" />
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\SandboxGameWrapper.cs" />
     <Compile Include="ReflectionWrappers\ReflectionAssemblyWrapper.cs" />
     <Compile Include="Managers\ServerInstance.cs" />
     <Compile Include="ReflectionWrappers\ReflectionClassWrapper.cs" />
+    <Compile Include="ReflectionWrappers\SandboxGameWrappers\SteamNetworkWrapper.cs" />
     <Compile Include="ReflectionWrappers\SandboxGameWrappers\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>
