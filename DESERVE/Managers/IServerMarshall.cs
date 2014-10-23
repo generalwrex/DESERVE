@@ -9,14 +9,11 @@ using System.ServiceModel;
 namespace DESERVE.Managers
 {
 	[ServiceContract]
-	interface IServerMarshall
+	public interface IServerMarshall
 	{
-
-		String Name { get; }
-		Boolean IsRunning { get; }
-
-		[OperationContract]
-		void Start(CommandLineArgs args);
+		String Name { [OperationContract] get; }
+		Boolean IsRunning { [OperationContract] get; }
+		CommandLineArgs Arguments { [OperationContract] get; }
 
 		[OperationContract]
 		void Stop();

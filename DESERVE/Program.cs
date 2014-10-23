@@ -70,11 +70,12 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			{
 				m_serverMarshall = new ServerMarshall();
 
-				string endpoint = "net.pipe://localhost/DESERVE/Marshall";
+				string endpoint = "net.pipe://localhost/DESERVE/" + Arguments.Instance;
 				int maxConnections = 5;
+				ushort port = 8000;
 
-				m_pipedService = ServicesManager.CreatePipedService(m_serverMarshall, new Uri("http://localhost:1337/DESERVE"), endpoint, maxConnections);
-				m_pipedService.StartService();
+				m_pipedService = ServicesManager.CreatePipedService(m_serverMarshall, new Uri("http://localhost:" + port + "/DESERVE/" + Arguments.Instance), endpoint, maxConnections);
+
 			}
 		}
 
@@ -99,6 +100,10 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 				pluginUpdate.Start();
 			}
 
+			if (DESERVE.Arguments.WCF && !ServicesManager.IsOpened)
+				m_pipedService.StartService();
+			
+				
 			Console.WriteLine();
 			Console.WriteLine("DESERVE: Server Loaded.");
 			Console.WriteLine();

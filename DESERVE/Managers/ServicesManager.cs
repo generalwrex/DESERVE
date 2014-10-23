@@ -16,9 +16,14 @@ namespace DESERVE.Managers
 		#region "Fields"
 
 		private static ServiceHost m_pipedServerService;
+		private static bool m_isOpen;
 		#endregion
 
 		#region "Properties"
+		public static bool IsOpened
+		{
+			get { return m_isOpen; }
+		}
 		#endregion
 
 		#region "Methods"
@@ -39,8 +44,6 @@ namespace DESERVE.Managers
 				behavior.InstanceContextMode = InstanceContextMode.Single;
 
 				ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-				smb.HttpGetEnabled = true;
-				smb.HttpGetUrl = new Uri("http://localhost:8001/uesamples");
 				m_pipedServerService.Description.Behaviors.Add(smb);
 
 				LogManager.MainLog.WriteLineAndConsole("Piped Service Created Successfully!");
@@ -60,12 +63,14 @@ namespace DESERVE.Managers
 			try
 			{
 				service.Open();
-				LogManager.MainLog.WriteLineAndConsole("Piped Service Opened at '" + service.BaseAddresses.FirstOrDefault().ToString() + "'");
+				LogManager.MainLog.WriteLineAndConsole("Piped Service Opened at '" + service.Description.Endpoints.FirstOrDefault().Address + "'");
+				m_isOpen = true;
 			}
 			catch (Exception ex)
 			{
 				LogManager.ErrorLog.WriteLineAndConsole("Service Communication exception occurred: " + ex.Message);
 				service.Abort();
+				m_isOpen = false;
 			}
 		}
 

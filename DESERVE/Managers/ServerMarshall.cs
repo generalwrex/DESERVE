@@ -19,13 +19,7 @@ namespace DESERVE.Managers
 
 		public String Name { get { return ServerInstance.Name; } }
 		public Boolean IsRunning { get { return ServerInstance.IsRunning; } }
-
-
-		public void Start(CommandLineArgs args)
-		{
-			ServerInstance.Start(args);
-			LogManager.MainLog.WriteLine("Admin started server");
-		}
+		public CommandLineArgs Arguments { get { return DESERVE.Arguments; } }
 
 		public void Stop()
 		{

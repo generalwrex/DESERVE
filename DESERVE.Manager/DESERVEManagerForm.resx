@@ -117,4 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="TXT_InfoBox.Text" xml:space="preserve">
+    <value>Start DESERVE with -wcf 
+( btw the pipe WCF should be enabled always)
+Wait for the pipe to be opened.(server running!)
+Type in the name of your instance in 'Instance Name'
+Click 'Connect To Server'
+Bask in the glory of being connected to a named pipe service!
+Save the world, then stop the server!
+Yay!</value>
+  </data>
 </root>
