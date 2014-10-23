@@ -11,8 +11,8 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 	{
 		#region Fields
 		private const String Class = "D580AE7552E79DAB03A3D64B1F7B67F9";
-		private const String SaveWorldMethod = "50092B623574C842837BD09CE21A96D6";
-		private const String InstanceField = "AE8262481750DAB9C8D416E4DBB9BA04";
+		private ReflectionMethod m_save;
+		private ReflectionField m_instance;
 
 		private Boolean m_isSaving;
 		#endregion
@@ -20,7 +20,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		#region Properties
 		public override String ClassName { get { return "WorldManager"; } }
 		public override String AssemblyName { get { return "Sandbox.Game"; } }
-		public Object Instance { get { return GetStaticFieldValue(InstanceField); } }
+		public Object Instance { get { return m_instance.GetValue(null); } }
 		public Boolean IsSaving 
 		{
 			get { return m_isSaving; }
@@ -48,6 +48,27 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		public WorldManager(Assembly Assembly, String Namespace)
 			: base(Assembly, Namespace, Class)
 		{
+			SetupReflection();
+		}
+
+		private void SetupReflection()
+		{
+			try
+			{
+				m_save = new ReflectionMethod("50092B623574C842837BD09CE21A96D6", Class, m_classType);
+			}
+			catch (ArgumentException ex)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
+			}
+			try
+			{
+				m_instance = new ReflectionField("AE8262481750DAB9C8D416E4DBB9BA04", Class, m_classType);
+			}
+			catch (ArgumentException ex)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
+			}
 		}
 
 		public void Save()
@@ -72,7 +93,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 				arg0
 			};
 
-			bool result = (bool)CallObjectMethod(Instance, SaveWorldMethod, args);
+			bool result = (bool)m_save.Call(Instance, args);
 
 			if (result)
 			{

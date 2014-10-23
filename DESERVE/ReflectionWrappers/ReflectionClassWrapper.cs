@@ -1,6 +1,7 @@
 ﻿using DESERVE.Managers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,8 +12,8 @@ namespace DESERVE.ReflectionWrappers
 	{
 		#region Fields
 		protected String m_namespace;
-		protected String m_class;
 		protected Type m_classType;
+
 		#endregion
 
 		#region Properties
@@ -24,182 +25,115 @@ namespace DESERVE.ReflectionWrappers
 		protected ReflectionClassWrapper(Assembly Assembly, String Namespace, String Class)
 		{
 			m_namespace = Namespace;
-			m_class = Class;
 			m_classType = Assembly.GetType(Namespace + "." + Class);
 		}
 
 		public virtual void Init() { }
+		#endregion
+	}
 
-		private MethodInfo GetStaticMethod(String methodName, Object[] args)
+	public class ReflectionMember
+	{
+		#region Fields
+		protected Type m_classType;
+		protected String m_signature;
+		protected String m_className;
+		protected MemberInfo[] m_members;
+		#endregion
+
+		#region Properties
+		public String ClassName { get { return m_className; } }
+		public String Signature { get { return m_signature; } }
+		#endregion
+
+		#region Methods
+		protected ReflectionMember(String signature, String className, Type classType)
 		{
-			Type[] argTypes = new Type[args.Length];
-			
+			m_signature = signature;
+			m_className = className;
+			m_classType = classType;
+			m_members = classType.GetMember(signature, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+			if (m_members.Length == 0)
+			{
+				throw new ArgumentException(String.Format("Reflection Error: Signature {0} not found in {1}", signature, className));
+			}
+		}
+		#endregion
+	}
+	public class ReflectionField : ReflectionMember
+	{
+		#region Fields
+		protected FieldInfo m_field;
+		#endregion
+
+		#region Methods
+		internal ReflectionField(String signature, String className, Type classType)
+			: base(signature, className, classType)
+		{
+			m_field = classType.GetField(signature, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+
+			if (m_field == null)
+			{
+				throw new ArgumentException(String.Format("Reflection Error: Field {0} not found in {1}", signature, className));
+			}
+		}
+
+		public Object GetValue(Object obj)
+		{
+			return m_field.GetValue(obj);
+		}
+
+		public void SetValue(Object obj, Object value)
+		{
+			m_field.SetValue(obj, value);
+		}
+		#endregion
+	}
+	public class ReflectionMethod : ReflectionMember
+	{
+		#region Methods
+		private MethodInfo Get(Object[] parameters)
+		{
+			Type[] argTypes = new Type[parameters.Length];
+
 			int i = 0;
-			foreach (Object arg in args)
+			foreach (Object arg in parameters)
 			{
 				argTypes[i] = arg.GetType();
 				i++;
 			}
 
-			MethodInfo methodInfo = m_classType.GetMethod(methodName,
-				BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static,
+			MethodInfo methodInfo = m_classType.GetMethod(m_signature,
+				BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance,
 				null,
-				CallingConventions.Standard,
+				CallingConventions.Standard | CallingConventions.HasThis,
 				argTypes,
 				null);
 			return methodInfo;
 		}
 
-		private MethodInfo GetObjectMethod(String methodName, Object[] args)
+		public Object Call(Object obj, Object[] parameters)
 		{
-			Type[] argTypes = new Type[args.Length];
-
-			int i = 0;
-			foreach (Object arg in args)
+			if (parameters == null)
 			{
-				argTypes[i] = arg.GetType();
-				i++;
+				parameters = new Object[] { };
 			}
 
-			return m_classType.GetMethod(methodName,
-				BindingFlags.Public | BindingFlags.Instance,
-				null,
-				CallingConventions.Standard,
-				argTypes,
-				null);
-		}
+			MethodInfo methodInfo = Get(parameters);
 
-		protected Object CallStaticMethod(String methodName, Object[] args)
-		{
-			if (args == null)
+			if (methodInfo == null)
 			{
-				args = new Object[] { };
-			}
-			MethodInfo methodInfo = GetStaticMethod(methodName, args);
-
-			if (methodInfo != null)
-			{
-				return CallStaticMethod(methodInfo, args);
-			}
-			else
-			{
-				LogManager.ErrorLog.WriteLineAndConsole("Reflection Method not found: " + AssemblyName + "." + ClassName + "." + methodName);
-			}
-			return null;
-		}
-
-		private Object CallStaticMethod(MethodInfo methodInfo, Object[] args)
-		{
-			return methodInfo.Invoke(null, args);
-		}
-
-		protected Object CallObjectMethod(Object obj, String methodName, Object[] args)
-		{
-			if (args == null)
-			{
-				args = new Object[] { };
-			}
-			MethodInfo methodInfo = GetObjectMethod(methodName, args);
-
-			if (methodInfo != null)
-			{
-				return CallObjectMethod(obj, GetObjectMethod(methodName, args), args);
-			}
-			else
-			{
-				LogManager.ErrorLog.WriteLineAndConsole("Reflection Method not found: " + AssemblyName + "." + ClassName + "." + methodName);
-			}
-			return null;
-		}
-
-		private Object CallObjectMethod(Object obj, MethodInfo methodInfo, Object[] args)
-		{
-			if (obj == null)
-			{
-				LogManager.ErrorLog.WriteLineAndConsole("Error: CallObjectMethod recieved a null referance object while trying to call " + AssemblyName + "." + ClassName + "." + methodInfo.Name);
-			}
-			return methodInfo.Invoke(obj, args);
-		}
-
-		private FieldInfo GetStaticField(String fieldName)
-		{
-			FieldInfo field = m_classType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-			if (field == null)
-				field = m_classType.BaseType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-			if (field == null)
-			{
-				LogManager.ErrorLog.WriteLineAndConsole("Reflection Field not found: " + AssemblyName + "." + ClassName + "." + fieldName);
-			}
-			
-			return field;
-		}
-
-		private FieldInfo GetObjectField(Object gameEntity, String fieldName)
-		{
-			if (gameEntity == null)
-			{
-				LogManager.ErrorLog.WriteLineAndConsole("Error: GetObjectField recieved a null referance object while trying to find " + AssemblyName + "." + ClassName + "." + fieldName);
+				LogManager.ErrorLog.WriteLineAndConsole(String.Format("Overloaded method not found for {0}.{1} with argument types: {2}. Stack Trace: {3}", ClassName, Signature, parameters.ToString(), (new StackTrace()).ToString()));
 				return null;
 			}
 
-			FieldInfo field = m_classType.GetField(fieldName);
-			if (field == null)
-			{
-				//Recurse up through the class heirarchy to try to find the field
-				Type type = m_classType;
-				while (type != typeof(Object))
-				{
-					field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (field != null)
-						break;
-
-					type = type.BaseType;
-				}
-			}
-			if (field == null)
-			{
-				LogManager.ErrorLog.WriteLineAndConsole("Reflection Field not found: " + AssemblyName + "." + ClassName + "." + fieldName);
-			}
-			return field;
+			return methodInfo.Invoke(obj, parameters);
 		}
 
-		protected Object GetStaticFieldValue(String fieldName)
+		internal ReflectionMethod(String signature, String className, Type classType)
+			: base(signature, className, classType)
 		{
-			FieldInfo field = GetStaticField(fieldName);
-			if (field != null)
-			{
-				return field.GetValue(null);
-			}
-			return null;
-		}
 
-		protected Object GetObjectFieldValue(Object gameEntity, String fieldName)
-		{
-			FieldInfo field = GetObjectField(gameEntity, fieldName);
-
-			if (field != null)
-			{
-				return field.GetValue(null);
-			}
-			return null;
-		}
-
-		protected void SetStaticFieldValue(String fieldName, Object value)
-		{
-			FieldInfo field = GetStaticField(fieldName);
-			if (field != null)
-			{
-				field.SetValue(null, value);
-			}
-		}
-
-		protected void SetObjectFieldValue(Object gameEntity, String fieldName, Object value)
-		{
-			FieldInfo field = GetObjectField(gameEntity, fieldName);
-			if (field != null)
-			{
-				field.SetValue(gameEntity, value);
-			}
 		}
 		#endregion
 	}

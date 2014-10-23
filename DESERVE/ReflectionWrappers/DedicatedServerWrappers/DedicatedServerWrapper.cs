@@ -11,7 +11,6 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 	{
 		#region Fields
 		private const string DedicatedServerNamespace = "83BCBFA49B3A2A6EC1BC99583DA2D399";
-		private const string DedicatedServerMainMethod = "26A7ABEA729FAE1F24679E21470F8E98";
 
 		private static Program m_program;
 		#endregion

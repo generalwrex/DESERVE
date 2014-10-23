@@ -13,8 +13,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		#region Fields
 		private const string Class = "9CDBE03D49929CA686F49B66EE307DD7";
 
-		private const string RegisterOnChatMessageMethod = "8A73057A206BFCA00EC372183441891A";
-		private const string InstanceField = "8E8199A1194065205F01051DC8B72DE7";
+		private ReflectionMethod m_registerOnChatMessage;
 		#endregion
 
 		#region Events
@@ -33,6 +32,19 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		public NetworkManager(Assembly Assembly, String Namespace)
 			: base(Assembly, Namespace, Class)
 		{
+			SetupReflection();
+		}
+
+		private void SetupReflection()
+		{
+			try
+			{
+				m_registerOnChatMessage = new ReflectionMethod("8A73057A206BFCA00EC372183441891A", Class, m_classType);
+			}
+			catch (ArgumentException ex)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
+			}
 		}
 
 		public override void Init()
@@ -43,7 +55,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		private void RegisterOnChatMessageAction(Action<ulong, string, ChatEntryTypeEnum> action)
 		{
-			CallObjectMethod(Instance, RegisterOnChatMessageMethod, new Object[] { action });
+			m_registerOnChatMessage.Call(Instance, new Object[] { action });
 		}
 
 		private void ChatMessageRecieved(ulong remoteUserId, string message, ChatEntryTypeEnum entryType)

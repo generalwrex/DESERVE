@@ -11,7 +11,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 	{
 		#region Fields
 		private const String Class = "4C1ED56341F07A7D73298D03926F04DE";
-		private const String APIGatewayInitMethod = "0DE98737B4717615E252D27A4F3A2B44";
+		private ReflectionMethod m_apiGatewayInit;
 		#endregion
 
 		#region Properties
@@ -23,13 +23,26 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		public MPSession(Assembly Assembly, String Namespace)
 			: base(Assembly, Namespace, Class)
 		{
+			SetupReflection();
+		}
+
+		private void SetupReflection()
+		{
+			try
+			{
+				m_apiGatewayInit = new ReflectionMethod("0DE98737B4717615E252D27A4F3A2B44", ClassName, m_classType);
+			}
+			catch (ArgumentException ex)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
+			}
 		}
 
 		public override void Init()
 		{
 			if (DESERVE.Arguments.ModAPI)
 			{
-				CallStaticMethod(APIGatewayInitMethod, null);
+				m_apiGatewayInit.Call(null, null);
 				LogManager.MainLog.WriteLineAndConsole("DESERVE: MyAPIGateway initialized.");
 			}
 		}

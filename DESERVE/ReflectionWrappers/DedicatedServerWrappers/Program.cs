@@ -17,8 +17,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		#region Fields
 		private const String Class = "49BCFF86BA276A9C7C0D269C2924DE2D";
 
-		private String StartupMethod;
-		private const String StopMethod = "DA95E633B86E22CF269880CE57124695";
+		private ReflectionMethod m_startupMethod;
 
 		private Boolean m_isRunning;
 		private ManualResetEvent m_waitEvent;
@@ -66,8 +65,20 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 		public Program(Assembly Assembly, String Namespace)
 			: base(Assembly, Namespace, Class)
 		{
-			StartupMethod = Assembly.EntryPoint.Name;
+			SetupReflection(Assembly);
 			m_waitEvent = new ManualResetEvent(false);
+		}
+
+		private void SetupReflection(Assembly Assembly)
+		{
+			try
+			{
+				m_startupMethod = new ReflectionMethod(Assembly.EntryPoint.Name, ClassName, m_classType);
+			}
+			catch (ArgumentException ex)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
+			}
 		}
 
 		public Thread StartServer(Object args)
@@ -112,7 +123,7 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 
 		private void Start(Object[] args)
 		{
-			CallStaticMethod(StartupMethod, args);
+			m_startupMethod.Call(null, args);
 		}
 		#endregion
 	}
