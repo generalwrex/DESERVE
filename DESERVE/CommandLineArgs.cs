@@ -13,11 +13,14 @@ namespace DESERVE
 
 		#region Properties
 		public Int32 AutosaveMinutes { get; set; }
-		public String Instance { get; set; }
 		public Boolean Debug { get; set; }
+		public String Instance { get; set; }
 		public String LogDirectory { get; set; }
 		public Boolean ModAPI { get; set; }
 		public Boolean Plugins { get; set; }
+		public Boolean Update { get; set; }
+		public String UpdateNewPath { get; set; }
+		public String UpdateOldPath { get; set; }
 		public Boolean WCF { get; set; }
 		#endregion
 
@@ -25,11 +28,14 @@ namespace DESERVE
 		{
 			// Set Defaults.
 			AutosaveMinutes = -1;
-			Instance = "";
 			Debug = false;
+			Instance = "";
 			LogDirectory = Directory.GetCurrentDirectory() + "\\DESERVE";
 			ModAPI = false;
 			Plugins = false;
+			Update = false;
+			UpdateOldPath = "";
+			UpdateNewPath = "";
 			WCF = false;
 
 			// Process Commandline.
@@ -101,7 +107,7 @@ namespace DESERVE
 
 		public override string ToString()
 		{
-			return "-autosave " + AutosaveMinutes.ToString() + " " + (Debug ? "-debug " : "") + "-instance \"" + Instance + "\" -logdir \"" + LogDirectory + "\" " + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : "");
+			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : "-autosave " + AutosaveMinutes.ToString() + " " + (Debug ? "-debug " : "") + "-instance \"" + Instance + "\" -logdir \"" + LogDirectory + "\" " + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
 		}
 	}
 }
