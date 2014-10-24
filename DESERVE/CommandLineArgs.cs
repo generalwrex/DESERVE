@@ -15,16 +15,28 @@ namespace DESERVE
 		#endregion
 
 		#region Properties
+		[DataMember]
 		public Int32 AutosaveMinutes { get; set; }
+		[DataMember]
 		public Boolean Debug { get; set; }
+		[DataMember]
 		public String Instance { get; set; }
+		[DataMember]
 		public String LogDirectory { get; set; }
+		[DataMember]
 		public Boolean ModAPI { get; set; }
+		[DataMember]
 		public Boolean Plugins { get; set; }
+		[DataMember]
 		public Boolean Update { get; set; }
+		[DataMember]
 		public String UpdateNewPath { get; set; }
+		[DataMember]
 		public String UpdateOldPath { get; set; }
+		[DataMember]
 		public Boolean WCF { get; set; }
+		[DataMember]
+		public string FullString { get; set; }
 		#endregion
 
 		#region Methods

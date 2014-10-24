@@ -12,7 +12,7 @@ namespace DESERVE.Manager
 	internal class Services
 	{
 		#region "Fields"
-		private static IServerMarshall m_marshallClient;
+		private static IServerMarshall m_marshallServer;
 		private static Services m_instance;
 		#endregion
 
@@ -37,21 +37,24 @@ namespace DESERVE.Manager
 		#region "Methods"
 		public IServerMarshall ConnectToPipe(string instanceName)
 		{
-			var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-			var endpoint = new EndpointAddress("net.pipe://localhost/DESERVE/" + instanceName);
-			var channelFactory = new ChannelFactory<IServerMarshall>(binding, endpoint);
-
+			var serverBinding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+			var serverEndpoint = new EndpointAddress("net.pipe://localhost/DESERVE/" + instanceName);
+			var serverChannel = new ChannelFactory<IServerMarshall>(serverBinding, serverEndpoint);
+			
 			try
-			{
-				m_marshallClient = channelFactory.CreateChannel();
-				return m_marshallClient;
+			{   
+				m_marshallServer = serverChannel.CreateChannel();
+
+				if (m_marshallServer.get_Name() == "")
+					return null;
+
+				return m_marshallServer;
 			}
-			catch (Exception ex)
+			catch
 			{
-				MessageBox.Show(ex.Message);
-				if (m_marshallClient != null)
+				if (m_marshallServer != null)
 				{
-					((ICommunicationObject)m_marshallClient).Abort();
+					((ICommunicationObject)m_marshallServer).Abort();
 				}
 				return null;
 			}

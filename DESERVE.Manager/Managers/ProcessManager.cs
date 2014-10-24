@@ -10,14 +10,15 @@ namespace DESERVE.Managers
 	internal static class ProcessManager
 	{
 
-		public static ProcessStartInfo StartServer(CommandLineArgs args)
+		public static ProcessStartInfo StartServer(string argumentsString)
 		{
 			try
 			{
 				Process process = new Process();
 
 				process.StartInfo.FileName = "DESERVE.exe";
-				process.StartInfo.Arguments = args.ToString();
+
+				process.StartInfo.Arguments = argumentsString;
 				process.StartInfo.Verb = "runas";
 
 				process.Start();

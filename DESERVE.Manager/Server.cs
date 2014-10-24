@@ -7,30 +7,31 @@ namespace DESERVE.Manager
 	public class Server
 	{
 		private IServerMarshall m_clientMarshall;
-		
-		public string Name
-		{
-			get { return m_clientMarshall.get_Name(); }
-		}
 
-		public bool IsRunning
-		{
-			get { return m_clientMarshall.get_IsRunning(); }
-		}
 
-		public CommandLineArgs Arguments
-		{
-			get { return m_clientMarshall.get_Arguments(); }
-		}
+		public string Name { get; set; }
+		public bool IsRunning { get; set; }
+		public IServerMarshall Instance { get; set; }
 
-		public void ConnectToServer(string instanceName)
-		{
-			m_clientMarshall = Services.Instance.ConnectToPipe(instanceName);		
-		}
+		public CommandLineArgs Arguments { get; set; }
 
-		public void StartServer()
+		public string ArgumentsString { get; set; }
+
+
+		public bool ConnectToServer(string instanceName)
 		{
-			ProcessManager.StartServer(this.Arguments);
+			m_clientMarshall = Services.Instance.ConnectToPipe(instanceName);
+
+			if (m_clientMarshall == null)
+				return false;
+
+			this.Instance = m_clientMarshall;
+			this.Name = m_clientMarshall.get_Name();
+			this.IsRunning = m_clientMarshall.get_IsRunning();
+			this.Arguments = m_clientMarshall.get_Arguments();
+			this.ArgumentsString = Arguments.FullString;
+
+			return true;
 		}
 
 		public void StopServer()

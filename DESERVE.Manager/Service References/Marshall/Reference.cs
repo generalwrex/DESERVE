@@ -22,6 +22,39 @@ namespace DESERVE.Manager.Marshall {
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int AutosaveMinutesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool DebugField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FullStringField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string InstanceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LogDirectoryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool ModAPIField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool PluginsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool UpdateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UpdateNewPathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UpdateOldPathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool WCFField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -29,6 +62,149 @@ namespace DESERVE.Manager.Marshall {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int AutosaveMinutes {
+            get {
+                return this.AutosaveMinutesField;
+            }
+            set {
+                if ((this.AutosaveMinutesField.Equals(value) != true)) {
+                    this.AutosaveMinutesField = value;
+                    this.RaisePropertyChanged("AutosaveMinutes");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Debug {
+            get {
+                return this.DebugField;
+            }
+            set {
+                if ((this.DebugField.Equals(value) != true)) {
+                    this.DebugField = value;
+                    this.RaisePropertyChanged("Debug");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FullString {
+            get {
+                return this.FullStringField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FullStringField, value) != true)) {
+                    this.FullStringField = value;
+                    this.RaisePropertyChanged("FullString");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Instance {
+            get {
+                return this.InstanceField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InstanceField, value) != true)) {
+                    this.InstanceField = value;
+                    this.RaisePropertyChanged("Instance");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string LogDirectory {
+            get {
+                return this.LogDirectoryField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LogDirectoryField, value) != true)) {
+                    this.LogDirectoryField = value;
+                    this.RaisePropertyChanged("LogDirectory");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool ModAPI {
+            get {
+                return this.ModAPIField;
+            }
+            set {
+                if ((this.ModAPIField.Equals(value) != true)) {
+                    this.ModAPIField = value;
+                    this.RaisePropertyChanged("ModAPI");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Plugins {
+            get {
+                return this.PluginsField;
+            }
+            set {
+                if ((this.PluginsField.Equals(value) != true)) {
+                    this.PluginsField = value;
+                    this.RaisePropertyChanged("Plugins");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool Update {
+            get {
+                return this.UpdateField;
+            }
+            set {
+                if ((this.UpdateField.Equals(value) != true)) {
+                    this.UpdateField = value;
+                    this.RaisePropertyChanged("Update");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UpdateNewPath {
+            get {
+                return this.UpdateNewPathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UpdateNewPathField, value) != true)) {
+                    this.UpdateNewPathField = value;
+                    this.RaisePropertyChanged("UpdateNewPath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string UpdateOldPath {
+            get {
+                return this.UpdateOldPathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UpdateOldPathField, value) != true)) {
+                    this.UpdateOldPathField = value;
+                    this.RaisePropertyChanged("UpdateOldPath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool WCF {
+            get {
+                return this.WCFField;
+            }
+            set {
+                if ((this.WCFField.Equals(value) != true)) {
+                    this.WCFField = value;
+                    this.RaisePropertyChanged("WCF");
+                }
             }
         }
         

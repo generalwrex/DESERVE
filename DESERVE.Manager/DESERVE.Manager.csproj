@@ -52,12 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLineProperty.cs" />
     <Compile Include="DESERVEManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DESERVEManagerForm.Designer.cs">
       <DependentUpon>DESERVEManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Managers\InstanceManager.cs" />
     <Compile Include="Managers\ProcessManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

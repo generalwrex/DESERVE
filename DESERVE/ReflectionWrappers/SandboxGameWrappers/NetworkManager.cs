@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
-	class NetworkManager : ReflectionClassWrapper
+	public class NetworkManager : ReflectionClassWrapper
 	{
 		#region Fields
 		private const string Class = "9CDBE03D49929CA686F49B66EE307DD7";

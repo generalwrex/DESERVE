@@ -8,7 +8,7 @@ using System.ServiceModel;
 
 namespace DESERVE.Managers
 {
-	[ServiceContract]
+	[ServiceContract]//(CallbackContract = typeof(IServerMarshallEvents))]
 	public interface IServerMarshall
 	{
 		String Name { [OperationContract] get; }
@@ -20,5 +20,12 @@ namespace DESERVE.Managers
 
 		[OperationContract]
 		void Save();
+
+		#region Chat
+
+		//[OperationContract]
+		//void ChatRecievedEvent();
+
+		#endregion
 	}
 }

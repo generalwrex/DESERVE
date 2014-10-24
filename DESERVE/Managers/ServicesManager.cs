@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 using System.ServiceModel.Web;
 using System.ServiceModel.Security;
@@ -28,6 +29,7 @@ namespace DESERVE.Managers
 
 		#region Methods
 
+
 		public static ServiceHost CreatePipedService(string instanceName, int maxConnections)
 		{
 			try
@@ -40,10 +42,9 @@ namespace DESERVE.Managers
 
 				m_pipedServerService.AddServiceEndpoint(typeof(IServerMarshall), binding, "net.pipe://localhost/DESERVE/" + instanceName);
 
-
-
 				ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-				smb.HttpGetEnabled = true; // for updating service references
+				smb.HttpGetEnabled = true;
+
 				m_pipedServerService.Description.Behaviors.Add(smb);
 
 				LogManager.MainLog.WriteLineAndConsole("Piped Service Created Successfully!");
@@ -52,7 +53,9 @@ namespace DESERVE.Managers
 			}
 			catch (Exception ex)
 			{
-				LogManager.ErrorLog.WriteLineAndConsole("Service Creation Exception: " + ex.Message);
+				Console.WriteLine("Service Creation Exception( see ErrorLog for more details ): " + ex.Message);
+				LogManager.ErrorLog.WriteLine("Service Creation Full Exception: " + ex.ToString());
+
 				m_pipedServerService.Abort();
 				return null;
 			}
@@ -66,9 +69,10 @@ namespace DESERVE.Managers
 				LogManager.MainLog.WriteLineAndConsole("Piped Service Opened at '" + service.Description.Endpoints.FirstOrDefault().Address + "'");
 				m_isOpen = true;
 			}
-			catch (Exception ex)
+			catch (CommunicationException ex)
 			{
-				LogManager.ErrorLog.WriteLineAndConsole("Service Communication exception occurred: " + ex.Message);
+				Console.WriteLine("Service Communication exception occurred ( see ErrorLog for more details ): " + ex.Message);
+				LogManager.ErrorLog.WriteLineAndConsole("Service Communication full exception: " + ex.ToString());
 				service.Abort();
 				m_isOpen = false;
 			}
@@ -77,7 +81,7 @@ namespace DESERVE.Managers
 		public static void StopService(this ServiceHost service)
 		{
 			service.Abort();
-			LogManager.ErrorLog.WriteLineAndConsole("Service '" + service.BaseAddresses.FirstOrDefault().ToString() + "' Stopped");
+			LogManager.MainLog.WriteLineAndConsole("Piped Service '" + service.Description.Endpoints.FirstOrDefault().Address + "' Stopped");
 		}
 
 		#endregion
