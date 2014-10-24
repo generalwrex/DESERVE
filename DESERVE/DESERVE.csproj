@@ -94,14 +94,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\APIGateway.cs" />
-    <Compile Include="API\Extensions\DeserveCubeBuilder.cs" />
-    <Compile Include="API\Extensions\DeserveEntities.cs" />
-    <Compile Include="API\Extensions\DeserveMultiplayer.cs" />
-    <Compile Include="API\Extensions\DeservePlayerCollection.cs" />
-    <Compile Include="API\Extensions\DeserveSession.cs" />
-    <Compile Include="API\Extensions\DeserveTerminalActionsHelper.cs" />
-    <Compile Include="API\Extensions\DeserveUtilities.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Managers\IServerMarshall.cs" />
     <Compile Include="Managers\PluginManager.cs" />
@@ -125,6 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="API\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
