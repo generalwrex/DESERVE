@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 
 using DESERVE.Manager;
 
@@ -28,12 +29,10 @@ namespace DESERVE.Managers
 			}
 		}
 
-
-		public  List<Server> GetInstances
+		public List<Server> GetInstances
 		{
 			get { return m_servers; }
 		}
-
 
 		public InstanceManager()
 		{
@@ -58,7 +57,7 @@ namespace DESERVE.Managers
 			}
 			catch (Exception ex)
 			{
-				//Console.WriteLine(ex.ToString());
+				System.Windows.Forms.MessageBox.Show(ex.Message);
 			}
 
 			foreach (string instanceName in m_instances)
@@ -74,12 +73,10 @@ namespace DESERVE.Managers
 					server.IsRunning = marshall.get_IsRunning();
 					server.Name = marshall.get_Name();
 					server.Arguments = arguments;
-					server.ArgumentsString = arguments.FullString;
-					
+					server.ArgumentsString = arguments.FullString;	
 				}
 				else
 				{
-
 					CommandLineArgs args = new CommandLineArgs();
 					server.IsRunning = false;
 					args.Instance = instanceName;
@@ -100,6 +97,27 @@ namespace DESERVE.Managers
 
 		}
 
+		public ProcessStartInfo StartServer(string argumentsString)
+		{
+			try
+			{
+				Process process = new Process();
 
+				process.StartInfo.FileName = "DESERVE.exe";
+
+				process.StartInfo.Arguments = argumentsString;
+				process.StartInfo.Verb = "runas";
+
+				process.Start();
+
+				return process.StartInfo;
+			}
+			catch (Exception ex)
+			{
+				System.Windows.Forms.MessageBox.Show(ex.Message);
+				return null;
+			}
+
+		}
 	}
 }

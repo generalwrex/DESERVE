@@ -13,6 +13,7 @@
       <xsd:import schemaLocation="http://localhost:8000/DESERVE?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8000/DESERVE?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8000/DESERVE?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/DESERVE" />
+      <xsd:import schemaLocation="http://localhost:8000/DESERVE?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/DESERVE.Managers" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IServerMarshall_get_Name_InputMessage">
@@ -45,6 +46,24 @@
   <wsdl:message name="IServerMarshall_Save_OutputMessage">
     <wsdl:part name="parameters" element="tns:SaveResponse" />
   </wsdl:message>
+  <wsdl:message name="IServerMarshall_WriteToConsole_InputMessage">
+    <wsdl:part name="parameters" element="tns:WriteToConsole" />
+  </wsdl:message>
+  <wsdl:message name="IServerMarshall_WriteToConsole_OutputMessage">
+    <wsdl:part name="parameters" element="tns:WriteToConsoleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServerMarshall_WriteToLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:WriteToLog" />
+  </wsdl:message>
+  <wsdl:message name="IServerMarshall_WriteToLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:WriteToLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServerMarshall_SubscribeTo_OnChatReceived_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeTo_OnChatReceived" />
+  </wsdl:message>
+  <wsdl:message name="IServerMarshall_ChatMessageReceived_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:ChatMessageReceived" />
+  </wsdl:message>
   <wsdl:portType name="IServerMarshall">
     <wsdl:operation name="get_Name">
       <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/get_Name" message="tns:IServerMarshall_get_Name_InputMessage" />
@@ -65,6 +84,20 @@
     <wsdl:operation name="Save">
       <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/Save" message="tns:IServerMarshall_Save_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServerMarshall/SaveResponse" message="tns:IServerMarshall_Save_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="WriteToConsole">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/WriteToConsole" message="tns:IServerMarshall_WriteToConsole_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServerMarshall/WriteToConsoleResponse" message="tns:IServerMarshall_WriteToConsole_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="WriteToLog">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/WriteToLog" message="tns:IServerMarshall_WriteToLog_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServerMarshall/WriteToLogResponse" message="tns:IServerMarshall_WriteToLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeTo_OnChatReceived">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/SubscribeTo_OnChatReceived" message="tns:IServerMarshall_SubscribeTo_OnChatReceived_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChatMessageReceived">
+      <wsdl:output wsaw:Action="http://tempuri.org/IServerMarshall/ChatMessageReceived" message="tns:IServerMarshall_ChatMessageReceived_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetNamedPipeBinding_IServerMarshall" type="tns:IServerMarshall">
@@ -111,6 +144,36 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteToConsole">
+      <soap12:operation soapAction="http://tempuri.org/IServerMarshall/WriteToConsole" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WriteToLog">
+      <soap12:operation soapAction="http://tempuri.org/IServerMarshall/WriteToLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeTo_OnChatReceived">
+      <soap12:operation soapAction="http://tempuri.org/IServerMarshall/SubscribeTo_OnChatReceived" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="ChatMessageReceived">
+      <soap12:operation soapAction="http://tempuri.org/IServerMarshall/ChatMessageReceived" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>

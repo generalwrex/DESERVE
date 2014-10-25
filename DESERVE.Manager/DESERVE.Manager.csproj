@@ -53,14 +53,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLineProperty.cs" />
+    <Compile Include="DESERVEManager.cs" />
     <Compile Include="DESERVEManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DESERVEManagerForm.Designer.cs">
       <DependentUpon>DESERVEManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Managers\InstanceManager.cs" />
-    <Compile Include="Managers\ProcessManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
@@ -102,6 +103,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\Marshall\DESERVE2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Marshall\DESERVE3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\Marshall\ServerMarshall.wsdl" />

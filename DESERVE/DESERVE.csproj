@@ -95,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLineArgs.cs" />
-    <Compile Include="Managers\Marshall\IServerMarshallEvents.cs" />
+    <Compile Include="Managers\Marshall\IServerMarshallCallbacks.cs" />
     <Compile Include="Managers\Marshall\IServerMarshall.cs" />
     <Compile Include="Managers\PluginManager.cs" />
     <Compile Include="Managers\Marshall\ServerMarshall.cs" />

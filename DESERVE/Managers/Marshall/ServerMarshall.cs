@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SteamSDK;
+using System.Reflection;
 
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -10,15 +11,32 @@ using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 namespace DESERVE.Managers
 {
-
-	class ServerMarshall : IServerMarshall
+	[DataContract]
+	public enum LogType
 	{
-		
+		[EnumMember]
+		ErrorLog,
+		[EnumMember]
+		MainLog
+	}
+	[DataContract]
+	public enum WriteTo
+	{
+		[EnumMember]
+		Line,
+		[EnumMember]
+		LineAndConsole
+	}
+
+	[DataContract]
+	public class ServerMarshall : IServerMarshall
+	{
 
 		public ServerMarshall()
 		{
-			
+			RegisterEvents();	
 		}
+
 
 		#region "Server Control"
 		public String Name { get { return ServerInstance.Name; } }
@@ -28,32 +46,76 @@ namespace DESERVE.Managers
 		public void Stop()
 		{
 			ServerInstance.Stop();
-			LogManager.MainLog.WriteLine("Admin stopped server");
 		}
 
 		public void Save()
 		{
 			ServerInstance.Save();
-			LogManager.MainLog.WriteLine("Admin saved world");
+		}
+		#endregion
+
+		#region "Logs And Console"
+
+		public void WriteToConsole(string message)
+		{
+			Console.WriteLine(message);
+		}
+
+		public void WriteToLog(LogType logType, WriteTo writeTo, String message)
+		{
+			switch (logType)
+			{
+				case LogType.ErrorLog:
+					switch (writeTo)
+					{
+						case WriteTo.Line:
+							LogManager.ErrorLog.WriteLine(message);
+							break;
+						case WriteTo.LineAndConsole:
+							LogManager.ErrorLog.WriteLineAndConsole(message);
+							break;
+					}			
+					break;
+				case LogType.MainLog:
+					switch (writeTo)
+					{
+						case WriteTo.Line:
+							LogManager.MainLog.WriteLine(message);
+							break;
+						case WriteTo.LineAndConsole:
+							LogManager.MainLog.WriteLineAndConsole(message);
+							break;
+					}			
+					break;
+			}
 		}
 		#endregion
 
 		#region Chat
 
-		//static Action<ulong, string, ChatEntryTypeEnum> chatMessageRecieved = delegate { };
+		static Action<ulong, string> chatCallback = delegate {};
 
-		//void ChatRecievedEvent()
-		//{
-		//	IServerMarshallEvents client = OperationContext.Current.GetCallbackChannel<IServerMarshallEvents>();
-		//	chatMessageRecieved += client.OnChatRecieved;
-		//}
+		public void SubscribeTo_OnChatReceived()
+		{
+			IServerMarshallCallbacks callback = OperationContext.Current.GetCallbackChannel<IServerMarshallCallbacks>();
+			chatCallback += callback.ChatMessageReceived;
+		}
 
-		//chatMessageRecieved(remoteUserId, message, entryType) needs to be fired so the client can subscribe to the event
-		
-
+		void NetworkManager_OnChatMessage(ulong remoteUserId, string message, ChatEntryTypeEnum entryType)
+		{
+			chatCallback(remoteUserId, message);
+		}
 
 		#endregion
 
 
+		#region "Registers"
+
+		public void RegisterEvents()
+		{
+			SandboxGameWrapper.NetworkManager.OnChatMessage += NetworkManager_OnChatMessage;
+		}
+
+		#endregion
 	}
 }

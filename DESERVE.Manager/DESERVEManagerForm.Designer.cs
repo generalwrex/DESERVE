@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DESERVEManagerForm));
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.m_statusBar = new System.Windows.Forms.ToolStripStatusLabel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -51,19 +50,16 @@
 			this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.BTN_Save = new System.Windows.Forms.Button();
-			this.TXT_InfoBox = new System.Windows.Forms.TextBox();
 			this.BTN_StopServer = new System.Windows.Forms.Button();
 			this.BTN_StartServer = new System.Windows.Forms.Button();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
 			this.splitContainer5 = new System.Windows.Forms.SplitContainer();
 			this.PG_CommandLineArgs = new System.Windows.Forms.PropertyGrid();
-			this.label2 = new System.Windows.Forms.Label();
-			this.BTN_TestConnect = new System.Windows.Forms.Button();
-			this.TXT_InstanceName = new System.Windows.Forms.TextBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+			this.DedicatedServerPathDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -82,7 +78,6 @@
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
 			this.splitContainer5.Panel1.SuspendLayout();
-			this.splitContainer5.Panel2.SuspendLayout();
 			this.splitContainer5.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
@@ -257,7 +252,6 @@
 			// splitContainer2.Panel2
 			// 
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_Save);
-			this.splitContainer2.Panel2.Controls.Add(this.TXT_InfoBox);
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_StopServer);
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_StartServer);
 			this.splitContainer2.Size = new System.Drawing.Size(992, 458);
@@ -282,6 +276,7 @@
 			this.OLV_ServerInstances.TabIndex = 33;
 			this.OLV_ServerInstances.UseCompatibleStateImageBehavior = false;
 			this.OLV_ServerInstances.View = System.Windows.Forms.View.Details;
+			this.OLV_ServerInstances.SelectedIndexChanged += new System.EventHandler(this.OLV_ServerInstances_SelectedIndexChanged);
 			// 
 			// SaveNameColumn
 			// 
@@ -310,15 +305,6 @@
 			this.BTN_Save.Text = "Save World";
 			this.BTN_Save.UseVisualStyleBackColor = true;
 			this.BTN_Save.Click += new System.EventHandler(this.BTN_Save_Click);
-			// 
-			// TXT_InfoBox
-			// 
-			this.TXT_InfoBox.Location = new System.Drawing.Point(365, 15);
-			this.TXT_InfoBox.Multiline = true;
-			this.TXT_InfoBox.Name = "TXT_InfoBox";
-			this.TXT_InfoBox.Size = new System.Drawing.Size(601, 164);
-			this.TXT_InfoBox.TabIndex = 40;
-			this.TXT_InfoBox.Text = resources.GetString("TXT_InfoBox.Text");
 			// 
 			// BTN_StopServer
 			// 
@@ -361,12 +347,6 @@
 			// splitContainer5.Panel1
 			// 
 			this.splitContainer5.Panel1.Controls.Add(this.PG_CommandLineArgs);
-			// 
-			// splitContainer5.Panel2
-			// 
-			this.splitContainer5.Panel2.Controls.Add(this.label2);
-			this.splitContainer5.Panel2.Controls.Add(this.BTN_TestConnect);
-			this.splitContainer5.Panel2.Controls.Add(this.TXT_InstanceName);
 			this.splitContainer5.Size = new System.Drawing.Size(992, 458);
 			this.splitContainer5.SplitterDistance = 218;
 			this.splitContainer5.TabIndex = 0;
@@ -378,31 +358,6 @@
 			this.PG_CommandLineArgs.Name = "PG_CommandLineArgs";
 			this.PG_CommandLineArgs.Size = new System.Drawing.Size(992, 218);
 			this.PG_CommandLineArgs.TabIndex = 45;
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(20, 28);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(82, 13);
-			this.label2.TabIndex = 43;
-			this.label2.Text = "Instance Name:";
-			// 
-			// BTN_TestConnect
-			// 
-			this.BTN_TestConnect.Location = new System.Drawing.Point(334, 23);
-			this.BTN_TestConnect.Name = "BTN_TestConnect";
-			this.BTN_TestConnect.Size = new System.Drawing.Size(154, 23);
-			this.BTN_TestConnect.TabIndex = 44;
-			this.BTN_TestConnect.Text = "Connect To Server";
-			this.BTN_TestConnect.UseVisualStyleBackColor = true;
-			// 
-			// TXT_InstanceName
-			// 
-			this.TXT_InstanceName.Location = new System.Drawing.Point(108, 25);
-			this.TXT_InstanceName.Name = "TXT_InstanceName";
-			this.TXT_InstanceName.Size = new System.Drawing.Size(211, 20);
-			this.TXT_InstanceName.TabIndex = 42;
 			// 
 			// tabPage2
 			// 
@@ -445,6 +400,10 @@
 			this.splitContainer4.SplitterDistance = 432;
 			this.splitContainer4.TabIndex = 0;
 			// 
+			// DedicatedServerPathDialog
+			// 
+			this.DedicatedServerPathDialog.ShowNewFolderButton = false;
+			// 
 			// DESERVEManagerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -471,14 +430,11 @@
 			this.tabPage1.ResumeLayout(false);
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.Panel2.ResumeLayout(false);
-			this.splitContainer2.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
 			this.splitContainer2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.OLV_ServerInstances)).EndInit();
 			this.tabPage4.ResumeLayout(false);
 			this.splitContainer5.Panel1.ResumeLayout(false);
-			this.splitContainer5.Panel2.ResumeLayout(false);
-			this.splitContainer5.Panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
 			this.splitContainer5.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
@@ -513,7 +469,6 @@
 		private BrightIdeasSoftware.OLVColumn SaveNameColumn;
 		private BrightIdeasSoftware.OLVColumn olvColumn1;
 		private System.Windows.Forms.Button BTN_Save;
-		private System.Windows.Forms.TextBox TXT_InfoBox;
 		private System.Windows.Forms.Button BTN_StopServer;
 		private System.Windows.Forms.Button BTN_StartServer;
 		private System.Windows.Forms.TabPage tabPage2;
@@ -526,9 +481,7 @@
 		private BrightIdeasSoftware.OLVColumn olvColumn2;
 		private System.Windows.Forms.SplitContainer splitContainer5;
 		private System.Windows.Forms.PropertyGrid PG_CommandLineArgs;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button BTN_TestConnect;
-		private System.Windows.Forms.TextBox TXT_InstanceName;
+		private System.Windows.Forms.FolderBrowserDialog DedicatedServerPathDialog;
 
 	}
 }

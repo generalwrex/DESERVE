@@ -12,9 +12,7 @@ namespace DESERVE.Manager
 		public string Name { get; set; }
 		public bool IsRunning { get; set; }
 		public IServerMarshall Instance { get; set; }
-
 		public CommandLineArgs Arguments { get; set; }
-
 		public string ArgumentsString { get; set; }
 
 
@@ -43,10 +41,6 @@ namespace DESERVE.Manager
 		{
 			m_clientMarshall.Save();
 		}
-
-
-
-
 
 	}
 }

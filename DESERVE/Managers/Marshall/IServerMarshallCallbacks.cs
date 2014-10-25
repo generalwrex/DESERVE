@@ -8,12 +8,11 @@ using System.ServiceModel;
 
 namespace DESERVE.Managers
 {
-	public interface IServerMarshallEvents
+	public interface IServerMarshallCallbacks
 	{
 
 		[OperationContract(IsOneWay = true)]
-		void OnChatRecieved(ulong remoteUserId, string message, ChatEntryTypeEnum entryType);
-
+		void ChatMessageReceived(ulong remoteUserId, string message);
 
 	}
 }

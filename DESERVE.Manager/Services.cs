@@ -9,6 +9,20 @@ using DESERVE.Manager.Marshall;
 
 namespace DESERVE.Manager
 {
+	internal class CallbackHandler : IServerMarshallCallback
+	{
+
+		public CallbackHandler()
+		{
+
+		}
+
+		public void ChatMessageReceived(ulong remoteUserId, string message)
+		{
+			
+		}
+	}
+
 	internal class Services
 	{
 		#region "Fields"
@@ -35,15 +49,25 @@ namespace DESERVE.Manager
 		#endregion
 
 		#region "Methods"
+
+
+
 		public IServerMarshall ConnectToPipe(string instanceName)
 		{
+			var serverInstanceContext = new InstanceContext(new CallbackHandler());
+
 			var serverBinding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
 			var serverEndpoint = new EndpointAddress("net.pipe://localhost/DESERVE/" + instanceName);
-			var serverChannel = new ChannelFactory<IServerMarshall>(serverBinding, serverEndpoint);
-			
+			var serverChannel = new DuplexChannelFactory<IServerMarshall>(serverInstanceContext, serverBinding, serverEndpoint);
+
+
+
 			try
 			{   
 				m_marshallServer = serverChannel.CreateChannel();
+
+				// Subscribe to callbacks
+				m_marshallServer.SubscribeTo_OnChatReceived();
 
 				if (m_marshallServer.get_Name() == "")
 					return null;

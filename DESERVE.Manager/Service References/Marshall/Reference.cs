@@ -218,8 +218,30 @@ namespace DESERVE.Manager.Marshall {
         }
     }
     
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LogType", Namespace="http://schemas.datacontract.org/2004/07/DESERVE.Managers")]
+    public enum LogType : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ErrorLog = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        MainLog = 1,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="WriteTo", Namespace="http://schemas.datacontract.org/2004/07/DESERVE.Managers")]
+    public enum WriteTo : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Line = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        LineAndConsole = 1,
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Marshall.IServerMarshall")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Marshall.IServerMarshall", CallbackContract=typeof(DESERVE.Manager.Marshall.IServerMarshallCallback))]
     public interface IServerMarshall {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerMarshall/get_Name", ReplyAction="http://tempuri.org/IServerMarshall/get_NameResponse")]
@@ -236,6 +258,22 @@ namespace DESERVE.Manager.Marshall {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerMarshall/Save", ReplyAction="http://tempuri.org/IServerMarshall/SaveResponse")]
         void Save();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerMarshall/WriteToConsole", ReplyAction="http://tempuri.org/IServerMarshall/WriteToConsoleResponse")]
+        void WriteToConsole(string message);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerMarshall/WriteToLog", ReplyAction="http://tempuri.org/IServerMarshall/WriteToLogResponse")]
+        void WriteToLog(DESERVE.Manager.Marshall.LogType logType, DESERVE.Manager.Marshall.WriteTo writeTo, string message);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/SubscribeTo_OnChatReceived")]
+        void SubscribeTo_OnChatReceived();
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IServerMarshallCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/ChatMessageReceived")]
+        void ChatMessageReceived(ulong remoteUserId, string message);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -244,25 +282,26 @@ namespace DESERVE.Manager.Marshall {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ServerMarshallClient : System.ServiceModel.ClientBase<DESERVE.Manager.Marshall.IServerMarshall>, DESERVE.Manager.Marshall.IServerMarshall {
+    public partial class ServerMarshallClient : System.ServiceModel.DuplexClientBase<DESERVE.Manager.Marshall.IServerMarshall>, DESERVE.Manager.Marshall.IServerMarshall {
         
-        public ServerMarshallClient() {
+        public ServerMarshallClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public ServerMarshallClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public ServerMarshallClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public ServerMarshallClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public ServerMarshallClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public ServerMarshallClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public ServerMarshallClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public ServerMarshallClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public ServerMarshallClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public string get_Name() {
@@ -283,6 +322,18 @@ namespace DESERVE.Manager.Marshall {
         
         public void Save() {
             base.Channel.Save();
+        }
+        
+        public void WriteToConsole(string message) {
+            base.Channel.WriteToConsole(message);
+        }
+        
+        public void WriteToLog(DESERVE.Manager.Marshall.LogType logType, DESERVE.Manager.Marshall.WriteTo writeTo, string message) {
+            base.Channel.WriteToLog(logType, writeTo, message);
+        }
+        
+        public void SubscribeTo_OnChatReceived() {
+            base.Channel.SubscribeTo_OnChatReceived();
         }
     }
 }

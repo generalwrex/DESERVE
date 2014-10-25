@@ -10,8 +10,8 @@ using System.Windows.Forms;
 using DESERVE.Managers;
 using System.Reflection;
 using System.Threading;
+using System.IO;
 
-using DESERVE.Managers;
 
 using DESERVE.Manager.Marshall;
 
@@ -24,26 +24,30 @@ namespace DESERVE.Manager
 		public DESERVEManagerForm()
 		{
 			InitializeComponent();
+		
+			GetServerInstances();
+			
+			this.Text = "DESERVE Manager v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+		}
+
+		#region "Server Control"
+
+		public void GetServerInstances()
+		{
 			try
 			{
 				List<Server> m_servers = InstanceManager.Instance.GetInstances;
 
 				OLV_ServerInstances.AddObjects(m_servers);
-				//PG_CommandLineArgs.SelectedObject = new CommandLineProperties();
+				
 			}
 			catch (Exception ex)
 			{
-
-				TXT_InfoBox.Text = "Exception: " + ex.Message;
+				MessageBox.Show("Exception: " + ex.Message);
 			}
-
-			
-
-
-			this.Text = "DESERVE Manager v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
 		}
+
 
 		private void BTN_StartServer_Click(object sender, EventArgs e)
 		{
@@ -53,14 +57,13 @@ namespace DESERVE.Manager
 
 				if (!server.IsRunning)
 				{
-					ProcessManager.StartServer(server.ArgumentsString);
+					InstanceManager.Instance.StartServer(server.ArgumentsString);
 				}
 			}
 		}
 
 		private void BTN_StopServer_Click(object sender, EventArgs e)
 		{
-			//m_server.StopServer();
 
 			if (OLV_ServerInstances.SelectedObject != null)
 			{
@@ -72,10 +75,8 @@ namespace DESERVE.Manager
 			}
 		}
 
-
 		private void BTN_Save_Click(object sender, EventArgs e)
 		{
-			//m_server.Save();
 			if (OLV_ServerInstances.SelectedObject != null)
 			{
 				var server = (Server)OLV_ServerInstances.SelectedObject;
@@ -86,10 +87,20 @@ namespace DESERVE.Manager
 			}
 		}
 
-		private void BTN_TestConnect_Click(object sender, EventArgs e)
+		private void OLV_ServerInstances_SelectedIndexChanged(object sender, EventArgs e)
 		{
-		}
-	}
+			if (OLV_ServerInstances.SelectedObject != null)
+			{
+				var server = (Server)OLV_ServerInstances.SelectedObject;
 
+				LBL_CurrentlyManaging.Text = server.Name;
+				PG_CommandLineArgs.SelectedObject = new CommandLineProperties(server.Arguments);
+			}
+		}
+
+		#endregion
+
+
+	}
 
 }
