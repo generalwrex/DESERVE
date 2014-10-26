@@ -14,7 +14,6 @@ namespace DESERVE.Managers
 	public class ServerMarshall : IServerMarshall
 	{
 		#region Fields
-		private IServerMarshallCallbacks m_callbackChannel;
 		#endregion
 
 		#region Properties
@@ -26,13 +25,13 @@ namespace DESERVE.Managers
 		#region Methods
 		public ServerMarshall()
 		{
-			m_callbackChannel = OperationContext.Current.GetCallbackChannel<IServerMarshallCallbacks>();
 		}
 
 		#region "Events and Callbacks"
 
 		public void RegisterEvents()
 		{
+			IServerMarshallCallbacks m_callbackChannel = OperationContext.Current.GetCallbackChannel<IServerMarshallCallbacks>();
 			SandboxGameWrapper.NetworkManager.OnChatMessage += (ulong remoteUserId, String message, ChatEntryTypeEnum chatType) => { m_callbackChannel.OnChatMessage(remoteUserId, message); };
 			SandboxGameWrapper.WorldManager.IsSavingChanged += m_callbackChannel.IsSavingChanged;
 			DedicatedServerWrapper.Program.OnServerStarted += m_callbackChannel.OnServerStarted;

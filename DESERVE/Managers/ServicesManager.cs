@@ -57,7 +57,6 @@ namespace DESERVE.Managers
 				m_pipedServerService.Faulted += m_pipedServerService_Faulted;
 				m_pipedServerService.Opened += m_pipedServerService_Opened;
 
-
 				return m_pipedServerService;
 			}
 			catch (Exception ex)
