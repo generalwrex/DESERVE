@@ -46,7 +46,7 @@ namespace DESERVE
 			AutosaveMinutes = -1;
 			Debug = false;
 			Instance = "";
-			LogDirectory = Directory.GetCurrentDirectory() + "\\DESERVE";
+			LogDirectory = Path.Combine(Directory.GetCurrentDirectory(), "DESERVE");
 			ModAPI = false;
 			Plugins = false;
 			Update = false;

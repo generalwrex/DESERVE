@@ -10,14 +10,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.ServiceModel;
+using System.IO;
 
 namespace DESERVE //DEdicated SERVer, Enhanced
 {
 	class DESERVE
 	{
 		#region Fields
-		private const String _SE_INSTANCE_PATH = "C:\\ProgramData\\SpaceEngineersDedicated\\";
-		private const Int32 _PLUGIN_UPDATE_FREQUENCY = 200; //Measured in ms;
+		private static String _SE_INSTANCE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SpaceEngineersDedicated");
+		private static Int32 _PLUGIN_UPDATE_FREQUENCY = 200; //Measured in ms;
 
 		private CommandLineArgs m_commandLineArgs;
 		private LogManager m_logManager;
@@ -32,7 +33,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		public static String BuildBranch { get { return "DevBuild"; } }
 		public static String VersionString { get { return Version.ToString(3) + " " + BuildBranch; } }
 		public static DESERVE Instance { get { return m_instance; } }
-		public static String InstanceDirectory { get { return _SE_INSTANCE_PATH + DESERVE.Arguments.Instance; } }
+		public static String InstanceDirectory { get { return Path.Combine(_SE_INSTANCE_PATH, DESERVE.Arguments.Instance); } }
 		public static CommandLineArgs Arguments { get { return Instance.m_commandLineArgs; } }
 		#endregion
 
@@ -94,9 +95,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 				pluginUpdate.Elapsed += m_pluginManager.Update;
 				pluginUpdate.Start();
 			}
-
-
-
 
 			Console.WriteLine();
 			Console.WriteLine("DESERVE: Server Loaded.");

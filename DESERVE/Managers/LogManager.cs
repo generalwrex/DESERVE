@@ -75,12 +75,11 @@ namespace DESERVE.Managers
 				}
 			}
 			m_stringBuilder = new StringBuilder();
-			m_logFile = m_logDirectory + "\\" + m_logName;
+			m_logFile = Path.Combine(m_logDirectory, m_logName);
 			if (File.Exists(m_logFile))
 			{
 				FileInfo oldLog = new FileInfo(m_logFile);
-				String oldLogName = oldLog.FullName;
-				oldLogName = oldLogName.Remove(oldLogName.Length - oldLog.Extension.Length);
+				String oldLogName = Path.GetFileNameWithoutExtension(oldLog.FullName);
 
 				DateTime logCreated = oldLog.LastWriteTime;
 
