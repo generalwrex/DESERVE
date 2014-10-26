@@ -72,8 +72,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 				if (!ServicesManager.IsOpened)
 					m_pipedService.StartService();
 			}
-
-
 		}
 
 		private void Run()

@@ -14,7 +14,7 @@ namespace DESERVE.Managers
 	{
 		// Allows the client to subscribe to events
 		[OperationContract(IsOneWay = true)]
-		void SubscribeToCallbacks();
+		void RegisterEvents();
 
 		#region "Server Control"
 		String Name { [OperationContract] get; }

@@ -12,7 +12,7 @@ namespace DESERVE.Managers
 	{
 		#region Event Callbacks
 		[OperationContract(IsOneWay = true)]
-		void OnChatMessage(ulong remoteUserId, string message);
+		void OnChatMessage(ulong remoteUserId, string message, ChatEntryTypeEnum entryType);
 
 		[OperationContract(IsOneWay = true)]
 		void IsSavingChanged(bool isSaving);
