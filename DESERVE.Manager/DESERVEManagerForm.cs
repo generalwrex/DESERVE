@@ -21,8 +21,6 @@ namespace DESERVE.Manager
 	public partial class DESERVEManagerForm : Form
 	{
 
-		private Server m_selectedServer;
-
 		public DESERVEManagerForm()
 		{
 			InitializeComponent();
@@ -31,6 +29,12 @@ namespace DESERVE.Manager
 			
 			this.Text = "DESERVE Manager v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+			InstanceManager.Instance.ServerChanged += Instance_ServerChanged;
+		}
+
+		void Instance_ServerChanged(Server server)
+		{
+			OLV_ServerInstances.RefreshObject(server);
 		}
 
 		#region "Server Control"
@@ -39,25 +43,17 @@ namespace DESERVE.Manager
 		{
 			try
 			{
-				List<Server> m_servers = InstanceManager.Instance.GetInstances;
 
+				ServerList<Server> m_servers = InstanceManager.Instance.GetInstances;
 				OLV_ServerInstances.AddObjects(m_servers);
-
-
-				
+		
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Exception: " + ex.Message);
+				MessageBox.Show("Exception: " + ex.ToString());
 			}
 		}
 
-		public void AssignEvents()
-		{
-			if (m_selectedServer == null)
-				return;
-
-		}
 
 		private void BTN_StartServer_Click(object sender, EventArgs e)
 		{
@@ -81,6 +77,7 @@ namespace DESERVE.Manager
 				if (server.IsRunning)
 				{
 					server.StopServer();
+					button1_Click(null, null);
 				}
 			}
 		}
@@ -103,14 +100,18 @@ namespace DESERVE.Manager
 			{
 				var server = (Server)OLV_ServerInstances.SelectedObject;
 
-				m_selectedServer = server;
-
 				LBL_CurrentlyManaging.Text = server.Name;
 				PG_CommandLineArgs.SelectedObject = new CommandLineProperties(server.Arguments);
 			}
 		}
 
 		#endregion
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			OLV_ServerInstances.ClearObjects();
+			GetServerInstances();
+		}
 
 
 	}

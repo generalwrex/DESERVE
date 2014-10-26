@@ -5,6 +5,11 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+
 using DESERVE.Manager;
 
 using DESERVE.Manager.Marshall;
@@ -16,8 +21,12 @@ namespace DESERVE.Managers
 		#region Fields
 		private static InstanceManager m_instance;
 		private List<string> m_instances;
-		private List<Server> m_servers;
+		//private List<Server> m_servers;
+		private ServerList<Server> m_servers;
 		#endregion
+
+		public delegate void ServerChangedHandler(Server server);
+		public event ServerChangedHandler ServerChanged;
 
 		#region Properties
 		public static InstanceManager Instance
@@ -31,7 +40,7 @@ namespace DESERVE.Managers
 			}
 		}
 		
-		public List<Server> GetInstances
+		public ServerList<Server> GetInstances
 		{
 			get { return m_servers; }
 		}
@@ -43,7 +52,8 @@ namespace DESERVE.Managers
 			m_instance = this;
 
 			m_instances = new List<string>();
-			m_servers = new List<Server>();
+			//m_servers = new List<Server>();
+			m_servers = new ServerList<Server>();
 			try
 			{
 				string commonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SpaceEngineersDedicated");
@@ -61,7 +71,7 @@ namespace DESERVE.Managers
 			}
 			catch (Exception ex)
 			{
-				System.Windows.Forms.MessageBox.Show(ex.Message);
+				System.Windows.Forms.MessageBox.Show(ex.ToString());
 			}
 
 			foreach (string instanceName in m_instances)
@@ -99,7 +109,26 @@ namespace DESERVE.Managers
 				m_servers.Add(server);
 			}
 
+
+			foreach (object item in m_servers)
+			{
+				if (item is INotifyPropertyChanged)
+				{
+					INotifyPropertyChanged observable = (INotifyPropertyChanged)item;
+					observable.PropertyChanged += new PropertyChangedEventHandler(ItemPropertyChanged);
+				}
+			}
+
 		}
+
+		private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			 var server = ((Server)sender);
+
+			 if (ServerChanged != null) { ServerChanged(server); }
+
+		}
+
 		#endregion
 
 		#region Methods
@@ -126,5 +155,7 @@ namespace DESERVE.Managers
 
 		}
 		#endregion
+
+		
 	}
 }

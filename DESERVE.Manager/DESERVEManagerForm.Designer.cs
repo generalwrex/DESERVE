@@ -60,6 +60,7 @@
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
 			this.DedicatedServerPathDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.button1 = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -251,6 +252,7 @@
 			// 
 			// splitContainer2.Panel2
 			// 
+			this.splitContainer2.Panel2.Controls.Add(this.button1);
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_Save);
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_StopServer);
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_StartServer);
@@ -404,6 +406,16 @@
 			// 
 			this.DedicatedServerPathDialog.ShowNewFolderButton = false;
 			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(330, 14);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 40;
+			this.button1.Text = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
 			// DESERVEManagerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -482,6 +494,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer5;
 		private System.Windows.Forms.PropertyGrid PG_CommandLineArgs;
 		private System.Windows.Forms.FolderBrowserDialog DedicatedServerPathDialog;
+		private System.Windows.Forms.Button button1;
 
 	}
 }

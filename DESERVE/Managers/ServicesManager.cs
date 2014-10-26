@@ -18,6 +18,8 @@ namespace DESERVE.Managers
 
 		private static ServiceHost m_pipedServerService;
 		private static bool m_isOpen;
+		private static int m_maxReconnectAttempts = 5;
+		private static int m_connectionAttempts;
 		#endregion
 
 		#region Properties
@@ -25,6 +27,7 @@ namespace DESERVE.Managers
 		{
 			get { return m_isOpen; }
 		}
+
 		#endregion
 
 		#region Methods
@@ -49,6 +52,12 @@ namespace DESERVE.Managers
 
 				LogManager.MainLog.WriteLineAndConsole("Piped Service Created Successfully!");
 
+				m_pipedServerService.Closed += m_pipedServerService_Closed;
+				m_pipedServerService.Closing += m_pipedServerService_Closing;
+				m_pipedServerService.Faulted += m_pipedServerService_Faulted;
+				m_pipedServerService.Opened += m_pipedServerService_Opened;
+
+
 				return m_pipedServerService;
 			}
 			catch (Exception ex)
@@ -61,13 +70,41 @@ namespace DESERVE.Managers
 			}
 		}
 
+		static void m_pipedServerService_Opened(object sender, EventArgs e)
+		{
+			m_isOpen = true;
+			LogManager.MainLog.WriteLineAndConsole("Piped Service Opened at '" + m_pipedServerService.Description.Endpoints.FirstOrDefault().Address + "'");
+		}
+
+		static void m_pipedServerService_Faulted(object sender, EventArgs e)
+		{
+			LogManager.ErrorLog.WriteLineAndConsole("Pipe Service Faulted: Reopening Pipe ");
+
+			if (!m_isOpen)
+			{
+				StartService(m_pipedServerService);
+			}
+		}
+
+		static void m_pipedServerService_Closing(object sender, EventArgs e)
+		{		
+		}
+
+		static void m_pipedServerService_Closed(object sender, EventArgs e)
+		{
+			m_isOpen = false;
+			LogManager.MainLog.WriteLineAndConsole("Piped Service '" + m_pipedServerService.Description.Endpoints.FirstOrDefault().Address + "' Closed");
+		}
+
+
 		public static void StartService(this ServiceHost service)
 		{
 			try
 			{
-				service.Open();
-				LogManager.MainLog.WriteLineAndConsole("Piped Service Opened at '" + service.Description.Endpoints.FirstOrDefault().Address + "'");
-				m_isOpen = true;
+				m_connectionAttempts++;
+
+				if(m_connectionAttempts < m_maxReconnectAttempts)
+					service.Open();	
 			}
 			catch (CommunicationException ex)
 			{
@@ -76,12 +113,6 @@ namespace DESERVE.Managers
 				service.Abort();
 				m_isOpen = false;
 			}
-		}
-
-		public static void StopService(this ServiceHost service)
-		{
-			service.Abort();
-			LogManager.MainLog.WriteLineAndConsole("Piped Service '" + service.Description.Endpoints.FirstOrDefault().Address + "' Stopped");
 		}
 
 		#endregion

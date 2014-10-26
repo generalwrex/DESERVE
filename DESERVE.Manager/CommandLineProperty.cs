@@ -66,6 +66,8 @@ namespace DESERVE
 			Plugins = args.Plugins;
 			WCF = args.WCF;
 		}
+
+		
 		#endregion
 	}
 }
