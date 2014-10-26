@@ -7,5 +7,13 @@ namespace DESERVE.Manager.Managers
 {
 	class FileManager
 	{
+		#region Fields
+		#endregion
+
+		#region Properties
+		#endregion
+
+		#region Methods
+		#endregion
 	}
 }

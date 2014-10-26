@@ -11,7 +11,6 @@ namespace DESERVE
 {
 	public class CommandLineProperties
 	{
-
 		#region Properties
 		[Category("Command Line Arguments")]
 		[Browsable(true)]
@@ -55,6 +54,8 @@ namespace DESERVE
 		[Description("")]
 		public Boolean WCF { get; set; }
 		#endregion
+
+		#region Constructor
 		public CommandLineProperties(CommandLineArgs args)
 		{
 			AutosaveMinutes = args.AutosaveMinutes;
@@ -63,8 +64,8 @@ namespace DESERVE
 			LogDirectory = args.LogDirectory;
 			ModAPI = args.ModAPI;
 			Plugins = args.Plugins;
-			WCF = args.WCF;	
+			WCF = args.WCF;
 		}
-
+		#endregion
 	}
 }

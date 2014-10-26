@@ -21,6 +21,8 @@ namespace DESERVE.Manager
 	public partial class DESERVEManagerForm : Form
 	{
 
+		private Server m_selectedServer;
+
 		public DESERVEManagerForm()
 		{
 			InitializeComponent();
@@ -40,6 +42,8 @@ namespace DESERVE.Manager
 				List<Server> m_servers = InstanceManager.Instance.GetInstances;
 
 				OLV_ServerInstances.AddObjects(m_servers);
+
+
 				
 			}
 			catch (Exception ex)
@@ -48,6 +52,12 @@ namespace DESERVE.Manager
 			}
 		}
 
+		public void AssignEvents()
+		{
+			if (m_selectedServer == null)
+				return;
+
+		}
 
 		private void BTN_StartServer_Click(object sender, EventArgs e)
 		{
@@ -92,6 +102,8 @@ namespace DESERVE.Manager
 			if (OLV_ServerInstances.SelectedObject != null)
 			{
 				var server = (Server)OLV_ServerInstances.SelectedObject;
+
+				m_selectedServer = server;
 
 				LBL_CurrentlyManaging.Text = server.Name;
 				PG_CommandLineArgs.SelectedObject = new CommandLineProperties(server.Arguments);

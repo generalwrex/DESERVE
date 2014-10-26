@@ -10,9 +10,18 @@ namespace DESERVE.Managers
 {
 	public interface IServerMarshallCallbacks
 	{
+		#region Event Callbacks
+		[OperationContract(IsOneWay = true)]
+		void OnChatMessage(ulong remoteUserId, string message);
 
 		[OperationContract(IsOneWay = true)]
-		void ChatMessageReceived(ulong remoteUserId, string message);
+		void IsSavingChanged(bool isSaving);
 
+		[OperationContract(IsOneWay = true)]
+		void OnServerStopped();
+
+		[OperationContract(IsOneWay = true)]
+		void OnServerStarted();
+		#endregion
 	}
 }

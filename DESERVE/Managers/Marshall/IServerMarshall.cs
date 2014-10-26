@@ -12,6 +12,10 @@ namespace DESERVE.Managers
 	[ServiceContract(CallbackContract = typeof(IServerMarshallCallbacks))]
 	public interface IServerMarshall
 	{
+		// Allows the client to subscribe to events
+		[OperationContract(IsOneWay = true)]
+		void SubscribeToCallbacks();
+
 		#region "Server Control"
 		String Name { [OperationContract] get; }
 		Boolean IsRunning { [OperationContract] get; }
@@ -28,15 +32,9 @@ namespace DESERVE.Managers
 		[OperationContract]
 		void WriteToConsole(string message);
 
-		[OperationContract]
-		void WriteToLog(LogType logType, WriteTo writeTo, String message);
 		#endregion
 
 		#region Chat
-
-		[OperationContract(IsOneWay = true)]
-		void SubscribeTo_OnChatReceived();
-
 		#endregion
 	}
 }

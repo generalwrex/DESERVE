@@ -21,12 +21,11 @@
     <MetadataSource Address="http://localhost:8000/DESERVE" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="ServerMarshall.wsdl" MetadataType="Wsdl" ID="0350c7d8-0143-4696-bf16-701b41fab3a9" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?wsdl" />
     <MetadataFile FileName="DESERVE.xsd" MetadataType="Schema" ID="d9703c19-6341-4382-9a63-c5afd5bc2a54" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?xsd=xsd0" />
-    <MetadataFile FileName="DESERVE1.xsd" MetadataType="Schema" ID="3b92d176-4da8-4551-b57e-9a2f629246c6" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?xsd=xsd1" />
-    <MetadataFile FileName="DESERVE2.xsd" MetadataType="Schema" ID="d8f0cc4f-6c71-4c21-8e7e-656308797dac" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?xsd=xsd2" />
-    <MetadataFile FileName="DESERVE3.xsd" MetadataType="Schema" ID="3e404f63-05a9-4c9a-8ac0-c62919746d22" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?xsd=xsd3" />
     <MetadataFile FileName="DESERVE.disco" MetadataType="Disco" ID="7cf49e8f-7a70-49c2-b82c-ad93ae10fed4" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?disco" />
+    <MetadataFile FileName="DESERVE1.xsd" MetadataType="Schema" ID="3b92d176-4da8-4551-b57e-9a2f629246c6" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?xsd=xsd1" />
+    <MetadataFile FileName="ServerMarshall.wsdl" MetadataType="Wsdl" ID="0350c7d8-0143-4696-bf16-701b41fab3a9" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?wsdl" />
+    <MetadataFile FileName="DESERVE2.xsd" MetadataType="Schema" ID="d8f0cc4f-6c71-4c21-8e7e-656308797dac" SourceId="1" SourceUrl="http://localhost:8000/DESERVE?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -68,7 +68,12 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			if (DESERVE.Arguments.WCF)
 			{
 				m_pipedService = ServicesManager.CreatePipedService(Arguments.Instance, 5);
+
+				if (!ServicesManager.IsOpened)
+					m_pipedService.StartService();
 			}
+
+
 		}
 
 		private void Run()
@@ -92,8 +97,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 				pluginUpdate.Start();
 			}
 
-			if (DESERVE.Arguments.WCF && !ServicesManager.IsOpened)
-				m_pipedService.StartService();
+
 
 
 			Console.WriteLine();

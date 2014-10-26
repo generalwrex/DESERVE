@@ -218,28 +218,6 @@ namespace DESERVE.Manager.Marshall {
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LogType", Namespace="http://schemas.datacontract.org/2004/07/DESERVE.Managers")]
-    public enum LogType : int {
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        ErrorLog = 0,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        MainLog = 1,
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="WriteTo", Namespace="http://schemas.datacontract.org/2004/07/DESERVE.Managers")]
-    public enum WriteTo : int {
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Line = 0,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        LineAndConsole = 1,
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Marshall.IServerMarshall", CallbackContract=typeof(DESERVE.Manager.Marshall.IServerMarshallCallback))]
     public interface IServerMarshall {
@@ -262,18 +240,24 @@ namespace DESERVE.Manager.Marshall {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerMarshall/WriteToConsole", ReplyAction="http://tempuri.org/IServerMarshall/WriteToConsoleResponse")]
         void WriteToConsole(string message);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerMarshall/WriteToLog", ReplyAction="http://tempuri.org/IServerMarshall/WriteToLogResponse")]
-        void WriteToLog(DESERVE.Manager.Marshall.LogType logType, DESERVE.Manager.Marshall.WriteTo writeTo, string message);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/SubscribeTo_OnChatReceived")]
-        void SubscribeTo_OnChatReceived();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/SubscribeToCallbacks")]
+        void SubscribeToCallbacks();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IServerMarshallCallback {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/ChatMessageReceived")]
-        void ChatMessageReceived(ulong remoteUserId, string message);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/OnChatMessage")]
+        void OnChatMessage(ulong remoteUserId, string message);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/IsSavingChanged")]
+        void IsSavingChanged(bool isSaving);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/OnServerStopped")]
+        void OnServerStopped();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/OnServerStarted")]
+        void OnServerStarted();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -328,12 +312,8 @@ namespace DESERVE.Manager.Marshall {
             base.Channel.WriteToConsole(message);
         }
         
-        public void WriteToLog(DESERVE.Manager.Marshall.LogType logType, DESERVE.Manager.Marshall.WriteTo writeTo, string message) {
-            base.Channel.WriteToLog(logType, writeTo, message);
-        }
-        
-        public void SubscribeTo_OnChatReceived() {
-            base.Channel.SubscribeTo_OnChatReceived();
+        public void SubscribeToCallbacks() {
+            base.Channel.SubscribeToCallbacks();
         }
     }
 }

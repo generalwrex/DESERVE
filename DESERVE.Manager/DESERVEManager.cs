@@ -12,9 +12,11 @@ namespace DESERVE.Manager
 {
 	public class DESERVEManager
 	{
-
+		#region Fields
 		private static DESERVEManager m_instance;
+		#endregion
 
+		#region Properties
 		public static DESERVEManager Instance
 		{
 			get
@@ -25,10 +27,13 @@ namespace DESERVE.Manager
 				return m_instance;
 			}
 		}
-		
+		#endregion
+
+		#region Constructor
 		public DESERVEManager()
 		{
 			m_instance = this;
 		}
+		#endregion
 	}
 }

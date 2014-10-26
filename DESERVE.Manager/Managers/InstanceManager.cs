@@ -13,11 +13,13 @@ namespace DESERVE.Managers
 {
 	public class InstanceManager
 	{
-
+		#region Fields
 		private static InstanceManager m_instance;
 		private List<string> m_instances;
 		private List<Server> m_servers;
+		#endregion
 
+		#region Properties
 		public static InstanceManager Instance
 		{
 			get 
@@ -28,12 +30,14 @@ namespace DESERVE.Managers
 				return m_instance;
 			}
 		}
-
+		
 		public List<Server> GetInstances
 		{
 			get { return m_servers; }
 		}
+		#endregion
 
+		#region Constructor
 		public InstanceManager()
 		{
 			m_instance = this;
@@ -67,9 +71,10 @@ namespace DESERVE.Managers
 				if (server.ConnectToServer(instanceName))
 				{
 					var marshall = server.Instance;
+					var events = server.Events;
+
 
 					var arguments = marshall.get_Arguments();
-					
 					server.IsRunning = marshall.get_IsRunning();
 					server.Name = marshall.get_Name();
 					server.Arguments = arguments;
@@ -94,9 +99,10 @@ namespace DESERVE.Managers
 				m_servers.Add(server);
 			}
 
-
 		}
+		#endregion
 
+		#region Methods
 		public ProcessStartInfo StartServer(string argumentsString)
 		{
 			try
@@ -119,5 +125,6 @@ namespace DESERVE.Managers
 			}
 
 		}
+		#endregion
 	}
 }

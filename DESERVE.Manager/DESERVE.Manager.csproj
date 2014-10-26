@@ -65,6 +65,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="ServerList.cs" />
     <Compile Include="Service References\Marshall\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -103,9 +104,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\Marshall\DESERVE2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\Marshall\DESERVE3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\Marshall\ServerMarshall.wsdl" />
