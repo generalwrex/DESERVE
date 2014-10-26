@@ -1,16 +1,18 @@
-DESERVE (DEdicated SERVer, Enhanced) - Not Ready Yet
+DESERVE 
 =====
+(DEdicated SERVer, Enhanced) - Not Ready Yet
 
-A New Dedicated Server application for Space Engineers paired with a Manager GUI for full server control
+#Description
+A New Dedicated Server application for Space Engineers paired with a Manager GUI for full server control and a ton of features!
 
-"Because you DESERVE more!"
+"Because you DESERVE it!"
 
-**Current Features ( Including In Progress )**
+#Features
 
-* Comprehensive GUI with configuration saving 
+**Current Features - including in progress**
 * Plugins featuring a ‘HotSwap’ system.
+* Comprehensive GUI with configuration saving 
 * Manage Multiple Servers 
-
 
 **Planned Features**
 
@@ -20,5 +22,3 @@ A New Dedicated Server application for Space Engineers paired with a Manager GUI
  * Auto-Server updating using SteamCMD
  * Auto-Backup of servers
  
-
-
