@@ -18,7 +18,8 @@ A New Dedicated Server application for Space Engineers paired with a Manager GUI
 
 * Auto Update system for DESERVE 
 * Mod Manager to manage mods of individual servers with collection support
-* Supporting CRON jobs
+* Supporting CRON jobs (Any Date/Time)
+ * Auto-Restarting of specific/all servers
  * Auto-Server updating using SteamCMD
  * Auto-Backup of servers
  
