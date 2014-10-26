@@ -13,8 +13,12 @@
       <xsd:import schemaLocation="http://localhost:8000/DESERVE?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8000/DESERVE?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8000/DESERVE?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/DESERVE" />
+      <xsd:import schemaLocation="http://localhost:8000/DESERVE?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/SteamSDK" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IServerMarshall_RegisterEvents_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterEvents" />
+  </wsdl:message>
   <wsdl:message name="IServerMarshall_get_Name_InputMessage">
     <wsdl:part name="parameters" element="tns:get_Name" />
   </wsdl:message>
@@ -51,9 +55,6 @@
   <wsdl:message name="IServerMarshall_WriteToConsole_OutputMessage">
     <wsdl:part name="parameters" element="tns:WriteToConsoleResponse" />
   </wsdl:message>
-  <wsdl:message name="IServerMarshall_SubscribeToCallbacks_InputMessage">
-    <wsdl:part name="parameters" element="tns:SubscribeToCallbacks" />
-  </wsdl:message>
   <wsdl:message name="IServerMarshall_OnChatMessage_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:OnChatMessage" />
   </wsdl:message>
@@ -67,6 +68,9 @@
     <wsdl:part name="parameters" element="tns:OnServerStarted" />
   </wsdl:message>
   <wsdl:portType name="IServerMarshall">
+    <wsdl:operation name="RegisterEvents">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/RegisterEvents" message="tns:IServerMarshall_RegisterEvents_InputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="get_Name">
       <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/get_Name" message="tns:IServerMarshall_get_Name_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServerMarshall/get_NameResponse" message="tns:IServerMarshall_get_Name_OutputMessage" />
@@ -91,9 +95,6 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/WriteToConsole" message="tns:IServerMarshall_WriteToConsole_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServerMarshall/WriteToConsoleResponse" message="tns:IServerMarshall_WriteToConsole_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="SubscribeToCallbacks">
-      <wsdl:input wsaw:Action="http://tempuri.org/IServerMarshall/SubscribeToCallbacks" message="tns:IServerMarshall_SubscribeToCallbacks_InputMessage" />
-    </wsdl:operation>
     <wsdl:operation name="OnChatMessage">
       <wsdl:output wsaw:Action="http://tempuri.org/IServerMarshall/OnChatMessage" message="tns:IServerMarshall_OnChatMessage_OutputCallbackMessage" />
     </wsdl:operation>
@@ -110,6 +111,12 @@
   <wsdl:binding name="NetNamedPipeBinding_IServerMarshall" type="tns:IServerMarshall">
     <wsp:PolicyReference URI="#NetNamedPipeBinding_IServerMarshall_policy" />
     <soap12:binding transport="http://schemas.microsoft.com/soap/named-pipe" />
+    <wsdl:operation name="RegisterEvents">
+      <soap12:operation soapAction="http://tempuri.org/IServerMarshall/RegisterEvents" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="get_Name">
       <soap12:operation soapAction="http://tempuri.org/IServerMarshall/get_Name" style="document" />
       <wsdl:input>
@@ -163,12 +170,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SubscribeToCallbacks">
-      <soap12:operation soapAction="http://tempuri.org/IServerMarshall/SubscribeToCallbacks" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="OnChatMessage">
       <soap12:operation soapAction="http://tempuri.org/IServerMarshall/OnChatMessage" style="document" />

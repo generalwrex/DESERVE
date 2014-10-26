@@ -38,7 +38,9 @@ namespace DESERVE.Managers
 				return m_instance;
 			}
 		}
-		
+
+		public Server SelectedServer { get; set; }
+
 		public ServerList<Server> GetInstances
 		{
 			get { return m_servers; }

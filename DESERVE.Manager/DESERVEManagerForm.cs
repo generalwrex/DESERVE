@@ -32,6 +32,7 @@ namespace DESERVE.Manager
 			InstanceManager.Instance.ServerChanged += Instance_ServerChanged;
 		}
 
+		// fires off if something in a Server instance is changed
 		void Instance_ServerChanged(Server server)
 		{
 			OLV_ServerInstances.RefreshObject(server);
@@ -43,10 +44,8 @@ namespace DESERVE.Manager
 		{
 			try
 			{
-
 				ServerList<Server> m_servers = InstanceManager.Instance.GetInstances;
 				OLV_ServerInstances.AddObjects(m_servers);
-		
 			}
 			catch (Exception ex)
 			{
@@ -77,7 +76,6 @@ namespace DESERVE.Manager
 				if (server.IsRunning)
 				{
 					server.StopServer();
-					button1_Click(null, null);
 				}
 			}
 		}
@@ -101,6 +99,9 @@ namespace DESERVE.Manager
 				var server = (Server)OLV_ServerInstances.SelectedObject;
 
 				LBL_CurrentlyManaging.Text = server.Name;
+
+				InstanceManager.Instance.SelectedServer= server;
+
 				PG_CommandLineArgs.SelectedObject = new CommandLineProperties(server.Arguments);
 			}
 		}

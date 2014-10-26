@@ -218,9 +218,50 @@ namespace DESERVE.Manager.Marshall {
         }
     }
     
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ChatEntryTypeEnum", Namespace="http://schemas.datacontract.org/2004/07/SteamSDK")]
+    public enum ChatEntryTypeEnum : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Invalid = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ChatMsg = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Typing = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InviteGame = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Emote = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        LeftConversation = 6,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Entered = 7,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        WasKicked = 8,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        WasBanned = 9,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Disconnected = 10,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        HistoricalChat = 11,
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="Marshall.IServerMarshall", CallbackContract=typeof(DESERVE.Manager.Marshall.IServerMarshallCallback))]
     public interface IServerMarshall {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/RegisterEvents")]
+        void RegisterEvents();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerMarshall/get_Name", ReplyAction="http://tempuri.org/IServerMarshall/get_NameResponse")]
         string get_Name();
@@ -239,16 +280,13 @@ namespace DESERVE.Manager.Marshall {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServerMarshall/WriteToConsole", ReplyAction="http://tempuri.org/IServerMarshall/WriteToConsoleResponse")]
         void WriteToConsole(string message);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/SubscribeToCallbacks")]
-        void SubscribeToCallbacks();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IServerMarshallCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/OnChatMessage")]
-        void OnChatMessage(ulong remoteUserId, string message);
+        void OnChatMessage(ulong remoteUserId, string message, DESERVE.Manager.Marshall.ChatEntryTypeEnum entryType);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/IsSavingChanged")]
         void IsSavingChanged(bool isSaving);
@@ -288,6 +326,10 @@ namespace DESERVE.Manager.Marshall {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
+        public void RegisterEvents() {
+            base.Channel.RegisterEvents();
+        }
+        
         public string get_Name() {
             return base.Channel.get_Name();
         }
@@ -310,10 +352,6 @@ namespace DESERVE.Manager.Marshall {
         
         public void WriteToConsole(string message) {
             base.Channel.WriteToConsole(message);
-        }
-        
-        public void SubscribeToCallbacks() {
-            base.Channel.SubscribeToCallbacks();
         }
     }
 }
