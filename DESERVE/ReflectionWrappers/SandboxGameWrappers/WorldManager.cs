@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
@@ -106,6 +107,62 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			}
 
 			IsSaving = false;
+		}
+
+		public bool EnhancedSave()
+		{
+			IsSaving = true;
+			LogManager.MainLog.WriteLineAndConsole("DESERVE: Performing Enhanced Save");
+
+			DateTime saveStartTime = DateTime.Now;
+
+			String arg0 = DESERVE.Arguments.Instance;
+			Object[] parameters = 
+			{
+				null,
+				arg0,
+			};
+
+			Type[] paramTypes =
+			{
+				m_assembly.GetType(m_namespace + "." + "15B6B94DB5BE105E7B58A34D4DC11412").MakeByRefType(),
+				arg0.GetType(),
+			};
+
+			bool result = false;
+
+			ManualResetEvent waitEvent = new ManualResetEvent(false);
+			SandboxGameWrapper.MainGame.EnqueueAction(() =>
+				{
+					result = (bool)m_save.Call(Instance, parameters, paramTypes);
+					waitEvent.Set();
+				}
+				);
+
+			waitEvent.WaitOne();
+
+			if (result)
+			{
+				result = SandboxGameWrapper.WorldResourceManager.SaveSnapshot(parameters[0]);
+			}
+			else
+			{
+				LogManager.ErrorLog.WriteLineAndConsole("DESERVE: Enhanced Save Failed!");
+			}
+
+			if (result)
+			{
+				TimeSpan timeToSave = DateTime.Now - saveStartTime;
+				LogManager.MainLog.WriteLineAndConsole("DESERVE: Enhanced save complete and took " + timeToSave.TotalSeconds + " seconds");
+			}
+			else
+			{
+				LogManager.ErrorLog.WriteLineAndConsole("DESERVE: Enhanced Save Failed!");
+			}
+
+			IsSaving = false;
+			return true;
+
 		}
 		#endregion
 	}

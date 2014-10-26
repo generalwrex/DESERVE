@@ -20,6 +20,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		private static MPSession m_mpSession;
 		private static NetworkManager m_networkManager;
 		private static SteamNetworkWrapper m_steamNetworkWrapper;
+		private static WorldResourceManager m_worldResourceManager;
 		#endregion
 
 		#region Properties
@@ -28,6 +29,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		public static MPSession MPSession { get { return m_mpSession; } }
 		public static NetworkManager NetworkManager { get { return m_networkManager; } }
 		public static SteamNetworkWrapper SteamNetworkWrapper { get { return m_steamNetworkWrapper; } }
+		public static WorldResourceManager WorldResourceManager { get { return m_worldResourceManager; } }
 		#endregion
 
 		#region Methods
@@ -39,6 +41,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			m_mpSession = new MPSession(Assembly, MPSessionNamespace);
 			m_networkManager = new NetworkManager(Assembly, NetworkManagerNamespace);
 			m_steamNetworkWrapper = new SteamNetworkWrapper(Assembly, NetworkManagerNamespace);
+			m_worldResourceManager = new WorldResourceManager(Assembly, WorldManagerNamespace);
 		}
 
 		internal void Init()
@@ -48,6 +51,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			m_mpSession.Init();
 			m_networkManager.Init();
 			m_steamNetworkWrapper.Init();
+			m_worldResourceManager.Init();
 		}
 		#endregion
 	}

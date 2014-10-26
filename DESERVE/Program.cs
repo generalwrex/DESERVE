@@ -122,7 +122,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 							break;
 						case ConsoleKey.Home:
 							Console.WriteLine("DESERVE: Saving World.");
-							SandboxGameWrapper.WorldManager.Save();
+							SandboxGameWrapper.WorldManager.EnhancedSave();
 							break;
 						default:
 							break;
@@ -135,7 +135,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		{
 			if (DedicatedServerWrapper.Program.IsRunning)
 			{
-				ServerInstance.Save();
+				SandboxGameWrapper.WorldManager.EnhancedSave();
 			}
 		}
 		#endregion

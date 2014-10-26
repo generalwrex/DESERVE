@@ -13,6 +13,7 @@ namespace DESERVE.ReflectionWrappers
 		#region Fields
 		protected String m_namespace;
 		protected Type m_classType;
+		protected Assembly m_assembly;
 
 		#endregion
 
@@ -24,6 +25,7 @@ namespace DESERVE.ReflectionWrappers
 		#region Methods
 		protected ReflectionClassWrapper(Assembly Assembly, String Namespace, String Class)
 		{
+			m_assembly = Assembly;
 			m_namespace = Namespace;
 			m_classType = Assembly.GetType(Namespace + "." + Class);
 		}
@@ -103,13 +105,17 @@ namespace DESERVE.ReflectionWrappers
 				i++;
 			}
 
-			MethodInfo methodInfo = m_classType.GetMethod(m_signature,
+			return Get(argTypes);
+		}
+
+		private MethodInfo Get(Type[] paramTypes)
+		{
+			return m_classType.GetMethod(m_signature,
 				BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance,
 				null,
 				CallingConventions.Standard | CallingConventions.HasThis,
-				argTypes,
+				paramTypes,
 				null);
-			return methodInfo;
 		}
 
 		public Object Call(Object obj, Object[] parameters)
@@ -120,6 +126,24 @@ namespace DESERVE.ReflectionWrappers
 			}
 
 			MethodInfo methodInfo = Get(parameters);
+
+			if (methodInfo == null)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(String.Format("Overloaded method not found for {0}.{1} with argument types: {2}. Stack Trace: {3}", ClassName, Signature, parameters.ToString(), (new StackTrace()).ToString()));
+				return null;
+			}
+
+			return methodInfo.Invoke(obj, parameters);
+		}
+
+		public Object Call(Object obj, Object[] parameters, Type[] paramTypes)
+		{
+			if (parameters == null)
+			{
+				parameters = new Object[] { };
+			}
+
+			MethodInfo methodInfo = Get(paramTypes);
 
 			if (methodInfo == null)
 			{
