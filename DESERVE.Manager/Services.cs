@@ -17,7 +17,7 @@ namespace DESERVE.Manager
 		public event ServerEvent ServerStarted;
 		public event ServerEvent ServerStopped;
 
-		public delegate void ChatEvent(ulong remoteUserId, string message, ChatEntryTypeEnum chatType);
+		public delegate void ChatEvent(ulong remoteUserId, string message);
 		public event ChatEvent ReceivedChatMessage;
 
 		public delegate void WorldEvent(bool isSaving);
@@ -27,7 +27,7 @@ namespace DESERVE.Manager
 		public void OnServerStopped() { if (ServerStopped != null) { ServerStopped(); } }
 		public void OnServerStarted() { if (ServerStarted != null) { ServerStarted(); } }
 
-		public void OnChatMessage(ulong remoteUserId, string message, ChatEntryTypeEnum chatType) { if (ReceivedChatMessage != null) { ReceivedChatMessage(remoteUserId, message, chatType); } }
+		public void OnChatMessage(ulong remoteUserId, string message) { if (ReceivedChatMessage != null) { ReceivedChatMessage(remoteUserId, message); } }
 
 		public void IsSavingChanged(bool isSaving) { if (SavingChanged != null) { SavingChanged(isSaving); } }
 	}

@@ -140,6 +140,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 				);
 
 			waitEvent.WaitOne();
+			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Enhanced Save Snapshot Complete. Unblocking Main Thread. Main Thread Blocked for: {0} seconds.", (DateTime.Now - saveStartTime).TotalSeconds));
 
 			if (result)
 			{

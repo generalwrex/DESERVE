@@ -33,7 +33,7 @@ namespace DESERVE.Managers
 
 		public void RegisterEvents()
 		{
-			SandboxGameWrapper.NetworkManager.OnChatMessage += (ulong remoteUserId, String message, ChatEntryTypeEnum chatType) => { m_callbackChannel.OnChatMessage(remoteUserId, message, chatType); };
+			SandboxGameWrapper.NetworkManager.OnChatMessage += (ulong remoteUserId, String message, ChatEntryTypeEnum chatType) => { m_callbackChannel.OnChatMessage(remoteUserId, message); };
 			SandboxGameWrapper.WorldManager.IsSavingChanged += m_callbackChannel.IsSavingChanged;
 			DedicatedServerWrapper.Program.OnServerStarted += m_callbackChannel.OnServerStarted;
 			DedicatedServerWrapper.Program.OnServerStopped += m_callbackChannel.OnServerStopped;

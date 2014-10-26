@@ -286,7 +286,7 @@ namespace DESERVE.Manager.Marshall {
     public interface IServerMarshallCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/OnChatMessage")]
-        void OnChatMessage(ulong remoteUserId, string message, DESERVE.Manager.Marshall.ChatEntryTypeEnum entryType);
+        void OnChatMessage(ulong remoteUserId, string message);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IServerMarshall/IsSavingChanged")]
         void IsSavingChanged(bool isSaving);
