@@ -13,6 +13,9 @@ namespace DESERVE
 	public class CommandLineArgs
 	{
 		#region Fields
+		private Boolean m_autosaveSet;
+		private Boolean m_instanceSet;
+		private Boolean m_logDirectorySet;
 		#endregion
 
 		#region Properties
@@ -71,6 +74,7 @@ namespace DESERVE
 							if (Int32.TryParse(args[i + 1], out autoSave))
 							{
 								AutosaveMinutes = autoSave;
+								m_autosaveSet = true;
 								i++;
 							}
 							else
@@ -90,6 +94,7 @@ namespace DESERVE
 						if (i + 1 != numArgs)
 						{
 							Instance = args[i + 1];
+							m_instanceSet = true;
 							i++;
 						}
 						else
@@ -101,6 +106,7 @@ namespace DESERVE
 						if (i + 1 != numArgs)
 						{
 							LogDirectory = args[i + 1];
+							m_logDirectorySet = true;
 							i++;
 						}
 						else
@@ -129,7 +135,7 @@ namespace DESERVE
 
 		public override string ToString()
 		{
-			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : "-autosave " + AutosaveMinutes.ToString() + " " + (Debug ? "-debug " : "") + "-instance \"" + Instance + "\" -logdir \"" + LogDirectory + "\" " + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
+			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
 		}
 		#endregion
 	}
