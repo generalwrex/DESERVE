@@ -3,6 +3,7 @@ using Sandbox.ModAPI;
 using SteamSDK;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -35,6 +36,43 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			: base(Assembly, Namespace, Class)
 		{
 			SetupReflection();
+			OnChatMessage += NetworkManager_OnChatMessage;
+		}
+
+		void NetworkManager_OnChatMessage(ulong remoteUserId, String message, ChatEntryTypeEnum entryType)
+		{
+			if (!ProcessChatCommand(remoteUserId, message))
+			{
+				LogManager.ChatLog.WriteLineAndConsole(GetName(remoteUserId) + ": " + message);
+			}
+		}
+
+		private bool ProcessChatCommand(ulong remoteUserId, String message)
+		{
+			if (String.IsNullOrEmpty(message))
+			{
+				return false;
+			}
+
+			String[] messageWords = message.Split(' ');
+
+			if (!String.IsNullOrEmpty(messageWords[0]))
+			{
+				if (messageWords[0].Substring(0, 1) == "/")
+				{
+					String Command = messageWords[0].ToLowerInvariant();
+
+					//  TODO: Expand to actually have chat commands.
+					if (Command == "/save")
+					{
+						SandboxGameWrapper.WorldManager.Save();
+					}
+
+
+				}
+			}
+
+			return false;
 		}
 
 		private void SetupReflection()
@@ -70,7 +108,6 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		private void ChatMessageRecieved(ulong remoteUserId, string message, ChatEntryTypeEnum entryType)
 		{
-			LogManager.ChatLog.WriteLineAndConsole(GetName(remoteUserId) + ": " + message);
 			if (OnChatMessage != null)
 			{
 				OnChatMessage(remoteUserId, message, entryType);
@@ -79,13 +116,16 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		private String GetName(ulong steamId)
 		{
-			List<IMyPlayer> players = new List<IMyPlayer>();
-			MyAPIGateway.Players.GetPlayers(players);
-			foreach (IMyPlayer player in players)
+			if (DESERVE.Arguments.ModAPI)
 			{
-				if (player.SteamUserId == steamId)
+				List<IMyPlayer> players = new List<IMyPlayer>();
+				MyAPIGateway.Players.GetPlayers(players);
+				foreach (IMyPlayer player in players)
 				{
-					return player.DisplayName;
+					if (player.SteamUserId == steamId)
+					{
+						return player.DisplayName;
+					}
 				}
 			}
 
@@ -95,7 +135,13 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		public void SendChatMessage(String message, ulong steamId = 0)
 		{
 			Object ChatMessage = SandboxGameWrapper.ChatMessageStruct.CreateStruct(message);
-			
+
+			if (!DESERVE.Arguments.ModAPI)
+			{
+				LogManager.ErrorLog.WriteLine(String.Format("DESERVE: SendChatMessage called, but ModAPIGateway not initialized. Stack Trace: {0}", (new StackTrace()).ToString()));
+				return;
+			}
+
 			if (steamId == 0)
 			{
 				List<IMyPlayer> players = new List<IMyPlayer>();
@@ -106,7 +152,10 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 					{
 						SendStruct(player.SteamUserId, ChatMessage);
 					}
-					OnChatMessage(0, message, ChatEntryTypeEnum.ChatMsg);
+					if (OnChatMessage != null)
+					{
+						OnChatMessage(0, message, ChatEntryTypeEnum.ChatMsg);
+					}
 				}
 			}
 			else
