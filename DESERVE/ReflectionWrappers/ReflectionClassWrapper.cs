@@ -118,6 +118,47 @@ namespace DESERVE.ReflectionWrappers
 				null);
 		}
 
+		private MethodInfo Get(Type[] paramTypes, Type genericType)
+		{
+			MethodInfo[] methods = m_classType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance);
+
+			foreach (MethodInfo method in methods)
+			{
+				if (method.Name == Signature)
+				{
+					MethodInfo methodInfo = method.MakeGenericMethod(genericType);
+					if (method != null)
+					{
+						ParameterInfo[] parameters = methodInfo.GetParameters();
+						int i = 0;
+						int paramcount = paramTypes.Length;
+						bool valid = true;
+						foreach (ParameterInfo parameter in parameters)
+						{
+							if (i == paramcount)
+							{
+								valid = false;
+								break;
+							}
+							if (parameter.ParameterType != paramTypes[i])
+							{
+								valid = false;
+								break;
+							}
+							i++;
+						}
+						if (valid)
+						{
+							return methodInfo;
+						}
+					}
+				}
+			}
+
+			return null;
+		}
+
+
 		public Object Call(Object obj, Object[] parameters)
 		{
 			if (parameters == null)
@@ -144,6 +185,24 @@ namespace DESERVE.ReflectionWrappers
 			}
 
 			MethodInfo methodInfo = Get(paramTypes);
+
+			if (methodInfo == null)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(String.Format("Overloaded method not found for {0}.{1} with argument types: {2}. Stack Trace: {3}", ClassName, Signature, parameters.ToString(), (new StackTrace()).ToString()));
+				return null;
+			}
+
+			return methodInfo.Invoke(obj, parameters);
+		}
+
+		public Object Call(Object obj, Object[] parameters, Type[] paramTypes, Type genericType)
+		{
+			if (parameters == null)
+			{
+				parameters = new Object[] { };
+			}
+
+			MethodInfo methodInfo = Get(paramTypes, genericType);
 
 			if (methodInfo == null)
 			{
