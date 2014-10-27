@@ -87,7 +87,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		/// <summary>
 		/// Runs the action on the gameserver's main thread. Does not
-		/// return until aciton has been run.
+		/// return until action has been run.
 		/// <param name="action"></param>
 		public void EnqueueActionSync(Action action)
 		{

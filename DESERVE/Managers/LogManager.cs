@@ -79,7 +79,7 @@ namespace DESERVE.Managers
 			if (File.Exists(m_logFile))
 			{
 				FileInfo oldLog = new FileInfo(m_logFile);
-				String oldLogName = Path.GetFileNameWithoutExtension(oldLog.FullName);
+				String oldLogName = Path.Combine(m_logDirectory, Path.GetFileNameWithoutExtension(oldLog.FullName));
 
 				DateTime logCreated = oldLog.LastWriteTime;
 
