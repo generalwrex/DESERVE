@@ -6,6 +6,7 @@ using System.Text;
 
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace DESERVE.Common
 {
@@ -37,9 +38,58 @@ namespace DESERVE.Common
 		#endregion
 
 		#region Methods
-		public CommandLineArgs(string[] args) : this()
+
+		public CommandLineArgs(String args)
+			: this(SeperateArgs(args))
+		{
+		}
+
+		public CommandLineArgs(String[] args) 
+			: this()
 		{
 			// Process Commandline.
+			ProcessArgArray(args);
+		}
+
+		public CommandLineArgs()
+		{
+			// Set Defaults.
+			m_autosaveMinutes = -1;
+			Debug = false;
+			m_instance = "";
+			m_logDirectory = Path.Combine(Directory.GetCurrentDirectory(), "DESERVE");
+			ModAPI = false;
+			Plugins = false;
+			Update = false;
+			UpdateOldPath = "";
+			UpdateNewPath = "";
+			WCF = false;
+		}
+
+		public override string ToString()
+		{
+			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
+		}
+
+		private static String[] SeperateArgs(String argString)
+		{
+			MatchCollection matches = Regex.Matches(argString, "(-\\S*|\"[\\s\\S]*\")");
+
+			string[] argArray = new String[matches.Count];
+
+			int i = 0;
+
+			foreach (Match match in matches)
+			{
+				argArray[i] = match.Value;
+				i++;
+			}
+
+			return argArray;
+		}
+
+		private void ProcessArgArray(string[] args)
+		{
 			int numArgs = args.GetLength(0);
 			int i = 0;
 			while (numArgs != i)
@@ -111,25 +161,6 @@ namespace DESERVE.Common
 
 				i++;
 			}
-		}
-		public CommandLineArgs()
-		{
-			// Set Defaults.
-			m_autosaveMinutes = -1;
-			Debug = false;
-			m_instance = "";
-			m_logDirectory = Path.Combine(Directory.GetCurrentDirectory(), "DESERVE");
-			ModAPI = false;
-			Plugins = false;
-			Update = false;
-			UpdateOldPath = "";
-			UpdateNewPath = "";
-			WCF = false;
-		}
-
-		public override string ToString()
-		{
-			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
 		}
 		#endregion
 	}
