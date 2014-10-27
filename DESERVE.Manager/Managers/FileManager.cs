@@ -49,37 +49,61 @@ namespace DESERVE.Manager.Managers
 		#endregion
 
 		#region Methods
-		public void SaveInstanceConfiguration(string instanceName)
+		public void SaveInstanceConfiguration(Server server)
 		{
-			var instanceConfig = new InstanceConfiguration();
-
-			var server = InstanceManager.Instance.GetServerByName(instanceName);
-			if (server == null)
-				return;
-
-			var name = server.Name;
-
-			instanceConfig.InstanceName = name;
-			instanceConfig.CommandLineArguments = server.Arguments;
-
-			XmlSerializer serializer = new XmlSerializer(typeof(InstanceConfiguration));
-			using (TextWriter writer = new StreamWriter(InstanceManager.Instance.CommonDataPath + "\\"+ name + "\\DESERVE.config"))
+			try
 			{
-				serializer.Serialize(writer, instanceConfig);
-			} 
+				
+
+				var instanceConfig = new InstanceConfiguration();
+
+				if (server == null)
+					return;
+
+				var name = server.Name;
+
+				string filePath = Path.Combine(InstanceManager.Instance.CommonDataPath, name, "DESERVEManager.cfg");
+
+				instanceConfig.InstanceName = name;
+				instanceConfig.CommandLineArguments = server.Arguments;
+
+				XmlSerializer serializer = new XmlSerializer(typeof(InstanceConfiguration));
+				using (TextWriter writer = new StreamWriter(filePath))
+				{
+					serializer.Serialize(writer, instanceConfig);
+				} 
+			}
+			catch (Exception ex)
+			{
+				new Dialogs.ManagerException(ex);
+			}
+			
 
 		}
 
-		public InstanceConfiguration LoadInstanceConfiguration(string instanceName)
-		{	
-			var server = InstanceManager.Instance.GetServerByName(instanceName);
-			var name = server.Name;
+		public InstanceConfiguration LoadInstanceConfiguration(Server server)
+		{
+			try
+			{
+				if (server == null)
+					return null;
 
-			XmlSerializer deserializer = new XmlSerializer(typeof(InstanceConfiguration));
-			TextReader reader = new StreamReader(InstanceManager.Instance.CommonDataPath + "\\"+ name + "\\DESERVE.config");
-			InstanceConfiguration instanceConfig = (InstanceConfiguration)deserializer.Deserialize(reader);
-			reader.Close();
-			return instanceConfig;
+				var name = server.Name;
+
+				string filePath = Path.Combine(InstanceManager.Instance.CommonDataPath, name, "DESERVEManager.cfg");
+
+				XmlSerializer deserializer = new XmlSerializer(typeof(InstanceConfiguration));
+				TextReader reader = new StreamReader(filePath);
+				InstanceConfiguration instanceConfig = (InstanceConfiguration)deserializer.Deserialize(reader);
+				reader.Close();
+				return instanceConfig;
+			}
+			catch (Exception ex)
+			{
+				new Dialogs.ManagerException(ex);
+				return null;
+			}
+			
 		}
 		#endregion
 	}

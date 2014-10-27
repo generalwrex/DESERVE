@@ -12,6 +12,7 @@ using System.ComponentModel;
 using DESERVE.Manager;
 using DESERVE.Common;
 using DESERVE.Manager.Managers;
+using System.Windows.Forms;
 
 namespace DESERVE.Managers
 {
@@ -88,7 +89,7 @@ namespace DESERVE.Managers
 			}
 			catch (Exception ex)
 			{
-				System.Windows.Forms.MessageBox.Show(ex.ToString());
+				new Manager.Dialogs.ManagerException(ex);
 			}
 		}
 
@@ -96,68 +97,66 @@ namespace DESERVE.Managers
 		{
 			foreach (string instanceName in m_instances)
 			{
-				Server server = new Server();
 
-				if (server.ConnectToServer(instanceName))
+				try
 				{
-					var marshall = server.Instance;
-					var events = server.Events;
+					Server server = new Server();
 
-					var arguments = marshall.Arguments;
+					if (server.ConnectToServer(instanceName))
+					{
+						var marshall = server.Instance;
+						var events = server.Events;
 
-					server.IsRunning = marshall.IsRunning;
-					server.Arguments = arguments;
+						var arguments = marshall.Arguments;
 
+						server.IsRunning = marshall.IsRunning;
+						server.Arguments = arguments;
+
+						FileManager.Instance.SaveInstanceConfiguration(server);
+					}
+					else
+					{
+
+
+						CommandLineArgs args = new CommandLineArgs();
+						server.IsRunning = false;
+						args.Instance = instanceName;
+						args.AutosaveMinutes = -1;
+						args.WCF = true;
+						args.Debug = true;
+						args.VSDebug = true;
+
+						server.Arguments = args;
+						FileManager.Instance.SaveInstanceConfiguration(server);
+					}
+
+					m_servers.Add(server);
 				}
-				else
+				catch (Exception ex)
 				{
-					CommandLineArgs args = new CommandLineArgs();
-					server.IsRunning = false;
-					args.Instance = instanceName;
-					args.AutosaveMinutes = -1;
-					args.WCF = true;
-					args.Debug = true;
-					args.VSDebug = true;
-
-					server.Arguments = args;				
-				}
-
-				m_servers.Add(server);
-				
+					new Manager.Dialogs.ManagerException(ex);
+				}		
 			}
 		}
 
 		public void RefreshPropertyEventHandlers()
 		{
-			foreach (object item in m_servers)
+			try
 			{
-				if (item is INotifyPropertyChanged)
+				foreach (object item in m_servers)
 				{
-					INotifyPropertyChanged observable = (INotifyPropertyChanged)item;
-					observable.PropertyChanged -= ItemPropertyChanged;
-					observable.PropertyChanged += new PropertyChangedEventHandler(ItemPropertyChanged);
+					if (item is INotifyPropertyChanged)
+					{
+						INotifyPropertyChanged observable = (INotifyPropertyChanged)item;
+						observable.PropertyChanged -= ItemPropertyChanged;
+						observable.PropertyChanged += new PropertyChangedEventHandler(ItemPropertyChanged);
+					}
 				}
 			}
-		}
-
-		// better way for this maybe?
-		public Server GetServerByName(string instanceName)
-		{
-			Server m_server = new Server();
-
-			foreach (Server server in m_servers)
+			catch (Exception ex)
 			{
-				if (instanceName == server.Instance.Name)
-				{
-					m_server = server;
-					break;
-				}
+				new Manager.Dialogs.ManagerException(ex);
 			}
-
-			if (m_server != null)
-				return m_server;
-			else
-				return null;
 		}
 
 		public ProcessStartInfo StartServer(string argumentsString)
@@ -175,9 +174,10 @@ namespace DESERVE.Managers
 
 				return process.StartInfo;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				System.Windows.Forms.MessageBox.Show(ex.Message);
+				MessageBox.Show(null, "Please make sure the path to DESERVE is set properly in the 'Manager Configuration' Tab!",
+					"DESERVE.exe Not Found", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 				return null;
 			}
 

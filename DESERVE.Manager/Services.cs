@@ -4,7 +4,6 @@ using System.ServiceModel;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.ServiceModel.Security;
 using System.ServiceModel.Description;
@@ -128,7 +127,7 @@ namespace DESERVE.Manager
 			catch(Exception ex)
 			{
 				m_deserveListener.Abort();
-				System.Windows.Forms.MessageBox.Show("Manager Service Exception:" + ex.ToString());
+				new Manager.Dialogs.ManagerException(ex);
 			}
 		}
 

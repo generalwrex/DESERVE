@@ -11,6 +11,7 @@ using DESERVE.Managers;
 using System.Reflection;
 using System.Threading;
 using System.IO;
+using System.Security.Principal;
 
 namespace DESERVE.Manager
 {
@@ -18,14 +19,16 @@ namespace DESERVE.Manager
 	public partial class DESERVEManagerForm : Form
 	{
 
+
+
 		public DESERVEManagerForm()
 		{
-			InitializeComponent();
-		
-			GetServerInstances();
-			
-			this.Text = "DESERVE Manager v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+			InitializeComponent();	
+			GetServerInstances();
+
+			this.Text = "DESERVE Manager v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			
 			InstanceManager.Instance.ServerChanged += Instance_ServerChanged;
 		}
 

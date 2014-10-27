@@ -62,6 +62,9 @@
 			this.LBL_CurrentlyManaging = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.label2 = new System.Windows.Forms.Label();
+			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -86,6 +89,7 @@
 			this.splitContainer3.SuspendLayout();
 			this.TAB_ManagerConfig_Page.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+			this.splitContainer4.Panel1.SuspendLayout();
 			this.splitContainer4.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -375,7 +379,7 @@
 			this.TAB_ManagerConfig_Page.Location = new System.Drawing.Point(4, 22);
 			this.TAB_ManagerConfig_Page.Name = "TAB_ManagerConfig_Page";
 			this.TAB_ManagerConfig_Page.Padding = new System.Windows.Forms.Padding(3);
-			this.TAB_ManagerConfig_Page.Size = new System.Drawing.Size(1012, 496);
+			this.TAB_ManagerConfig_Page.Size = new System.Drawing.Size(1012, 497);
 			this.TAB_ManagerConfig_Page.TabIndex = 1;
 			this.TAB_ManagerConfig_Page.Text = "Manager Configuration";
 			this.TAB_ManagerConfig_Page.UseVisualStyleBackColor = true;
@@ -385,8 +389,13 @@
 			this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer4.Location = new System.Drawing.Point(3, 3);
 			this.splitContainer4.Name = "splitContainer4";
-			this.splitContainer4.Size = new System.Drawing.Size(1006, 490);
-			this.splitContainer4.SplitterDistance = 432;
+			// 
+			// splitContainer4.Panel1
+			// 
+			this.splitContainer4.Panel1.Controls.Add(this.textBox1);
+			this.splitContainer4.Panel1.Controls.Add(this.label2);
+			this.splitContainer4.Size = new System.Drawing.Size(1006, 491);
+			this.splitContainer4.SplitterDistance = 433;
 			this.splitContainer4.TabIndex = 0;
 			// 
 			// TAB_Chat_Page
@@ -427,6 +436,22 @@
 			this.olvColumn2.Text = "Command Line Args";
 			this.olvColumn2.Width = 652;
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(21, 33);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(86, 13);
+			this.label2.TabIndex = 0;
+			this.label2.Text = "DESERVE Path:";
+			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(113, 30);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(222, 20);
+			this.textBox1.TabIndex = 1;
+			// 
 			// DESERVEManagerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -464,6 +489,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
 			this.splitContainer3.ResumeLayout(false);
 			this.TAB_ManagerConfig_Page.ResumeLayout(false);
+			this.splitContainer4.Panel1.ResumeLayout(false);
+			this.splitContainer4.Panel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
 			this.splitContainer4.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -507,6 +534,9 @@
 		private System.Windows.Forms.Label LBL_CurrentlyManaging;
 		private System.Windows.Forms.Label label1;
 		private BrightIdeasSoftware.OLVColumn olvColumn2;
+		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
 
 	}
 }
