@@ -74,7 +74,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		public void Save()
 		{
-			SandboxGameWrapper.MainGame.EnqueueActionAsync(SaveWorld);
+			SandboxGameWrapper.MainGame.EnqueueActionAsync(EnhancedSave);
 		}
 
 		/// <summary>
@@ -109,7 +109,11 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			IsSaving = false;
 		}
 
-		public bool EnhancedSave()
+		/// <summary>
+		/// May be called from any thread. Seperates the snapshot and file write processes.
+		/// File write takes the most time and is run on a different thread form the game.
+		/// </summary>
+		public void EnhancedSave()
 		{
 			IsSaving = true;
 			LogManager.MainLog.WriteLineAndConsole("DESERVE: Performing Enhanced Save");
@@ -138,7 +142,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 				}
 				);
 
-			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Enhanced Save Snapshot Complete. Unblocking Main Thread. Main Thread Blocked for: {0} seconds.", (DateTime.Now - saveStartTime).TotalSeconds));
+			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Snapshot Complete. Unblocking Main Thread. Main Thread Blocked for: {0} seconds.", (DateTime.Now - saveStartTime).TotalSeconds));
 
 			if (result)
 			{
@@ -152,7 +156,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			if (result)
 			{
 				TimeSpan timeToSave = DateTime.Now - saveStartTime;
-				LogManager.MainLog.WriteLineAndConsole("DESERVE: Enhanced save complete and took " + timeToSave.TotalSeconds + " seconds");
+				LogManager.MainLog.WriteLineAndConsole("DESERVE: File write complete. Total save time took " + timeToSave.TotalSeconds + " seconds");
 			}
 			else
 			{
