@@ -87,13 +87,6 @@ namespace DESERVE.Common
 		[Browsable(true)]
 		[ReadOnly(false)]
 		[Category("Command Line Arguments")]
-		[DisplayName("DESERVE WCF Port")]
-		[Description("Must be Unique")]
-		public Int32 WCFPort { get; set; }
-
-		[Browsable(true)]
-		[ReadOnly(false)]
-		[Category("Command Line Arguments")]
 		[DisplayName("Enable VS Debug")]
 		[Description("Allow Visual Studio to debug the server.")]
 		public Boolean VSDebug { get; set; }
@@ -126,15 +119,11 @@ namespace DESERVE.Common
 			UpdateOldPath = "";
 			UpdateNewPath = "";
 			WCF = false;
-
-			Random randomPort = new Random();
-			int randomPortInt = randomPort.Next(9000, 9500);
-			WCFPort = randomPortInt;
 		}
 
 		public override string ToString()
 		{
-			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : "") + (WCF ? "-wcfport " + WCFPort : ""));
+			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
 		}
 
 		private static String[] SeperateArgs(String argString)
@@ -218,21 +207,6 @@ namespace DESERVE.Common
 						break;
 					case "-wcf":
 						WCF = true;
-						break;
-					case "-wcfport":
-						if (i + 1 != numArgs)
-						{
-							Int32 wcfPort;
-							if (Int32.TryParse(args[i + 1], out wcfPort))
-							{
-								WCFPort = wcfPort;
-								i++;
-							}
-							else
-							{
-								Console.WriteLine("Argument Error: -wcfport \"" + args[i + 1] + "\" invalid.");
-							}
-						}
 						break;
 					case "-vsdebug":
 						if (Debugger.IsAttached == false)

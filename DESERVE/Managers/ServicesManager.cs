@@ -34,11 +34,11 @@ namespace DESERVE.Managers
 
 		#region Methods
 
-		public static ServiceHost CreatePipedService(string instanceName, int port, int maxConnections )
+		public static ServiceHost CreatePipedService(string instanceName, int maxConnections )
 		{
 			try
 			{
-				m_pipedServerService = new ServiceHost(typeof(ServerMarshall), new Uri("http://localhost:"+ port +"/DESERVE"));
+				m_pipedServerService = new ServiceHost(typeof(ServerMarshall), new Uri("net.pipe://localhost/DESERVE/" + instanceName));
 
 				NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
 
@@ -47,7 +47,7 @@ namespace DESERVE.Managers
 				m_pipedServerService.AddServiceEndpoint(typeof(IServerMarshall), binding, "net.pipe://localhost/DESERVE/" + instanceName);
 
 				ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-				smb.HttpGetEnabled = true;
+				smb.HttpGetEnabled = false;
 
 				m_pipedServerService.Description.Behaviors.Add(smb);
 

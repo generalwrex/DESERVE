@@ -48,13 +48,22 @@ namespace DESERVE.Manager
 				TAB_MainTabs.SelectedTab = TAB_ManagerConfig_Page;
 				Settings.Default.FirstRun = false;
 				Settings.Default.Save();
-			}	
+			}
+
+
+			
+		}
+
+		void Events_ReceivedChatMessage(ulong remoteUserId, string message)
+		{
+			TXT_Chat_Messages.Lines[TXT_Chat_Messages.Lines.Length - 1] += remoteUserId + " [" + InstanceManager.Instance.SelectedServer + "]: " + message + "\r\n";
 		}
 
 		// fires off if something in a Server instance is changed
 		void Instance_ServerChanged(Server server)
 		{
 			OLV_ServerInstances.RefreshObject(server);
+			
 		}
 
 		#region General
@@ -218,6 +227,19 @@ namespace DESERVE.Manager
 			if(m_beforeChanges == null)
 				m_beforeChanges = (CommandLineArgs)PG_CommandLineArgs.SelectedObject;
 		}
+
+		#region Chat
+
+		private void BTN_Chat_SendMessage_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void BTN_Chat_Broadcast_Click(object sender, EventArgs e)
+		{
+
+		}
+		#endregion
 
 
 

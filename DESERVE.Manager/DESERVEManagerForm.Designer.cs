@@ -68,6 +68,13 @@
 			this.DIALOG_ManagerConfiguration_DESERVEPath = new System.Windows.Forms.FolderBrowserDialog();
 			this.CMB_SelectedInstance = new System.Windows.Forms.ComboBox();
 			this.splitContainer6 = new System.Windows.Forms.SplitContainer();
+			this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+			this.GRP_Chat = new System.Windows.Forms.GroupBox();
+			this.TXT_Chat_Messages = new System.Windows.Forms.TextBox();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.TXT_Chat_MessageToSend = new System.Windows.Forms.TextBox();
+			this.BTN_Chat_SendMessage = new System.Windows.Forms.Button();
+			this.BTN_Chat_Broadcast = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -98,7 +105,14 @@
 			this.splitContainer4.SuspendLayout();
 			this.TAB_Chat_Page.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
+			this.splitContainer6.Panel1.SuspendLayout();
+			this.splitContainer6.Panel2.SuspendLayout();
 			this.splitContainer6.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
+			this.splitContainer7.Panel1.SuspendLayout();
+			this.splitContainer7.SuspendLayout();
+			this.GRP_Chat.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -499,9 +513,88 @@
 			this.splitContainer6.Location = new System.Drawing.Point(3, 3);
 			this.splitContainer6.Name = "splitContainer6";
 			this.splitContainer6.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// splitContainer6.Panel1
+			// 
+			this.splitContainer6.Panel1.Controls.Add(this.splitContainer7);
+			// 
+			// splitContainer6.Panel2
+			// 
+			this.splitContainer6.Panel2.Controls.Add(this.panel2);
 			this.splitContainer6.Size = new System.Drawing.Size(1006, 491);
-			this.splitContainer6.SplitterDistance = 248;
+			this.splitContainer6.SplitterDistance = 456;
 			this.splitContainer6.TabIndex = 0;
+			// 
+			// splitContainer7
+			// 
+			this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer7.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer7.Name = "splitContainer7";
+			// 
+			// splitContainer7.Panel1
+			// 
+			this.splitContainer7.Panel1.Controls.Add(this.GRP_Chat);
+			this.splitContainer7.Size = new System.Drawing.Size(1006, 456);
+			this.splitContainer7.SplitterDistance = 790;
+			this.splitContainer7.TabIndex = 0;
+			// 
+			// GRP_Chat
+			// 
+			this.GRP_Chat.Controls.Add(this.TXT_Chat_Messages);
+			this.GRP_Chat.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.GRP_Chat.Location = new System.Drawing.Point(0, 0);
+			this.GRP_Chat.Name = "GRP_Chat";
+			this.GRP_Chat.Size = new System.Drawing.Size(790, 456);
+			this.GRP_Chat.TabIndex = 0;
+			this.GRP_Chat.TabStop = false;
+			this.GRP_Chat.Text = "Chat";
+			// 
+			// TXT_Chat_Messages
+			// 
+			this.TXT_Chat_Messages.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TXT_Chat_Messages.Location = new System.Drawing.Point(3, 16);
+			this.TXT_Chat_Messages.Multiline = true;
+			this.TXT_Chat_Messages.Name = "TXT_Chat_Messages";
+			this.TXT_Chat_Messages.Size = new System.Drawing.Size(784, 437);
+			this.TXT_Chat_Messages.TabIndex = 2;
+			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.BTN_Chat_Broadcast);
+			this.panel2.Controls.Add(this.BTN_Chat_SendMessage);
+			this.panel2.Controls.Add(this.TXT_Chat_MessageToSend);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel2.Location = new System.Drawing.Point(0, 0);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(1006, 31);
+			this.panel2.TabIndex = 0;
+			// 
+			// TXT_Chat_MessageToSend
+			// 
+			this.TXT_Chat_MessageToSend.Location = new System.Drawing.Point(8, 3);
+			this.TXT_Chat_MessageToSend.Name = "TXT_Chat_MessageToSend";
+			this.TXT_Chat_MessageToSend.Size = new System.Drawing.Size(736, 20);
+			this.TXT_Chat_MessageToSend.TabIndex = 1;
+			// 
+			// BTN_Chat_SendMessage
+			// 
+			this.BTN_Chat_SendMessage.Location = new System.Drawing.Point(750, 2);
+			this.BTN_Chat_SendMessage.Name = "BTN_Chat_SendMessage";
+			this.BTN_Chat_SendMessage.Size = new System.Drawing.Size(75, 21);
+			this.BTN_Chat_SendMessage.TabIndex = 2;
+			this.BTN_Chat_SendMessage.Text = "Send";
+			this.BTN_Chat_SendMessage.UseVisualStyleBackColor = true;
+			this.BTN_Chat_SendMessage.Click += new System.EventHandler(this.BTN_Chat_SendMessage_Click);
+			// 
+			// BTN_Chat_Broadcast
+			// 
+			this.BTN_Chat_Broadcast.Location = new System.Drawing.Point(831, 2);
+			this.BTN_Chat_Broadcast.Name = "BTN_Chat_Broadcast";
+			this.BTN_Chat_Broadcast.Size = new System.Drawing.Size(123, 21);
+			this.BTN_Chat_Broadcast.TabIndex = 3;
+			this.BTN_Chat_Broadcast.Text = "Broadcast To All";
+			this.BTN_Chat_Broadcast.UseVisualStyleBackColor = true;
+			this.BTN_Chat_Broadcast.Click += new System.EventHandler(this.BTN_Chat_Broadcast_Click);
 			// 
 			// DESERVEManagerForm
 			// 
@@ -547,8 +640,17 @@
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
 			this.splitContainer4.ResumeLayout(false);
 			this.TAB_Chat_Page.ResumeLayout(false);
+			this.splitContainer6.Panel1.ResumeLayout(false);
+			this.splitContainer6.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
 			this.splitContainer6.ResumeLayout(false);
+			this.splitContainer7.Panel1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
+			this.splitContainer7.ResumeLayout(false);
+			this.GRP_Chat.ResumeLayout(false);
+			this.GRP_Chat.PerformLayout();
+			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -596,6 +698,13 @@
 		private System.Windows.Forms.Button BTN_InstanceConfiguration_Save;
 		private System.Windows.Forms.ComboBox CMB_SelectedInstance;
 		private System.Windows.Forms.SplitContainer splitContainer6;
+		private System.Windows.Forms.SplitContainer splitContainer7;
+		private System.Windows.Forms.GroupBox GRP_Chat;
+		private System.Windows.Forms.TextBox TXT_Chat_Messages;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Button BTN_Chat_Broadcast;
+		private System.Windows.Forms.Button BTN_Chat_SendMessage;
+		private System.Windows.Forms.TextBox TXT_Chat_MessageToSend;
 
 	}
 }

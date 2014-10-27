@@ -68,7 +68,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 			if (DESERVE.Arguments.WCF)
 			{
-				m_pipedService = ServicesManager.CreatePipedService(Arguments.Instance, DESERVE.Arguments.WCFPort ,5);
+				m_pipedService = ServicesManager.CreatePipedService(Arguments.Instance ,5);
 
 				if (!ServicesManager.IsOpened)
 					m_pipedService.StartService();
