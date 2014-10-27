@@ -11,7 +11,7 @@ using System.ComponentModel;
 
 using DESERVE.Manager;
 using DESERVE.Common;
-
+using DESERVE.Manager.Managers;
 
 namespace DESERVE.Managers
 {
@@ -23,8 +23,10 @@ namespace DESERVE.Managers
 		private ServerList<Server> m_servers;
 		#endregion
 
+		#region Events
 		public delegate void ServerChangedHandler(Server server);
 		public event ServerChangedHandler ServerChanged;
+		#endregion
 
 		#region Properties
 		public static InstanceManager Instance
@@ -39,27 +41,43 @@ namespace DESERVE.Managers
 		}
 
 		public Server SelectedServer { get; set; }
+		public ServerList<Server> GetInstances { get { return m_servers; } }
 
-		public ServerList<Server> GetInstances
-		{
-			get { return m_servers; }
-		}
+		public string CommonDataPath { 
+			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SpaceEngineersDedicated"); } }
 		#endregion
 
 		#region Constructor
 		public InstanceManager()
 		{
 			m_instance = this;
-
 			m_instances = new List<string>();
 			m_servers = new ServerList<Server>();
+
+			GetInstanceNames();
+			InitialGetServers();
+			RefreshPropertyEventHandlers();
+		}
+		#endregion
+
+		#region EventHandlers
+		private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			 var server = ((Server)sender);
+
+			 if (ServerChanged != null) { ServerChanged(server); }
+
+		}
+		#endregion
+
+		#region Methods
+		private void GetInstanceNames()
+		{
 			try
 			{
-				string commonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SpaceEngineersDedicated");
-				if (Directory.Exists(commonPath))
+				if (Directory.Exists(CommonDataPath))
 				{
-					string[] subDirectories = Directory.GetDirectories(commonPath);
-					foreach (string fullInstancePath in subDirectories)
+					foreach (string fullInstancePath in Directory.GetDirectories(CommonDataPath))
 					{
 						string[] directories = fullInstancePath.Split(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
 						string instanceName = directories[directories.Length - 1];
@@ -72,7 +90,10 @@ namespace DESERVE.Managers
 			{
 				System.Windows.Forms.MessageBox.Show(ex.ToString());
 			}
+		}
 
+		private void InitialGetServers()
+		{
 			foreach (string instanceName in m_instances)
 			{
 				Server server = new Server();
@@ -82,10 +103,11 @@ namespace DESERVE.Managers
 					var marshall = server.Instance;
 					var events = server.Events;
 
-
 					var arguments = marshall.Arguments;
+
 					server.IsRunning = marshall.IsRunning;
 					server.Arguments = arguments;
+
 				}
 				else
 				{
@@ -95,38 +117,49 @@ namespace DESERVE.Managers
 					args.AutosaveMinutes = -1;
 					args.WCF = true;
 					args.Debug = true;
+					args.VSDebug = true;
 
-					server.Arguments = args;
-
+					server.Arguments = args;				
 				}
 
-
 				m_servers.Add(server);
+				
 			}
+		}
 
-
+		public void RefreshPropertyEventHandlers()
+		{
 			foreach (object item in m_servers)
 			{
 				if (item is INotifyPropertyChanged)
 				{
 					INotifyPropertyChanged observable = (INotifyPropertyChanged)item;
+					observable.PropertyChanged -= ItemPropertyChanged;
 					observable.PropertyChanged += new PropertyChangedEventHandler(ItemPropertyChanged);
 				}
 			}
-
 		}
 
-		private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+		// better way for this maybe?
+		public Server GetServerByName(string instanceName)
 		{
-			 var server = ((Server)sender);
+			Server m_server = new Server();
 
-			 if (ServerChanged != null) { ServerChanged(server); }
+			foreach (Server server in m_servers)
+			{
+				if (instanceName == server.Instance.Name)
+				{
+					m_server = server;
+					break;
+				}
+			}
 
+			if (m_server != null)
+				return m_server;
+			else
+				return null;
 		}
 
-		#endregion
-
-		#region Methods
 		public ProcessStartInfo StartServer(string argumentsString)
 		{
 			try

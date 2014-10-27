@@ -4,6 +4,11 @@ using System.ServiceModel;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.ServiceModel.Security;
+using System.ServiceModel.Description;
+
 using DESERVE.Managers;
 
 using DESERVE.Common.Marshall;
@@ -57,12 +62,14 @@ namespace DESERVE.Manager
 		#region "Fields"
 		private static Services m_instance;
 		private static IServerMarshall m_marshallServer;
+		private static ServiceHost m_deserveListener;
 		#endregion
 
 		#region Constructor
 		public Services()
 		{
 			m_instance = this;
+			StartListening();
 		}
 		#endregion
 
@@ -107,6 +114,29 @@ namespace DESERVE.Manager
 				return null;
 			}
 		}
+
+		public static void StartListening()
+		{
+			m_deserveListener = new ServiceHost(typeof(ManagerMarshall), new Uri("http://localhost:8001/DESERVE/Marshall"));
+
+			try
+			{
+				m_deserveListener.AddServiceEndpoint(typeof(IManagerMarshall), new NetNamedPipeBinding(NetNamedPipeSecurityMode.None), "net.pipe://localhost/DESERVE/Marshall");
+				m_deserveListener.Description.Behaviors.Add(new ServiceMetadataBehavior() {HttpGetEnabled=false});
+				m_deserveListener.Open();
+			}
+			catch(Exception ex)
+			{
+				m_deserveListener.Abort();
+				System.Windows.Forms.MessageBox.Show("Manager Service Exception:" + ex.ToString());
+			}
+		}
+
+		public void StopListening()
+		{
+			m_deserveListener.Close();
+		}
+
 		#endregion
 	}
 #endregion

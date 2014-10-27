@@ -34,7 +34,6 @@ namespace DESERVE.Managers
 
 		#region Methods
 
-
 		public static ServiceHost CreatePipedService(string instanceName, int maxConnections)
 		{
 			try
@@ -80,11 +79,10 @@ namespace DESERVE.Managers
 		static void m_pipedServerService_Faulted(object sender, EventArgs e)
 		{
 			LogManager.ErrorLog.WriteLineAndConsole("Pipe Service Faulted: Reopening Pipe ");
+			m_pipedServerService.Close();
 
-			if (!m_isOpen)
-			{
-				StartService(m_pipedServerService);
-			}
+			StartService(m_pipedServerService);
+			
 		}
 
 		static void m_pipedServerService_Closing(object sender, EventArgs e)
@@ -102,10 +100,11 @@ namespace DESERVE.Managers
 		{
 			try
 			{
-				m_connectionAttempts++;
-
-				if(m_connectionAttempts < m_maxReconnectAttempts)
+				if (!m_isOpen && m_connectionAttempts < m_maxReconnectAttempts)
+				{
 					service.Open();	
+					m_connectionAttempts++;
+				}
 			}
 			catch (CommunicationException ex)
 			{
