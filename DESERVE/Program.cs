@@ -46,8 +46,8 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		{
 			DESERVE program = new DESERVE(args);
 
-
 			program.Run();
+
 			LogManager.MainLog.WriteLineAndConsole("DESERVE Quit.");
 		}
 

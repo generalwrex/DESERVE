@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace DESERVE
 {
@@ -37,6 +38,7 @@ namespace DESERVE
 		public Boolean WCF { get; set; }
 		[DataMember]
 		public string FullString { get; set; }
+		public Boolean VSDebug { get; set; }
 		#endregion
 
 		#region Methods
@@ -98,7 +100,7 @@ namespace DESERVE
 					case "-logdir":
 						if (i + 1 != numArgs)
 						{
-							Instance = args[i + 1];
+							LogDirectory = args[i + 1];
 							i++;
 						}
 						else
@@ -114,6 +116,10 @@ namespace DESERVE
 						break;
 					case "-wcf":
 						WCF = true;
+						break;
+					case "-vsdebug":
+						if (Debugger.IsAttached == false)
+							Debugger.Launch();
 						break;
 				}
 
