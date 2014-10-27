@@ -12,6 +12,7 @@ using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using System.ServiceModel;
 using DESERVE.Managers;
+using DESERVE.Common;
 
 
 namespace DESERVE.Managers

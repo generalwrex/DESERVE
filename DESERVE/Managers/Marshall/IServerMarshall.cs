@@ -6,6 +6,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Reflection;
+using DESERVE.Common;
 
 namespace DESERVE.Managers
 {

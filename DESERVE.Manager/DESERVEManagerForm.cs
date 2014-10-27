@@ -62,7 +62,7 @@ namespace DESERVE.Manager
 
 				if (!server.IsRunning)
 				{
-					InstanceManager.Instance.StartServer(server.ArgumentsString);
+					InstanceManager.Instance.StartServer(server.Arguments);
 				}
 			}
 		}
@@ -102,7 +102,7 @@ namespace DESERVE.Manager
 
 				InstanceManager.Instance.SelectedServer= server;
 
-				PG_CommandLineArgs.SelectedObject = new CommandLineProperties(server.Arguments);
+				PG_CommandLineArgs.SelectedObject = server.Arguments;
 			}
 		}
 

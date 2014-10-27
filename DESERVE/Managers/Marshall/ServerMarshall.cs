@@ -9,6 +9,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
+using DESERVE.Common;
 namespace DESERVE.Managers
 {
 	public class ServerMarshall : IServerMarshall

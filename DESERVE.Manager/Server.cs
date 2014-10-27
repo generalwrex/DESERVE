@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using DESERVE.Common;
 
 namespace DESERVE.Manager
 {
@@ -21,12 +22,11 @@ namespace DESERVE.Manager
 
 
 		#region Properties
-		public string Name { get; set; }
+		public string Name { get { return Arguments.Instance; } }
 		public bool IsRunning { get; set; }
 		public IServerMarshall Instance { get; set; }
 		public DESERVEEventHandler Events { get; set; }
 		public CommandLineArgs Arguments { get; set; }
-		public string ArgumentsString { get; set; }
 		#endregion
 
 		protected void OnPropertyChanged(string name)
@@ -54,10 +54,8 @@ namespace DESERVE.Manager
 			
 
 			this.Instance = m_clientMarshall;
-			this.Name = m_clientMarshall.get_Name();
 			this.IsRunning = m_clientMarshall.get_IsRunning();
 			this.Arguments = m_clientMarshall.get_Arguments();
-			this.ArgumentsString = Arguments.FullString;
 
 			m_eventHandler.ServerStarted += m_eventHandler_ServerStarted;
 			m_eventHandler.ServerStopped += m_eventHandler_ServerStopped;

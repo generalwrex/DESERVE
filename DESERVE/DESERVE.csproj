@@ -94,7 +94,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Managers\Marshall\IServerMarshallCallbacks.cs" />
     <Compile Include="Managers\Marshall\IServerMarshall.cs" />
     <Compile Include="Managers\PluginManager.cs" />
@@ -119,7 +118,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DESERVECommon\DESERVE.Common.csproj">
+      <Project>{25baac84-2539-41a8-9af3-e9709ffc0b92}</Project>
+      <Name>DESERVE.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

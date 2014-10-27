@@ -7,58 +7,38 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Diagnostics;
 
-namespace DESERVE
+namespace DESERVE.Common
 {
-	[DataContract]
 	public class CommandLineArgs
 	{
 		#region Fields
 		private Boolean m_autosaveSet;
 		private Boolean m_instanceSet;
 		private Boolean m_logDirectorySet;
+
+		private Int32 m_autosaveMinutes;
+		private String m_instance;
+		private String m_logDirectory;
+
 		#endregion
 
 		#region Properties
-		[DataMember]
-		public Int32 AutosaveMinutes { get; set; }
-		[DataMember]
+		public Int32 AutosaveMinutes { get { return m_autosaveMinutes; }  set { m_autosaveMinutes = value; m_autosaveSet = true; } }
 		public Boolean Debug { get; set; }
-		[DataMember]
-		public String Instance { get; set; }
-		[DataMember]
-		public String LogDirectory { get; set; }
-		[DataMember]
+		public String Instance { get { return m_instance; } set { m_instance = value; m_instanceSet = true; } }
+		public String LogDirectory { get { return m_logDirectory; } set { m_logDirectory = value; m_logDirectorySet = true; } }
 		public Boolean ModAPI { get; set; }
-		[DataMember]
 		public Boolean Plugins { get; set; }
-		[DataMember]
 		public Boolean Update { get; set; }
-		[DataMember]
 		public String UpdateNewPath { get; set; }
-		[DataMember]
 		public String UpdateOldPath { get; set; }
-		[DataMember]
 		public Boolean WCF { get; set; }
-		[DataMember]
-		public string FullString { get; set; }
 		public Boolean VSDebug { get; set; }
 		#endregion
 
 		#region Methods
-		public CommandLineArgs(string[] args)
+		public CommandLineArgs(string[] args) : this()
 		{
-			// Set Defaults.
-			AutosaveMinutes = -1;
-			Debug = false;
-			Instance = "";
-			LogDirectory = Path.Combine(Directory.GetCurrentDirectory(), "DESERVE");
-			ModAPI = false;
-			Plugins = false;
-			Update = false;
-			UpdateOldPath = "";
-			UpdateNewPath = "";
-			WCF = false;
-
 			// Process Commandline.
 			int numArgs = args.GetLength(0);
 			int i = 0;
@@ -132,10 +112,24 @@ namespace DESERVE
 				i++;
 			}
 		}
+		public CommandLineArgs()
+		{
+			// Set Defaults.
+			m_autosaveMinutes = -1;
+			Debug = false;
+			m_instance = "";
+			m_logDirectory = Path.Combine(Directory.GetCurrentDirectory(), "DESERVE");
+			ModAPI = false;
+			Plugins = false;
+			Update = false;
+			UpdateOldPath = "";
+			UpdateNewPath = "";
+			WCF = false;
+		}
 
 		public override string ToString()
 		{
-			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
+			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
 		}
 		#endregion
 	}

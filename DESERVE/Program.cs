@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.ServiceModel;
 using System.IO;
+using DESERVE.Common;
 
 namespace DESERVE //DEdicated SERVer, Enhanced
 {

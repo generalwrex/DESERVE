@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineProperty.cs" />
     <Compile Include="DESERVEManager.cs" />
     <Compile Include="DESERVEManagerForm.cs">
       <SubType>Form</SubType>
@@ -134,6 +133,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DESERVECommon\DESERVE.Common.csproj">
+      <Project>{25baac84-2539-41a8-9af3-e9709ffc0b92}</Project>
+      <Name>DESERVE.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

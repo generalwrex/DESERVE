@@ -2,8 +2,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DESERVE", "DESERVE\DESERVE.csproj", "{441D0AF4-A65E-4C1A-9F8A-D43D80A47A5A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{25BAAC84-2539-41A8-9AF3-E9709FFC0B92} = {25BAAC84-2539-41A8-9AF3-E9709FFC0B92}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DESERVE.Manager", "DESERVE.Manager\DESERVE.Manager.csproj", "{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{25BAAC84-2539-41A8-9AF3-E9709FFC0B92} = {25BAAC84-2539-41A8-9AF3-E9709FFC0B92}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DESERVE.Common", "DESERVE.Common\DESERVE.Common.csproj", "{25BAAC84-2539-41A8-9AF3-E9709FFC0B92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +27,10 @@ Global
 		{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0329DFA-3305-4FFD-9467-DFE17FDA8BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25BAAC84-2539-41A8-9AF3-E9709FFC0B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25BAAC84-2539-41A8-9AF3-E9709FFC0B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25BAAC84-2539-41A8-9AF3-E9709FFC0B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25BAAC84-2539-41A8-9AF3-E9709FFC0B92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

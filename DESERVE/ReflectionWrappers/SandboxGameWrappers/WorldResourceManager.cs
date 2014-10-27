@@ -23,7 +23,14 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		private void SetupReflection()
 		{
-			m_saveSnapshot = new ReflectionMethod("C0CFAF4B58402DABBB39F4A4694795D0", ClassName, m_classType);
+			try
+			{
+				m_saveSnapshot = new ReflectionMethod("C0CFAF4B58402DABBB39F4A4694795D0", ClassName, m_classType);
+			}
+			catch (ArgumentException ex)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
+			}
 		}
 
 		public Boolean SaveSnapshot(Object obj)
