@@ -14,7 +14,7 @@ using DESERVE.Common;
 using DESERVE.Manager.Managers;
 using System.Windows.Forms;
 
-namespace DESERVE.Managers
+namespace DESERVE.Manager.Managers
 {
 	public class InstanceManager
 	{
@@ -46,6 +46,8 @@ namespace DESERVE.Managers
 
 		public string CommonDataPath { 
 			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SpaceEngineersDedicated"); } }
+
+		public string DeservePath { get; set; }
 		#endregion
 
 		#region Constructor
@@ -104,6 +106,8 @@ namespace DESERVE.Managers
 
 					if (server.ConnectToServer(instanceName))
 					{
+
+
 						var marshall = server.Instance;
 						var events = server.Events;
 
@@ -111,23 +115,13 @@ namespace DESERVE.Managers
 
 						server.IsRunning = marshall.IsRunning;
 						server.Arguments = arguments;
-
-						FileManager.Instance.SaveInstanceConfiguration(server);
+			
 					}
 					else
 					{
-
-
-						CommandLineArgs args = new CommandLineArgs();
-						server.IsRunning = false;
-						args.Instance = instanceName;
-						args.AutosaveMinutes = -1;
-						args.WCF = true;
-						args.Debug = true;
-						args.VSDebug = true;
-
-						server.Arguments = args;
-						FileManager.Instance.SaveInstanceConfiguration(server);
+						var instanceConfig = FileManager.Instance.LoadInstanceConfiguration(instanceName);
+						
+						server.Arguments = instanceConfig.CommandLineArguments;
 					}
 
 					m_servers.Add(server);
@@ -165,11 +159,12 @@ namespace DESERVE.Managers
 			{
 				Process process = new Process();
 
-				process.StartInfo.FileName = "DESERVE.exe";
+				process.StartInfo.FileName = Path.Combine(this.DeservePath, "DESERVE.exe");
+				process.StartInfo.WorkingDirectory = this.DeservePath;
 
 				process.StartInfo.Arguments = argumentsString;
 				process.StartInfo.Verb = "runas";
-
+				
 				process.Start();
 
 				return process.StartInfo;

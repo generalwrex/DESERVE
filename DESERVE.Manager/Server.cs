@@ -21,6 +21,7 @@ namespace DESERVE.Manager
 		#endregion
 
 
+
 		#region Properties
 		//specific to the list view
 		public string Name { get { return Arguments.Instance; } }
@@ -34,6 +35,14 @@ namespace DESERVE.Manager
 		public DESERVEEventHandler Events { get; set; }
 		public CommandLineArgs Arguments { get; set; }
 		#endregion
+
+		// set defaults
+		public Server()
+		{
+			this.Arguments = new CommandLineArgs();
+			this.IsRunning = false;
+		}
+
 
 		protected void OnPropertyChanged(string name)
 		{

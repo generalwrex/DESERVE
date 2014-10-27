@@ -67,6 +67,7 @@ namespace DESERVE.Manager.Managers
 				instanceConfig.InstanceName = name;
 				instanceConfig.CommandLineArguments = server.Arguments;
 
+
 				XmlSerializer serializer = new XmlSerializer(typeof(InstanceConfiguration));
 				using (TextWriter writer = new StreamWriter(filePath))
 				{
@@ -81,22 +82,45 @@ namespace DESERVE.Manager.Managers
 
 		}
 
-		public InstanceConfiguration LoadInstanceConfiguration(Server server)
+		public InstanceConfiguration LoadInstanceConfiguration(string instanceName)
 		{
 			try
 			{
-				if (server == null)
-					return null;
 
-				var name = server.Name;
+				string filePath = Path.Combine(InstanceManager.Instance.CommonDataPath, instanceName, "DESERVEManager.cfg");
 
-				string filePath = Path.Combine(InstanceManager.Instance.CommonDataPath, name, "DESERVEManager.cfg");
+				if (File.Exists(filePath))
+				{
+					XmlSerializer deserializer = new XmlSerializer(typeof(InstanceConfiguration));
+					TextReader reader = new StreamReader(filePath);
+					InstanceConfiguration instanceConfig = (InstanceConfiguration)deserializer.Deserialize(reader);
+					reader.Close();
+					return instanceConfig;
+				}
+				else
+				{
+					Server newServer = new Server();
 
-				XmlSerializer deserializer = new XmlSerializer(typeof(InstanceConfiguration));
-				TextReader reader = new StreamReader(filePath);
-				InstanceConfiguration instanceConfig = (InstanceConfiguration)deserializer.Deserialize(reader);
-				reader.Close();
-				return instanceConfig;
+					var instanceConfig = new InstanceConfiguration();
+
+					CommandLineArgs args = new CommandLineArgs();
+					args.Instance = instanceName;
+					args.AutosaveMinutes = -1;
+					args.WCF = true;
+					args.ModAPI = false;
+					args.Plugins = true;
+
+					instanceConfig.InstanceName = instanceName;
+					instanceConfig.CommandLineArguments = args;
+
+					newServer.IsRunning = false;
+					newServer.Arguments = args;
+
+					SaveInstanceConfiguration(newServer);
+
+					return instanceConfig;
+				}
+								
 			}
 			catch (Exception ex)
 			{

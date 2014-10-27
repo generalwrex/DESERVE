@@ -22,8 +22,6 @@ namespace DESERVE.Manager.Dialogs
 			TXT_ManagerException_Message.Text = exception.Message;
 			TXT_ManagerException_Error.Text = exception.ToString();
 
-			
-
 			this.ShowDialog();
 		}
 

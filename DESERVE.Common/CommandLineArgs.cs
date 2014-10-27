@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
+using System.ComponentModel;
+using System.Design;
 using System.Runtime.Serialization;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -24,16 +25,77 @@ namespace DESERVE.Common
 		#endregion
 
 		#region Properties
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[Category("Command Line Arguments")]
+		[DisplayName("Autosave (In Minutes")]
+		[Description("How often the server saves in Minutes ( set to -1 to disable autosave).")]
 		public Int32 AutosaveMinutes { get { return m_autosaveMinutes; }  set { m_autosaveMinutes = value; m_autosaveSet = true; } }
+
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[Category("Command Line Arguments")]
+		[DisplayName("Enable Debugging")]
+		[Description("Enable verbose debugging in the console.")]
 		public Boolean Debug { get; set; }
+
+		[Browsable(true)]
+		[ReadOnly(true)]
+		[Category("Command Line Arguments")]
+		[DisplayName("Instance Name")]	
+		[Description("The name of the instance to load.")]
 		public String Instance { get { return m_instance; } set { m_instance = value; m_instanceSet = true; } }
+
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[Category("Command Line Arguments")]
+		[DisplayName("Log Directory")]
+		[Description("The directory for DESERVE logs.")]
+		[EditorAttribute(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
 		public String LogDirectory { get { return m_logDirectory; } set { m_logDirectory = value; m_logDirectorySet = true; } }
+
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[Category("Command Line Arguments")]
+		[DisplayName("Mod API Initialization")]
+		[Description("Enable initializing the Modding API.")]
 		public Boolean ModAPI { get; set; }
+
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[Category("Command Line Arguments")]
+		[DisplayName("Enable Plugins")]
+		[Description("Enable DESERVE Plugins.")]
 		public Boolean Plugins { get; set; }
+
+		[Browsable(false)]
 		public Boolean Update { get; set; }
+
+		[Browsable(false)]
 		public String UpdateNewPath { get; set; }
+
+		[Browsable(false)]
 		public String UpdateOldPath { get; set; }
+
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[Category("Command Line Arguments")]
+		[DisplayName("Enable WCF")]
+		[Description("Required for Communication with DESERVE")]
 		public Boolean WCF { get; set; }
+
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[Category("Command Line Arguments")]
+		[DisplayName("DESERVE WCF Port")]
+		[Description("Must be Unique")]
+		public Int32 WCFPort { get; set; }
+
+		[Browsable(true)]
+		[ReadOnly(false)]
+		[Category("Command Line Arguments")]
+		[DisplayName("Enable VS Debug")]
+		[Description("Allow Visual Studio to debug the server.")]
 		public Boolean VSDebug { get; set; }
 		#endregion
 
@@ -64,11 +126,15 @@ namespace DESERVE.Common
 			UpdateOldPath = "";
 			UpdateNewPath = "";
 			WCF = false;
+
+			Random randomPort = new Random();
+			int randomPortInt = randomPort.Next(9000, 9500);
+			WCFPort = randomPortInt;
 		}
 
 		public override string ToString()
 		{
-			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
+			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : "") + (WCF ? "-wcfport " + WCFPort : ""));
 		}
 
 		private static String[] SeperateArgs(String argString)
@@ -152,6 +218,21 @@ namespace DESERVE.Common
 						break;
 					case "-wcf":
 						WCF = true;
+						break;
+					case "-wcfport":
+						if (i + 1 != numArgs)
+						{
+							Int32 wcfPort;
+							if (Int32.TryParse(args[i + 1], out wcfPort))
+							{
+								WCFPort = wcfPort;
+								i++;
+							}
+							else
+							{
+								Console.WriteLine("Argument Error: -wcfport \"" + args[i + 1] + "\" invalid.");
+							}
+						}
 						break;
 					case "-vsdebug":
 						if (Debugger.IsAttached == false)
