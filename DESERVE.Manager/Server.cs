@@ -1,12 +1,12 @@
 ﻿using DESERVE.Managers;
 
-using DESERVE.Manager.Marshall;
-
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+
 using DESERVE.Common;
+using DESERVE.Common.Marshall;
 
 namespace DESERVE.Manager
 {
@@ -22,8 +22,14 @@ namespace DESERVE.Manager
 
 
 		#region Properties
+		//specific to the list view
 		public string Name { get { return Arguments.Instance; } }
+		//specific to the list view
 		public bool IsRunning { get; set; }
+		//specific to the list view
+		public string ArgumentsString { get { return Arguments.ToString(); } }
+
+
 		public IServerMarshall Instance { get; set; }
 		public DESERVEEventHandler Events { get; set; }
 		public CommandLineArgs Arguments { get; set; }
@@ -54,20 +60,20 @@ namespace DESERVE.Manager
 			
 
 			this.Instance = m_clientMarshall;
-			this.IsRunning = m_clientMarshall.get_IsRunning();
-			this.Arguments = m_clientMarshall.get_Arguments();
+			this.IsRunning = m_clientMarshall.IsRunning;
+			this.Arguments = m_clientMarshall.Arguments;
 
 			m_eventHandler.ServerStarted += m_eventHandler_ServerStarted;
-			m_eventHandler.ServerStopped += m_eventHandler_ServerStopped;
+			//m_eventHandler.ServerStopped += m_eventHandler_ServerStopped;
 
 			return true;
 		}
 
-		void m_eventHandler_ServerStopped()
-		{
-			this.IsRunning = false;
-			OnPropertyChanged("IsRunning");
-		}
+		//void m_eventHandler_ServerStopped()
+		//{
+			
+			//OnPropertyChanged("IsRunning");
+		//}
 
 		void m_eventHandler_ServerStarted()
 		{
@@ -78,6 +84,7 @@ namespace DESERVE.Manager
 		public void StopServer()
 		{
 			m_clientMarshall.Stop();
+			this.IsRunning = false;
 		}
 
 		public void Save()

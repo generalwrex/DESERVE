@@ -6,9 +6,8 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Reflection;
-using DESERVE.Common;
 
-namespace DESERVE.Managers
+namespace DESERVE.Common.Marshall
 {
 	[ServiceContract(CallbackContract = typeof(IServerMarshallCallbacks))]
 	public interface IServerMarshall

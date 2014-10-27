@@ -12,9 +12,6 @@ using System.Reflection;
 using System.Threading;
 using System.IO;
 
-
-using DESERVE.Manager.Marshall;
-
 namespace DESERVE.Manager
 {
 
@@ -62,7 +59,7 @@ namespace DESERVE.Manager
 
 				if (!server.IsRunning)
 				{
-					InstanceManager.Instance.StartServer(server.Arguments);
+					InstanceManager.Instance.StartServer(server.Arguments.ToString());
 				}
 			}
 		}

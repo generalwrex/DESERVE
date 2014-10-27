@@ -10,6 +10,7 @@ using System.ServiceModel;
 using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using DESERVE.Common;
+using DESERVE.Common.Marshall;
 namespace DESERVE.Managers
 {
 	public class ServerMarshall : IServerMarshall

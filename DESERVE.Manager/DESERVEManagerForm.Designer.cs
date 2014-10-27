@@ -38,8 +38,6 @@
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.setPathsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.LBL_CurrentlyManaging = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.TAB_ServerControl = new System.Windows.Forms.TabControl();
 			this.TAB_ServerControl_Page = new System.Windows.Forms.TabPage();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -48,7 +46,6 @@
 			this.OLV_ServerInstances = new BrightIdeasSoftware.ObjectListView();
 			this.SaveNameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-			this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.button1 = new System.Windows.Forms.Button();
 			this.BTN_Save = new System.Windows.Forms.Button();
 			this.BTN_StopServer = new System.Windows.Forms.Button();
@@ -60,8 +57,11 @@
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.TAB_ManagerConfig_Page = new System.Windows.Forms.TabPage();
 			this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-			this.DedicatedServerPathDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.TAB_Chat_Page = new System.Windows.Forms.TabPage();
+			this.DedicatedServerPathDialog = new System.Windows.Forms.FolderBrowserDialog();
+			this.LBL_CurrentlyManaging = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -174,26 +174,8 @@
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.TAB_ServerControl);
 			this.splitContainer1.Size = new System.Drawing.Size(1020, 562);
-			this.splitContainer1.SplitterDistance = 36;
+			this.splitContainer1.SplitterDistance = 35;
 			this.splitContainer1.TabIndex = 2;
-			// 
-			// LBL_CurrentlyManaging
-			// 
-			this.LBL_CurrentlyManaging.AutoSize = true;
-			this.LBL_CurrentlyManaging.Location = new System.Drawing.Point(122, 11);
-			this.LBL_CurrentlyManaging.Name = "LBL_CurrentlyManaging";
-			this.LBL_CurrentlyManaging.Size = new System.Drawing.Size(155, 13);
-			this.LBL_CurrentlyManaging.TabIndex = 1;
-			this.LBL_CurrentlyManaging.Text = "Not Connected To Any Servers";
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 11);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(104, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Currently Managing: ";
 			// 
 			// TAB_ServerControl
 			// 
@@ -204,7 +186,7 @@
 			this.TAB_ServerControl.Location = new System.Drawing.Point(0, 0);
 			this.TAB_ServerControl.Name = "TAB_ServerControl";
 			this.TAB_ServerControl.SelectedIndex = 0;
-			this.TAB_ServerControl.Size = new System.Drawing.Size(1020, 522);
+			this.TAB_ServerControl.Size = new System.Drawing.Size(1020, 523);
 			this.TAB_ServerControl.TabIndex = 1;
 			// 
 			// TAB_ServerControl_Page
@@ -213,7 +195,7 @@
 			this.TAB_ServerControl_Page.Location = new System.Drawing.Point(4, 22);
 			this.TAB_ServerControl_Page.Name = "TAB_ServerControl_Page";
 			this.TAB_ServerControl_Page.Padding = new System.Windows.Forms.Padding(3);
-			this.TAB_ServerControl_Page.Size = new System.Drawing.Size(1012, 496);
+			this.TAB_ServerControl_Page.Size = new System.Drawing.Size(1012, 497);
 			this.TAB_ServerControl_Page.TabIndex = 0;
 			this.TAB_ServerControl_Page.Text = "Server Control";
 			this.TAB_ServerControl_Page.UseVisualStyleBackColor = true;
@@ -227,7 +209,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(3, 3);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(1006, 490);
+			this.tabControl1.Size = new System.Drawing.Size(1006, 491);
 			this.tabControl1.TabIndex = 0;
 			// 
 			// tabPage1
@@ -236,7 +218,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(998, 464);
+			this.tabPage1.Size = new System.Drawing.Size(998, 465);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Control";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -258,7 +240,7 @@
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_Save);
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_StopServer);
 			this.splitContainer2.Panel2.Controls.Add(this.BTN_StartServer);
-			this.splitContainer2.Size = new System.Drawing.Size(992, 458);
+			this.splitContainer2.Size = new System.Drawing.Size(992, 459);
 			this.splitContainer2.SplitterDistance = 250;
 			this.splitContainer2.TabIndex = 1;
 			// 
@@ -266,7 +248,6 @@
 			// 
 			this.OLV_ServerInstances.AllColumns.Add(this.SaveNameColumn);
 			this.OLV_ServerInstances.AllColumns.Add(this.olvColumn1);
-			this.OLV_ServerInstances.AllColumns.Add(this.olvColumn2);
 			this.OLV_ServerInstances.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.SaveNameColumn,
             this.olvColumn1,
@@ -293,12 +274,6 @@
 			this.olvColumn1.AspectName = "IsRunning";
 			this.olvColumn1.Text = "Is Running";
 			this.olvColumn1.Width = 125;
-			// 
-			// olvColumn2
-			// 
-			this.olvColumn2.AspectName = "ArgumentsString";
-			this.olvColumn2.Text = "Command Line Args";
-			this.olvColumn2.Width = 652;
 			// 
 			// button1
 			// 
@@ -414,10 +389,6 @@
 			this.splitContainer4.SplitterDistance = 432;
 			this.splitContainer4.TabIndex = 0;
 			// 
-			// DedicatedServerPathDialog
-			// 
-			this.DedicatedServerPathDialog.ShowNewFolderButton = false;
-			// 
 			// TAB_Chat_Page
 			// 
 			this.TAB_Chat_Page.Location = new System.Drawing.Point(4, 22);
@@ -427,6 +398,34 @@
 			this.TAB_Chat_Page.TabIndex = 2;
 			this.TAB_Chat_Page.Text = "Chat";
 			this.TAB_Chat_Page.UseVisualStyleBackColor = true;
+			// 
+			// DedicatedServerPathDialog
+			// 
+			this.DedicatedServerPathDialog.ShowNewFolderButton = false;
+			// 
+			// LBL_CurrentlyManaging
+			// 
+			this.LBL_CurrentlyManaging.AutoSize = true;
+			this.LBL_CurrentlyManaging.Location = new System.Drawing.Point(122, 11);
+			this.LBL_CurrentlyManaging.Name = "LBL_CurrentlyManaging";
+			this.LBL_CurrentlyManaging.Size = new System.Drawing.Size(155, 13);
+			this.LBL_CurrentlyManaging.TabIndex = 1;
+			this.LBL_CurrentlyManaging.Text = "Not Connected To Any Servers";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(12, 11);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(104, 13);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Currently Managing: ";
+			// 
+			// olvColumn2
+			// 
+			this.olvColumn2.AspectName = "ArgumentsString";
+			this.olvColumn2.Text = "Command Line Args";
+			this.olvColumn2.Width = 652;
 			// 
 			// DESERVEManagerForm
 			// 
@@ -500,14 +499,14 @@
 		private System.Windows.Forms.TabPage tabPage4;
 		private System.Windows.Forms.TabPage TAB_ManagerConfig_Page;
 		private System.Windows.Forms.SplitContainer splitContainer4;
-		private System.Windows.Forms.Label LBL_CurrentlyManaging;
-		private System.Windows.Forms.Label label1;
-		private BrightIdeasSoftware.OLVColumn olvColumn2;
 		private System.Windows.Forms.SplitContainer splitContainer5;
 		private System.Windows.Forms.PropertyGrid PG_CommandLineArgs;
 		private System.Windows.Forms.FolderBrowserDialog DedicatedServerPathDialog;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.TabPage TAB_Chat_Page;
+		private System.Windows.Forms.Label LBL_CurrentlyManaging;
+		private System.Windows.Forms.Label label1;
+		private BrightIdeasSoftware.OLVColumn olvColumn2;
 
 	}
 }

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SteamSDK;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace DESERVE.Managers
+namespace DESERVE.Common.Marshall
 {
 	public interface IServerMarshallCallbacks
 	{

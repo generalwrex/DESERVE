@@ -10,8 +10,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 
 using DESERVE.Manager;
+using DESERVE.Common;
 
-using DESERVE.Manager.Marshall;
 
 namespace DESERVE.Managers
 {
@@ -20,7 +20,6 @@ namespace DESERVE.Managers
 		#region Fields
 		private static InstanceManager m_instance;
 		private List<string> m_instances;
-		//private List<Server> m_servers;
 		private ServerList<Server> m_servers;
 		#endregion
 
@@ -53,7 +52,6 @@ namespace DESERVE.Managers
 			m_instance = this;
 
 			m_instances = new List<string>();
-			//m_servers = new List<Server>();
 			m_servers = new ServerList<Server>();
 			try
 			{
@@ -85,11 +83,9 @@ namespace DESERVE.Managers
 					var events = server.Events;
 
 
-					var arguments = marshall.get_Arguments();
-					server.IsRunning = marshall.get_IsRunning();
-					server.Name = marshall.get_Name();
+					var arguments = marshall.Arguments;
+					server.IsRunning = marshall.IsRunning;
 					server.Arguments = arguments;
-					server.ArgumentsString = arguments.FullString;	
 				}
 				else
 				{
@@ -99,11 +95,9 @@ namespace DESERVE.Managers
 					args.AutosaveMinutes = -1;
 					args.WCF = true;
 					args.Debug = true;
-					args.LogDirectory = @"F:\SteamLibrary\SteamApps\common\SpaceEngineers\DedicatedServer64\DESERVE\" + instanceName;
 
-					server.Name = instanceName;
 					server.Arguments = args;
-					server.ArgumentsString = (args.Update ? "-update " + args.UpdateOldPath + " " + args.UpdateNewPath : "-autosave " + args.AutosaveMinutes.ToString() + " " + (args.Debug ? "-debug " : "") + "-instance \"" + args.Instance + "\" -logdir \"" + args.LogDirectory + "\" " + (args.ModAPI ? "-modapi " : "") + (args.Plugins ? "-plugins " : "") + (args.WCF ? "-wcf " : ""));
+
 				}
 
 

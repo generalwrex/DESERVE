@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+using DESERVE.Managers;
+
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
 	class WorldResourceManager : ReflectionClassWrapper

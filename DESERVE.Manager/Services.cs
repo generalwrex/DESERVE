@@ -6,12 +6,12 @@ using System.Collections.Generic;
 
 using DESERVE.Managers;
 
-using DESERVE.Manager.Marshall;
+using DESERVE.Common.Marshall;
 
 namespace DESERVE.Manager
 {
 	#region Event Handler Class
-	public class DESERVEEventHandler : IServerMarshallCallback	
+	public class DESERVEEventHandler : IServerMarshallCallbacks
 	{
 		public delegate void ServerEvent();
 		public event ServerEvent ServerStarted;
@@ -93,7 +93,7 @@ namespace DESERVE.Manager
 				m_marshallServer = serverChannel.CreateChannel();
 				m_marshallServer.RegisterEvents();
 		
-				if (m_marshallServer.get_Name() == "")
+				if (m_marshallServer.Name == "")
 					return null;
 
 				return new ServerInstance(m_marshallServer, eventHandler);

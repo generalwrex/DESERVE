@@ -10,6 +10,8 @@ using System.ServiceModel.Security;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
+using DESERVE.Common.Marshall;
+
 namespace DESERVE.Managers
 {
 	static class ServicesManager
