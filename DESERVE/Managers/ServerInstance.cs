@@ -33,6 +33,7 @@ namespace DESERVE.Managers
 
 		#region Properties
 		public static String Name { get { return m_saveFile; } }
+		public static Thread ServerThread { get { return m_serverThread; } }
 		#endregion
 
 		#region Methods

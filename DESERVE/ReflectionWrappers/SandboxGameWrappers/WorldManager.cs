@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
-	class WorldManager : ReflectionClassWrapper
+	public class WorldManager : ReflectionClassWrapper
 	{
 		#region Fields
 		private const String Class = "D580AE7552E79DAB03A3D64B1F7B67F9";
@@ -74,7 +74,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		public void Save()
 		{
-			SandboxGameWrapper.MainGame.EnqueueAction(SaveWorld);
+			SandboxGameWrapper.MainGame.EnqueueActionAsync(SaveWorld);
 		}
 
 		/// <summary>
@@ -131,15 +131,13 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 			bool result = false;
 
-			ManualResetEvent waitEvent = new ManualResetEvent(false);
-			SandboxGameWrapper.MainGame.EnqueueAction(() =>
+			
+			SandboxGameWrapper.MainGame.EnqueueActionSync(() =>
 				{
 					result = (bool)m_save.Call(Instance, parameters, paramTypes);
-					waitEvent.Set();
 				}
 				);
 
-			waitEvent.WaitOne();
 			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Enhanced Save Snapshot Complete. Unblocking Main Thread. Main Thread Blocked for: {0} seconds.", (DateTime.Now - saveStartTime).TotalSeconds));
 
 			if (result)

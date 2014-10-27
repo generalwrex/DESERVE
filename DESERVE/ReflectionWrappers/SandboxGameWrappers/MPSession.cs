@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
-	class MPSession : ReflectionClassWrapper
+	public class MPSession : ReflectionClassWrapper
 	{
 		#region Fields
 		private const String Class = "4C1ED56341F07A7D73298D03926F04DE";

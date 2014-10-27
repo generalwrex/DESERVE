@@ -8,7 +8,7 @@ using DESERVE.Managers;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
-	class WorldResourceManager : ReflectionClassWrapper
+	public class WorldResourceManager : ReflectionClassWrapper
 	{
 		private const String Class = "15B6B94DB5BE105E7B58A34D4DC11412";
 

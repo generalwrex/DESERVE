@@ -12,7 +12,7 @@ using VRage.Common.Utils;
 
 namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 {
-	class Program : ReflectionClassWrapper
+	public class Program : ReflectionClassWrapper
 	{
 		#region Fields
 		private const String Class = "49BCFF86BA276A9C7C0D269C2924DE2D";

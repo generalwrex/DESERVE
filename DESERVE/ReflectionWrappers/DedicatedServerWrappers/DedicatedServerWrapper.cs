@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 {
-	class DedicatedServerWrapper : ReflectionAssemblyWrapper
+	public class DedicatedServerWrapper : ReflectionAssemblyWrapper
 	{
 		#region Fields
 		private const string DedicatedServerNamespace = "83BCBFA49B3A2A6EC1BC99583DA2D399";

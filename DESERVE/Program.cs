@@ -19,7 +19,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 	{
 		#region Fields
 		private static String _SE_INSTANCE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SpaceEngineersDedicated");
-		private static Int32 _PLUGIN_UPDATE_FREQUENCY = 200; //Measured in ms;
 
 		private CommandLineArgs m_commandLineArgs;
 		private LogManager m_logManager;
@@ -91,10 +90,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			if (DESERVE.Arguments.Plugins)
 			{
 				m_pluginManager.InitializeAllPlugins();
-				System.Timers.Timer pluginUpdate = new System.Timers.Timer(_PLUGIN_UPDATE_FREQUENCY);
-				pluginUpdate.AutoReset = true;
-				pluginUpdate.Elapsed += m_pluginManager.Update;
-				pluginUpdate.Start();
 			}
 
 			Console.WriteLine();

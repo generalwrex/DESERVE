@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DESERVE.ReflectionWrappers.SandboxGameWrappers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace DESERVE.Managers
 		private List<PluginInfo> m_loadedPlugins;
 		private readonly Object _lockObj = new Object();
 
+		private static Int32 _PLUGIN_UPDATE_FREQUENCY = 200; //Measured in ms;
+		System.Timers.Timer m_pluginUpdateTimer;
+
 		#endregion
 
 		#region Properties
@@ -38,34 +42,54 @@ namespace DESERVE.Managers
 			{
 				InitializePlugin(plugin);
 			}
+
+			m_pluginUpdateTimer = new System.Timers.Timer(_PLUGIN_UPDATE_FREQUENCY);
+			// AutoReset = false to prevent multiple updates per frame on a laggy server.
+			m_pluginUpdateTimer.AutoReset = false;
+			m_pluginUpdateTimer.Elapsed += Update;
+			m_pluginUpdateTimer.Start();
 		}
 
 		public void InitializePlugin(PluginInfo plugin)
 		{
 			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Initializing {0}", plugin.Assembly.GetName().Name));
+			bool pluginInitialized = false;
+
 			try
 			{
 				plugin.MainClass = (IPlugin)Activator.CreateInstance(plugin.MainClassType);
 				if (plugin.MainClass != null)
 				{
-					plugin.MainClass.Init(plugin.Directory);
+					// Sync to catch exceptions.
+					SandboxGameWrapper.MainGame.EnqueueActionSync(() =>
+					{
+						try
+						{
+							plugin.MainClass.Init(plugin.Directory);
+							pluginInitialized = true;
+						}
+						catch (MissingMethodException)
+						{
+							LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Initialization of {0} failed. Could not find a public, parameterless constructor for {0}", plugin.Assembly.GetName().Name, plugin.MainClassType.ToString()));
+						}
+						catch (Exception ex)
+						{
+							LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Failed initialzation of {0}. Uncaught Exception: {1}", plugin.Assembly.GetName().Name, ex.ToString()));
+						}
+					});
 				}
-				else
-				{
-					ShutdownPlugin(plugin);
-				}
-				lock (_lockObj)
-				{
-					m_loadedPlugins.Add(plugin);
-				}
-			}
-			catch (MissingMethodException)
-			{
-				LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Initialization of {0} failed. Could not find a public, parameterless constructor for {0}", plugin.Assembly.GetName().Name, plugin.MainClassType.ToString()));
 			}
 			catch (Exception ex)
 			{
 				LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Failed initialzation of {0}. Uncaught Exception: {1}", plugin.Assembly.GetName().Name, ex.ToString()));
+			}
+
+			if (pluginInitialized)
+			{
+				lock (_lockObj)
+				{
+					m_loadedPlugins.Add(plugin);
+				}
 			}
 		}
 
@@ -91,7 +115,11 @@ namespace DESERVE.Managers
 				{
 					if (plugin.MainClass != null)
 					{
-						plugin.MainClass.Shutdown();
+						// Use Sync since we're nullifying MainClass shortly.
+						SandboxGameWrapper.MainGame.EnqueueActionSync(() =>
+						{
+							plugin.MainClass.Shutdown();
+						});
 					}
 					plugin.MainClass = null;
 				}
@@ -148,25 +176,33 @@ namespace DESERVE.Managers
 			}
 			foreach (PluginInfo plugin in loadedPlugins)
 			{
-				ThreadPool.QueueUserWorkItem(delegate(object obj)
-					{
-						try
+				if (plugin.MainClass != null)
+				{
+					// Use Sync so we don't blow through enqueueing the actions
+					// and end up resetting the timer and enqueuing more actions
+					// before the first group has had a chance.
+					SandboxGameWrapper.MainGame.EnqueueActionSync(() =>
 						{
-							if (plugin.MainClass != null)
+							try
 							{
 								plugin.MainClass.Update();
 							}
-							else
+							catch (Exception ex)
 							{
+								LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Uncaught Exception in {0}. Unloading Plugin. Exception: {1}", plugin.Assembly.GetName().Name, ex.ToString()));
 								ShutdownPlugin(plugin);
 							}
-						}
-						catch (Exception ex)
-						{
-							LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Uncaught Exception in {0}. Unloading Plugin. Exception: {1}", plugin.Assembly.GetName().Name, ex.ToString()));
-							ShutdownPlugin(plugin);
-						}
-					});
+						});
+				}
+				else
+				{
+					ShutdownPlugin(plugin);
+				}
+			}
+			// Restart the timer.
+			if (loadedPlugins.Count != 0)
+			{
+				m_pluginUpdateTimer.Start();
 			}
 		}
 

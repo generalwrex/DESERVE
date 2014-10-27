@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
-	class SandboxGameWrapper : ReflectionAssemblyWrapper
+	public class SandboxGameWrapper : ReflectionAssemblyWrapper
 	{
 		#region Fields
 		private const String MainGameNamespace = "B337879D0C82A5F9C44D51D954769590";

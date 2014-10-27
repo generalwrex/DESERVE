@@ -7,7 +7,7 @@ using DESERVE.ReflectionWrappers;
 
 namespace DESERVE.ReflectionWrappers
 {
-	class ReflectionAssemblyWrapper
+	public class ReflectionAssemblyWrapper
 	{
 		#region Fields
 		protected static Assembly m_assembly;

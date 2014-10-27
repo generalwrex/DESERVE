@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
-	class MainGame : ReflectionClassWrapper
+	public class MainGame : ReflectionClassWrapper
 	{
 		#region Fields
 		private const String Class = "B3531963E948FB4FA1D057C4340C61B4";
@@ -74,9 +75,35 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			m_signalShutdown.Call(Instance, new Object[] { });
 		}
 
-		public void EnqueueAction(Action action)
+		/// <summary>
+		/// Runs the action on the gameserver's main thread. May return
+		/// before action is run.
+		/// </summary>
+		/// <param name="action"></param>
+		public void EnqueueActionAsync(Action action)
 		{
 			m_enqueueAction.Call(Instance, new Object[] { action });
+		}
+
+		/// <summary>
+		/// Runs the action on the gameserver's main thread. Does not
+		/// return until aciton has been run.
+		/// <param name="action"></param>
+		public void EnqueueActionSync(Action action)
+		{
+			if (Thread.CurrentThread == ServerInstance.ServerThread)
+			{
+				action.Invoke();
+			}
+			else
+			{
+				ManualResetEvent waitEvent = new ManualResetEvent(false);
+
+				EnqueueActionAsync(action);
+				EnqueueActionAsync(() => waitEvent.Set());
+
+				waitEvent.WaitOne();
+			}
 		}
 
 		public void RegisterOnLoadedAction(Action action)
