@@ -149,7 +149,7 @@ namespace DESERVE.Managers
 
 		public void ClosePipe()
 		{
-
+			throw new NotImplementedException("ClosePipe not Implimented.");
 		}
 
 		public void ConnectToManager(string instanceName)
