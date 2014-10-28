@@ -19,6 +19,7 @@ namespace DESERVE.Managers
 		#region Fields
 
 		private static ServiceHost m_pipedServerService;
+		private static IManagerMarshall m_managerMarshall;
 		private static bool m_isOpen;
 		private static int m_maxReconnectAttempts = 5;
 		private static int m_connectionAttempts;
@@ -43,6 +44,7 @@ namespace DESERVE.Managers
 				NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
 
 				binding.MaxConnections = maxConnections;
+				binding.ReceiveTimeout = TimeSpan.MaxValue;
 
 				m_pipedServerService.AddServiceEndpoint(typeof(IServerMarshall), binding, "net.pipe://localhost/DESERVE/" + instanceName);
 
@@ -57,15 +59,13 @@ namespace DESERVE.Managers
 				m_pipedServerService.Closing += m_pipedServerService_Closing;
 				m_pipedServerService.Faulted += m_pipedServerService_Faulted;
 				m_pipedServerService.Opened += m_pipedServerService_Opened;
+				
 
 				return m_pipedServerService;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Service Creation Exception( see ErrorLog for more details ): " + ex.Message);
-				LogManager.ErrorLog.WriteLine("Service Creation Full Exception: " + ex.ToString());
-
-				m_pipedServerService.Abort();
+				LogManager.ErrorLog.WriteLine("Piped Service Creation Exception: " + ex.ToString());
 				return null;
 			}
 		}
@@ -80,19 +80,22 @@ namespace DESERVE.Managers
 		{
 			LogManager.ErrorLog.WriteLineAndConsole("Pipe Service Faulted: Reopening Pipe ");
 			m_pipedServerService.Close();
-
+			m_isOpen = false;
 			StartService(m_pipedServerService);
 			
 		}
 
 		static void m_pipedServerService_Closing(object sender, EventArgs e)
-		{		
+		{
+			m_isOpen = false;
+			StartService(m_pipedServerService);
 		}
 
 		static void m_pipedServerService_Closed(object sender, EventArgs e)
 		{
 			m_isOpen = false;
 			LogManager.MainLog.WriteLineAndConsole("Piped Service '" + m_pipedServerService.Description.Endpoints.FirstOrDefault().Address + "' Closed");
+			StartService(m_pipedServerService);
 		}
 
 
@@ -102,6 +105,7 @@ namespace DESERVE.Managers
 			{
 				if (!m_isOpen && m_connectionAttempts < m_maxReconnectAttempts)
 				{
+					ConnectToManager(DESERVE.Arguments.Instance);
 					service.Open();	
 					m_connectionAttempts++;
 				}
@@ -112,6 +116,29 @@ namespace DESERVE.Managers
 				LogManager.ErrorLog.WriteLineAndConsole("Service Communication full exception: " + ex.ToString());
 				service.Abort();
 				m_isOpen = false;
+			}
+		}
+
+		public static void ConnectToManager(string instanceName)
+		{
+			var serverBinding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+			var serverEndpoint = new EndpointAddress("net.pipe://localhost/DESERVE/Manager");
+			var serverChannel = new ChannelFactory<IManagerMarshall>(serverBinding, serverEndpoint);
+
+			try
+			{
+				m_managerMarshall = serverChannel.CreateChannel();
+				Console.WriteLine("Sending Instance Name to Manager.");
+				m_managerMarshall.ReportInstanceName(instanceName);
+				serverChannel.Close();
+
+			}
+			catch
+			{
+				if (m_managerMarshall != null)
+				{
+					((ICommunicationObject)m_managerMarshall).Abort();
+				}
 			}
 		}
 

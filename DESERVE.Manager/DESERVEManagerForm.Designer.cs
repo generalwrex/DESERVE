@@ -75,6 +75,7 @@
 			this.TXT_Chat_MessageToSend = new System.Windows.Forms.TextBox();
 			this.BTN_Chat_SendMessage = new System.Windows.Forms.Button();
 			this.BTN_Chat_Broadcast = new System.Windows.Forms.Button();
+			this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -282,10 +283,11 @@
 			// 
 			this.OLV_ServerInstances.AllColumns.Add(this.SaveNameColumn);
 			this.OLV_ServerInstances.AllColumns.Add(this.olvColumn1);
+			this.OLV_ServerInstances.AllColumns.Add(this.olvColumn3);
 			this.OLV_ServerInstances.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.SaveNameColumn,
             this.olvColumn1,
-            this.olvColumn2});
+            this.olvColumn3});
 			this.OLV_ServerInstances.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.OLV_ServerInstances.Location = new System.Drawing.Point(0, 0);
 			this.OLV_ServerInstances.MultiSelect = false;
@@ -596,6 +598,12 @@
 			this.BTN_Chat_Broadcast.UseVisualStyleBackColor = true;
 			this.BTN_Chat_Broadcast.Click += new System.EventHandler(this.BTN_Chat_Broadcast_Click);
 			// 
+			// olvColumn3
+			// 
+			this.olvColumn3.AspectName = "Connected";
+			this.olvColumn3.Text = "Service Connected";
+			this.olvColumn3.Width = 150;
+			// 
 			// DESERVEManagerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -705,6 +713,7 @@
 		private System.Windows.Forms.Button BTN_Chat_Broadcast;
 		private System.Windows.Forms.Button BTN_Chat_SendMessage;
 		private System.Windows.Forms.TextBox TXT_Chat_MessageToSend;
+		private BrightIdeasSoftware.OLVColumn olvColumn3;
 
 	}
 }

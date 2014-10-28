@@ -60,6 +60,8 @@
     <Compile Include="DESERVEManagerForm.Designer.cs">
       <DependentUpon>DESERVEManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ErrorHandlers\WCFErrorBehaviorAttribute.cs" />
+    <Compile Include="ErrorHandlers\WCFErrorHandler.cs" />
     <Compile Include="ManagerException.cs">
       <SubType>Form</SubType>
     </Compile>

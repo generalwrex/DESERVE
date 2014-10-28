@@ -32,9 +32,19 @@ namespace DESERVE.Common.Marshall
 		[OperationContract]
 		void WriteToConsole(string message);
 
+		[OperationContract]
+		void WriteToErrorLog(string message);
+
+		[OperationContract]
+		void WriteToErrorLogAndConsole(string message);
 		#endregion
 
 		#region Chat
+		#endregion
+
+		#region General
+		[OperationContract]
+		void Heartbeat();
 		#endregion
 	}
 }

@@ -94,6 +94,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorHandlers\WCFErrorBehaviorAttribute.cs" />
+    <Compile Include="ErrorHandlers\WCFErrorHandler.cs" />
     <Compile Include="Managers\PluginManager.cs" />
     <Compile Include="Managers\ServerMarshall.cs" />
     <Compile Include="Managers\ServicesManager.cs" />

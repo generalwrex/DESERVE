@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
+using System.ServiceModel;
+
 using DESERVE.Common;
 using DESERVE.Common.Marshall;
 using System;
@@ -30,6 +32,8 @@ namespace DESERVE.Manager
 		public bool IsRunning { get; set; }
 		//specific to the list view
 		public string ArgumentsString { get { return Arguments.ToString(); } }
+		//specific to the list view
+		public bool Connected { get; set; }
 
 
 		public IServerMarshall Instance { get; set; }
@@ -42,6 +46,28 @@ namespace DESERVE.Manager
 		{
 			this.Arguments = new CommandLineArgs();
 			this.IsRunning = false;
+			this.Connected = false;
+
+			System.Timers.Timer heartBeat = new System.Timers.Timer(30000);
+			heartBeat.AutoReset = true;
+			heartBeat.Elapsed += heartBeat_Elapsed;
+			heartBeat.Start();
+		}
+
+		void heartBeat_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+		{	
+			try
+			{
+				m_clientMarshall.Heartbeat();
+			}
+			catch (CommunicationException)
+			{
+				if (!ConnectToServer(Name))
+				{
+					this.Connected = false;
+					OnPropertyChanged("Connected");
+				}
+			}		
 		}
 
 
@@ -65,6 +91,9 @@ namespace DESERVE.Manager
 			if (m_serverInstance.ServerMarshall == null)
 				return false;
 
+			Connected = true;
+			OnPropertyChanged("Connected");
+
 			m_clientMarshall = m_serverInstance.ServerMarshall;
 			m_eventHandler = m_serverInstance.ServerEvents;
 			
@@ -81,7 +110,7 @@ namespace DESERVE.Manager
 
 		void m_eventHandler_ServerStopped()
 		{
-			
+			this.IsRunning = false;
 			OnPropertyChanged("IsRunning");
 		}
 
@@ -93,23 +122,87 @@ namespace DESERVE.Manager
 
 		public void StopServer()
 		{
-			throw new Exception("This function hangs the server");
-			m_clientMarshall.Stop();
-			this.IsRunning = false;
+			try
+			{
+				throw new Exception("This function hangs the manager");
+				m_clientMarshall.Stop();
+				this.IsRunning = false;
+			}
+			catch (CommunicationException)
+			{
+				if (!ConnectToServer(Name))
+				{
+					this.Connected = false;
+					OnPropertyChanged("Connected");
+				}
+			}		
+			
 		}
 
 		public void Save()
 		{
-			m_clientMarshall.Save();
-			OnPropertyChanged("WorldSaved");
+			try
+			{
+				m_clientMarshall.Save();
+				OnPropertyChanged("WorldSaved");
+			}
+			catch (CommunicationException)
+			{
+				if(!ConnectToServer(Name))
+				{
+					this.Connected = false;
+					OnPropertyChanged("Connected");
+				}	
+			}
 		}
 
 		public void WriteToConsole(string message)
 		{
-			m_clientMarshall.WriteToConsole(message);
+			try
+			{
+				m_clientMarshall.WriteToConsole(message);
+			}
+			catch (CommunicationException)
+			{
+				if(!ConnectToServer(Name))
+				{
+					this.Connected = false;
+					OnPropertyChanged("Connected");
+				}	
+			}		
 		}
 
+		public void WriteToErrorLog(string message)
+		{
+			try
+			{
+				m_clientMarshall.WriteToConsole(message);
+			}
+			catch (CommunicationException)
+			{
+				if (!ConnectToServer(Name))
+				{
+					this.Connected = false;
+					OnPropertyChanged("Connected");
+				}
+			}		
+		}
 
+		public void WriteToErrorLogAndConsole(string message)
+		{	
+			try
+			{
+				m_clientMarshall.WriteToErrorLogAndConsole(message);
+			}
+			catch (CommunicationException)
+			{
+				if (!ConnectToServer(Name))
+				{
+					this.Connected = false;
+					OnPropertyChanged("Connected");
+				}
+			}		
+		}
 		#endregion
 	}
 }

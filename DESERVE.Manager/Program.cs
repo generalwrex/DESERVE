@@ -15,7 +15,7 @@ namespace DESERVE.Manager
 		static public Version Version { get { return Assembly.GetEntryAssembly().GetName().Version; } }
 		static public String BuildBranch { get { return "Dev"; } }
 		static public String VersionString { get { return Version.ToString(3) + " " + BuildBranch; } }
-		static public Boolean VSDebug { get; set; }	
+		static public Boolean VSDebug { get; set; }
 		#endregion
 
 

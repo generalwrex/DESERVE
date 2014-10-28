@@ -28,6 +28,7 @@ namespace DESERVE.Manager
 		private Dictionary<string, Server> m_serverDict;
 		#endregion
 
+		#region Constructor
 		public DESERVEManagerForm()
 		{
 			m_serverDict = new Dictionary<string, Server>();
@@ -48,25 +49,18 @@ namespace DESERVE.Manager
 				TAB_MainTabs.SelectedTab = TAB_ManagerConfig_Page;
 				Settings.Default.FirstRun = false;
 				Settings.Default.Save();
-			}
-
-
-			
+			}	
 		}
+		#endregion
 
-		void Events_ReceivedChatMessage(ulong remoteUserId, string message)
-		{
-			TXT_Chat_Messages.Lines[TXT_Chat_Messages.Lines.Length - 1] += remoteUserId + " [" + InstanceManager.Instance.SelectedServer + "]: " + message + "\r\n";
-		}
-
+		#region General
 		// fires off if something in a Server instance is changed
 		void Instance_ServerChanged(Server server)
 		{
 			OLV_ServerInstances.RefreshObject(server);
-			
+
 		}
 
-		#region General
 		private void CMB_SelectedInstance_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			Server server;
@@ -76,7 +70,6 @@ namespace DESERVE.Manager
 			InstanceManager.Instance.SelectedServer = server;
 		}
 		#endregion
-
 
 		#region "Server Control"
 
@@ -110,6 +103,7 @@ namespace DESERVE.Manager
 				if (!server.IsRunning)
 				{
 					InstanceManager.Instance.StartServer(server.Arguments.ToString());
+					m_statusBar.Text = "Starting '" + server.Name + "'";
 				}
 			}
 		}
@@ -135,6 +129,7 @@ namespace DESERVE.Manager
 				if (server.IsRunning)
 				{
 					server.Save();
+					m_statusBar.Text = "Saving'" + server.Name + "' World";
 				}
 			}
 		}
@@ -151,11 +146,16 @@ namespace DESERVE.Manager
 				InstanceManager.Instance.SelectedServer= server;
 
 				PG_CommandLineArgs.SelectedObject = server.Arguments;
+
+				if (!server.Connected)
+				{
+					server.ConnectToServer(server.Name);
+				}
+
 			}
 		}
 
 		#endregion
-
 
 		#region Manager Configuration
 
@@ -204,6 +204,11 @@ namespace DESERVE.Manager
 		#endregion
 
 		#region Instance Configuration
+		private void PG_CommandLineArgs_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+		{
+			if (m_beforeChanges == null)
+				m_beforeChanges = (CommandLineArgs)PG_CommandLineArgs.SelectedObject;
+		}
 
 		private void BTN_InstanceConfiguration_Cancel_Click(object sender, EventArgs e)
 		{		
@@ -222,13 +227,12 @@ namespace DESERVE.Manager
 
 		#endregion
 
-		private void PG_CommandLineArgs_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-		{
-			if(m_beforeChanges == null)
-				m_beforeChanges = (CommandLineArgs)PG_CommandLineArgs.SelectedObject;
-		}
-
 		#region Chat
+
+		void Events_ReceivedChatMessage(ulong remoteUserId, string message)
+		{
+			TXT_Chat_Messages.Lines[TXT_Chat_Messages.Lines.Length - 1] += remoteUserId + " [" + InstanceManager.Instance.SelectedServer + "]: " + message + "\r\n";
+		}
 
 		private void BTN_Chat_SendMessage_Click(object sender, EventArgs e)
 		{
@@ -240,10 +244,5 @@ namespace DESERVE.Manager
 
 		}
 		#endregion
-
-
-
-
 	}
-
 }

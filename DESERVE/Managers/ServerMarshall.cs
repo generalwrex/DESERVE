@@ -9,10 +9,15 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
+
 using DESERVE.Common;
 using DESERVE.Common.Marshall;
+
+using DESERVE.ErrorHandlers;
+
 namespace DESERVE.Managers
 {
+	[WCFErrorBehaviorAttribute(typeof(WCFErrorHandler))]
 	public class ServerMarshall : IServerMarshall
 	{
 		#region Fields
@@ -44,21 +49,73 @@ namespace DESERVE.Managers
 		#region Logs And Console
 		public void WriteToConsole(string message)
 		{
-			Console.WriteLine(message);
+			try
+			{
+				Console.WriteLine(message);	
+			}
+			catch (Exception)
+			{	
+				throw;
+			}
+			
+		}
+
+		public void WriteToErrorLog(string message)
+		{	
+			try
+			{
+				LogManager.ErrorLog.WriteLine(message);
+			}
+			catch (Exception)
+			{	
+				throw;
+			}
+		}
+
+		public void WriteToErrorLogAndConsole(string message)
+		{	
+			try
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(message);
+			}
+			catch (Exception)
+			{	
+				throw;
+			}
 		}
 		#endregion
 
 		#region Server Control
 		public void Stop()
 		{
-			ServerInstance.Stop();
+			try
+			{
+				ServerInstance.Stop();
+			}
+			catch (Exception)
+			{	
+				throw;
+			}
+			
 		}
 
 		public void Save()
-		{
-			ServerInstance.Save();
+		{	
+			try
+			{
+				ServerInstance.Save();
+			}
+			catch (Exception)
+			{		
+				throw;
+			}
 		}
 		#endregion
+
+		public void Heartbeat()
+		{
+			
+		}
 
 		#endregion
 		#endregion

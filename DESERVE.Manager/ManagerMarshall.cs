@@ -8,8 +8,13 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using DESERVE.Common;
 using DESERVE.Common.Marshall;
+
+using DESERVE.Manager.ErrorHandlers;
+using DESERVE.Manager.Managers;
+
 namespace DESERVE.Managers
 {
+	[WCFErrorBehaviorAttribute(typeof(WCFErrorHandler))]
 	public class ManagerMarshall : IManagerMarshall
 	{
 		#region Fields
@@ -21,7 +26,14 @@ namespace DESERVE.Managers
 		#region Methods
 		public void ReportInstanceName(string instanceName)
 		{
-
+			try
+			{
+				InstanceManager.Instance.RefreshServer(instanceName);
+			}
+			catch (Exception)
+			{	
+				throw;
+			}	
 		}
 		#endregion
 

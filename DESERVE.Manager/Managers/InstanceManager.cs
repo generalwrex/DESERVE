@@ -95,6 +95,35 @@ namespace DESERVE.Manager.Managers
 			}
 		}
 
+		public void RefreshServer(string instanceName)
+		{
+			try
+			{
+				foreach (Server server in m_servers)
+				{
+					if (server.Name == instanceName && server.ConnectToServer(instanceName))
+					{
+						var marshall = server.Instance;
+						var events = server.Events;
+
+						var arguments = marshall.Arguments;
+
+						server.IsRunning = marshall.IsRunning;
+						server.Arguments = arguments;
+						server.Connected = true;
+
+
+					}
+				}
+
+			}
+			catch (Exception ex)
+			{
+				new Manager.Dialogs.ManagerException(ex);
+			}
+		}
+
+
 		private void InitialGetServers()
 		{
 			foreach (string instanceName in m_instances)
@@ -106,8 +135,6 @@ namespace DESERVE.Manager.Managers
 
 					if (server.ConnectToServer(instanceName))
 					{
-
-
 						var marshall = server.Instance;
 						var events = server.Events;
 

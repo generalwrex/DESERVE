@@ -27,7 +27,6 @@ namespace DESERVE.Manager
 		public delegate void WorldEvent(bool isSaving);
 		public event WorldEvent SavingChanged;
 
-
 		public void OnServerStopped() { if (ServerStopped != null) { ServerStopped(); } }
 		public void OnServerStarted() { if (ServerStarted != null) { ServerStarted(); } }
 
@@ -93,12 +92,14 @@ namespace DESERVE.Manager
 			var serverBinding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
 			var serverEndpoint = new EndpointAddress("net.pipe://localhost/DESERVE/" + instanceName);
 			var serverChannel = new DuplexChannelFactory<IServerMarshall>(serverInstanceContext, serverBinding, serverEndpoint);
+
 	
 			try
 			{   
 				m_marshallServer = serverChannel.CreateChannel();
 				m_marshallServer.RegisterEvents();
-		
+
+				
 				if (m_marshallServer.Name == "")
 					return null;
 
@@ -116,11 +117,11 @@ namespace DESERVE.Manager
 
 		public static void StartListening()
 		{
-			m_deserveListener = new ServiceHost(typeof(ManagerMarshall), new Uri("http://localhost:8001/DESERVE/Marshall"));
+			m_deserveListener = new ServiceHost(typeof(ManagerMarshall), new Uri("net.pipe://localhost/DESERVE/Manager"));
 
 			try
 			{
-				m_deserveListener.AddServiceEndpoint(typeof(IManagerMarshall), new NetNamedPipeBinding(NetNamedPipeSecurityMode.None), "net.pipe://localhost/DESERVE/Marshall");
+				m_deserveListener.AddServiceEndpoint(typeof(IManagerMarshall), new NetNamedPipeBinding(NetNamedPipeSecurityMode.None), "net.pipe://localhost/DESERVE/Manager");
 				m_deserveListener.Description.Behaviors.Add(new ServiceMetadataBehavior() {HttpGetEnabled=false});
 				m_deserveListener.Open();
 			}
