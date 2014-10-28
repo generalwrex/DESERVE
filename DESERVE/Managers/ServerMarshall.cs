@@ -25,7 +25,6 @@ namespace DESERVE.Managers
 
 		#region Properties
 		public String Name { get { return ServerInstance.Name; } }
-		public Boolean IsRunning { get { return DedicatedServerWrapper.Program.IsRunning; } }
 		public CommandLineArgs Arguments { get { return DESERVE.Arguments; } }
 		#endregion
 
@@ -45,7 +44,6 @@ namespace DESERVE.Managers
 			DedicatedServerWrapper.Program.OnServerStopped += m_callbackChannel.OnServerStopped;
 		}
 
-
 		#region Logs And Console
 		public void WriteToConsole(string message)
 		{
@@ -53,11 +51,10 @@ namespace DESERVE.Managers
 			{
 				Console.WriteLine(message);	
 			}
-			catch (Exception)
-			{	
-				throw;
-			}
-			
+			catch (CommunicationException)
+			{
+				ServicesManager.Instance.CheckService();
+			}			
 		}
 
 		public void WriteToErrorLog(string message)
@@ -66,10 +63,10 @@ namespace DESERVE.Managers
 			{
 				LogManager.ErrorLog.WriteLine(message);
 			}
-			catch (Exception)
-			{	
-				throw;
-			}
+			catch (CommunicationException)
+			{
+				ServicesManager.Instance.CheckService();
+			}		
 		}
 
 		public void WriteToErrorLogAndConsole(string message)
@@ -78,10 +75,10 @@ namespace DESERVE.Managers
 			{
 				LogManager.ErrorLog.WriteLineAndConsole(message);
 			}
-			catch (Exception)
-			{	
-				throw;
-			}
+			catch (CommunicationException)
+			{
+				ServicesManager.Instance.CheckService();
+			}		
 		}
 		#endregion
 
@@ -92,11 +89,10 @@ namespace DESERVE.Managers
 			{
 				ServerInstance.Stop();
 			}
-			catch (Exception)
-			{	
-				throw;
-			}
-			
+			catch (CommunicationException)
+			{			
+				ServicesManager.Instance.CheckService();
+			}		
 		}
 
 		public void Save()
@@ -105,10 +101,10 @@ namespace DESERVE.Managers
 			{
 				ServerInstance.Save();
 			}
-			catch (Exception)
-			{		
-				throw;
-			}
+			catch (CommunicationException)
+			{
+				ServicesManager.Instance.CheckService();
+			}		
 		}
 		#endregion
 
