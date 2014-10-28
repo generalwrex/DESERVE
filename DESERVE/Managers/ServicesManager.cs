@@ -14,112 +14,145 @@ using DESERVE.Common.Marshall;
 
 namespace DESERVE.Managers
 {
-	static class ServicesManager
+	public class ServicesManager
 	{
 		#region Fields
-
-		private static ServiceHost m_pipedServerService;
+		private static ServicesManager m_instance;
+		private static ServiceHost m_service;
 		private static IManagerMarshall m_managerMarshall;
-		private static bool m_isOpen;
-		private static int m_maxReconnectAttempts = 5;
-		private static int m_connectionAttempts;
+
+		private System.Timers.Timer m_serviceCheckTimer;
+		private static int m_maxReopenAttempts;
+		private static int m_reopenAttempts;
 		#endregion
 
-		#region Properties
-		public static bool IsOpened
+
+		public ServicesManager()
 		{
-			get { return m_isOpen; }
+			m_instance = this;
+
+			m_maxReopenAttempts = 5;
+
+			m_serviceCheckTimer = new System.Timers.Timer();
+			m_serviceCheckTimer.AutoReset = true;
+			m_serviceCheckTimer.Interval = 60000;
+			m_serviceCheckTimer.Elapsed += CheckService_Elapsed;
 		}
 
+
+
+		#region Properties
+
+		public static ServicesManager Instance
+		{
+			get
+			{
+				if (m_instance == null)
+					m_instance = new ServicesManager();
+
+				return m_instance;
+			}
+		}
 		#endregion
 
-		#region Methods
+		#region Events
+		
 
-		public static ServiceHost CreatePipedService(string instanceName, int maxConnections )
+		private void CheckService_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
 			try
 			{
-				m_pipedServerService = new ServiceHost(typeof(ServerMarshall), new Uri("net.pipe://localhost/DESERVE/" + instanceName));
-
-				NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-
-				binding.MaxConnections = maxConnections;
-				binding.ReceiveTimeout = TimeSpan.MaxValue;
-
-				m_pipedServerService.AddServiceEndpoint(typeof(IServerMarshall), binding, "net.pipe://localhost/DESERVE/" + instanceName);
-
-				ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-				smb.HttpGetEnabled = false;
-
-				m_pipedServerService.Description.Behaviors.Add(smb);
-
-				LogManager.MainLog.WriteLineAndConsole("Piped Service Created Successfully!");
-
-				m_pipedServerService.Closed += m_pipedServerService_Closed;
-				m_pipedServerService.Closing += m_pipedServerService_Closing;
-				m_pipedServerService.Faulted += m_pipedServerService_Faulted;
-				m_pipedServerService.Opened += m_pipedServerService_Opened;
-				
-
-				return m_pipedServerService;
+				CheckService();
 			}
 			catch (Exception ex)
 			{
-				LogManager.ErrorLog.WriteLine("Piped Service Creation Exception: " + ex.ToString());
-				return null;
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
 			}
-		}
-
-		static void m_pipedServerService_Opened(object sender, EventArgs e)
-		{
-			m_isOpen = true;
-			LogManager.MainLog.WriteLineAndConsole("Piped Service Opened at '" + m_pipedServerService.Description.Endpoints.FirstOrDefault().Address + "'");
-		}
-
-		static void m_pipedServerService_Faulted(object sender, EventArgs e)
-		{
-			LogManager.ErrorLog.WriteLineAndConsole("Pipe Service Faulted: Reopening Pipe ");
-			m_pipedServerService.Close();
-			m_isOpen = false;
-			StartService(m_pipedServerService);
 			
 		}
 
-		static void m_pipedServerService_Closing(object sender, EventArgs e)
-		{
-			m_isOpen = false;
-			StartService(m_pipedServerService);
-		}
-
-		static void m_pipedServerService_Closed(object sender, EventArgs e)
-		{
-			m_isOpen = false;
-			LogManager.MainLog.WriteLineAndConsole("Piped Service '" + m_pipedServerService.Description.Endpoints.FirstOrDefault().Address + "' Closed");
-			StartService(m_pipedServerService);
-		}
-
-
-		public static void StartService(this ServiceHost service)
+		void Service_Faulted(object sender, EventArgs e)
 		{
 			try
 			{
-				if (!m_isOpen && m_connectionAttempts < m_maxReconnectAttempts)
-				{
-					ConnectToManager(DESERVE.Arguments.Instance);
-					service.Open();	
-					m_connectionAttempts++;
-				}
+				CheckService();
+			}
+			catch (Exception ex)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
+			}
+			
+		}
+
+		void Service_Opened(object sender, EventArgs e)
+		{
+			try
+			{
+				LogManager.MainLog.WriteLineAndConsole("Piped Service Opened at '" + m_service.Description.Endpoints.FirstOrDefault().Address + "'");
+				ConnectToManager(DESERVE.Arguments.Instance);
+				m_serviceCheckTimer.Start();
+				m_reopenAttempts = 0;
+			}
+			catch (Exception ex)
+			{
+				LogManager.ErrorLog.WriteLineAndConsole(ex.ToString());
+			}
+			
+		}
+		#endregion
+
+
+		#region Methods
+		public void CreatePipedService(string instanceName, int maxConnections )
+		{
+			try
+			{
+				m_service = new ServiceHost(typeof(ServerMarshall), new Uri("net.pipe://localhost/DESERVE/" + instanceName));
+
+				NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+				binding.MaxConnections = maxConnections;
+				binding.ReceiveTimeout = TimeSpan.MaxValue;
+
+				m_service.AddServiceEndpoint(typeof(IServerMarshall), binding, "net.pipe://localhost/DESERVE/" + instanceName);
+				m_service.Description.Behaviors.Add(new ServiceMetadataBehavior(){HttpGetEnabled = false});
+
+				LogManager.MainLog.WriteLineAndConsole("Piped Service Created Successfully!");
+
+				// connection events
+				m_service.Faulted += Service_Faulted;
+				m_service.Opened += Service_Opened;
+
+				m_service.Open();
+				
 			}
 			catch (CommunicationException ex)
 			{
-				Console.WriteLine("Service Communication exception occurred ( see ErrorLog for more details ): " + ex.Message);
-				LogManager.ErrorLog.WriteLineAndConsole("Service Communication full exception: " + ex.ToString());
-				service.Abort();
-				m_isOpen = false;
+				LogManager.ErrorLog.WriteLine("Piped Service Creation Exception: " + ex.ToString());
 			}
 		}
 
-		public static void ConnectToManager(string instanceName)
+		public void CheckService()
+		{
+			if (m_service.State == CommunicationState.Faulted || m_service.State == CommunicationState.Closed)
+			{
+				if (m_reopenAttempts < m_maxReopenAttempts)
+				{
+					m_service.Open();
+					m_reopenAttempts++;
+				}
+				else
+				{
+					throw new Exception("Could not Reopen Pipe!");
+				}
+			}
+		}
+
+		public void ClosePipe()
+		{
+
+		}
+
+		public void ConnectToManager(string instanceName)
 		{
 			var serverBinding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
 			var serverEndpoint = new EndpointAddress("net.pipe://localhost/DESERVE/Manager");
@@ -128,10 +161,13 @@ namespace DESERVE.Managers
 			try
 			{
 				m_managerMarshall = serverChannel.CreateChannel();
-				Console.WriteLine("Sending Instance Name to Manager.");
-				m_managerMarshall.ReportInstanceName(instanceName);
-				serverChannel.Close();
 
+				if (m_managerMarshall != null)
+				{
+					m_managerMarshall.ReportInstanceName(instanceName);
+					m_managerMarshall = null;
+					serverChannel.Close();
+				}
 			}
 			catch
 			{

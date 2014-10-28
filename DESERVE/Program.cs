@@ -24,7 +24,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		private LogManager m_logManager;
 		private PluginManager m_pluginManager;
 
-		private ServiceHost m_pipedService;
 		private static DESERVE m_instance;
 		#endregion
 
@@ -68,10 +67,8 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 			if (DESERVE.Arguments.WCF)
 			{
-				m_pipedService = ServicesManager.CreatePipedService(Arguments.Instance ,5);
+				ServicesManager.Instance.CreatePipedService(Arguments.Instance ,5);
 
-				if (!ServicesManager.IsOpened)
-					m_pipedService.StartService();
 			}
 		}
 
