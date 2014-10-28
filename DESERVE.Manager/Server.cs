@@ -7,6 +7,7 @@ using System.ComponentModel;
 
 using DESERVE.Common;
 using DESERVE.Common.Marshall;
+using System;
 
 namespace DESERVE.Manager
 {
@@ -73,16 +74,16 @@ namespace DESERVE.Manager
 			this.Arguments = m_clientMarshall.Arguments;
 
 			m_eventHandler.ServerStarted += m_eventHandler_ServerStarted;
-			//m_eventHandler.ServerStopped += m_eventHandler_ServerStopped;
+			m_eventHandler.ServerStopped += m_eventHandler_ServerStopped;
 
 			return true;
 		}
 
-		//void m_eventHandler_ServerStopped()
-		//{
+		void m_eventHandler_ServerStopped()
+		{
 			
-			//OnPropertyChanged("IsRunning");
-		//}
+			OnPropertyChanged("IsRunning");
+		}
 
 		void m_eventHandler_ServerStarted()
 		{
@@ -92,6 +93,7 @@ namespace DESERVE.Manager
 
 		public void StopServer()
 		{
+			throw new Exception("This function hangs the server");
 			m_clientMarshall.Stop();
 			this.IsRunning = false;
 		}
