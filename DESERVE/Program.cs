@@ -47,7 +47,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 			program.Run();
 
-			ServicesManager.Instance.ClosePipe();
 			LogManager.MainLog.WriteLineAndConsole("DESERVE Quit.");
 		}
 
@@ -68,7 +67,6 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 			if (DESERVE.Arguments.WCF)
 			{
-				ServicesManager.Instance.CreatePipedService(Arguments.Instance ,5);
 
 			}
 		}
