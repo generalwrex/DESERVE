@@ -143,6 +143,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 				);
 
 			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Snapshot Complete. Unblocking Main Thread. Main Thread Blocked for: {0} seconds.", (DateTime.Now - saveStartTime).TotalSeconds));
+			saveStartTime = DateTime.Now;
 
 			if (result)
 			{
@@ -156,7 +157,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			if (result)
 			{
 				TimeSpan timeToSave = DateTime.Now - saveStartTime;
-				LogManager.MainLog.WriteLineAndConsole("DESERVE: File write complete. Total save time took " + timeToSave.TotalSeconds + " seconds");
+				LogManager.MainLog.WriteLineAndConsole("DESERVE: File write complete. File write took " + timeToSave.TotalSeconds + " seconds");
 			}
 			else
 			{
@@ -164,7 +165,6 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			}
 
 			IsSaving = false;
-			return true;
 
 		}
 		#endregion
