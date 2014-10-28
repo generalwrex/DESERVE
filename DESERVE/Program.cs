@@ -47,6 +47,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 			program.Run();
 
+			ServicesManager.Instance.ClosePipe();
 			LogManager.MainLog.WriteLineAndConsole("DESERVE Quit.");
 		}
 
