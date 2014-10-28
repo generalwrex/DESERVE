@@ -22,4 +22,5 @@ A New Dedicated Server application for Space Engineers paired with a Manager GUI
  * Auto-Restarting of specific/all servers
  * Auto-Server updating using SteamCMD
  * Auto-Backup of servers
+ * Auto-Updating of DESERVE
  
