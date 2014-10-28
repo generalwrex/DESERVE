@@ -191,18 +191,28 @@ namespace DESERVE.Manager.Managers
 
 				process.StartInfo.Arguments = argumentsString;
 				process.StartInfo.Verb = "runas";
-				
+
 				process.Start();
 
 				return process.StartInfo;
 			}
-			catch (Exception)
+			catch (FileNotFoundException ex)
 			{
 				MessageBox.Show(null, "Please make sure the path to DESERVE is set properly in the 'Manager Configuration' Tab!",
-					"DESERVE.exe Not Found", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
-				return null;
+					"DESERVE.exe Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+			catch (Win32Exception ex)
+			{
+				MessageBox.Show(null, "An Error occured while opening DESERVE.exe.",
+					"Win32Exception", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(null, "Please make sure the path to DESERVE is set properly in the 'Manager Configuration' Tab!",
+					"DESERVE.exe Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
+			return null;
 		}
 		#endregion
 
