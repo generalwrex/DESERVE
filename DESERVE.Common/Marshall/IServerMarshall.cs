@@ -18,6 +18,7 @@ namespace DESERVE.Common.Marshall
 
 		#region "Server Control"
 		String Name { [OperationContract] get; }
+		Boolean IsRunning { [OperationContract] get; }
 		CommandLineArgs Arguments { [OperationContract] get; }
 
 		[OperationContract]

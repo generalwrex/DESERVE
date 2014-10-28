@@ -25,6 +25,7 @@ namespace DESERVE.Managers
 
 		#region Properties
 		public String Name { get { return ServerInstance.Name; } }
+		public Boolean IsRunning { get { return DedicatedServerWrapper.Program.IsRunning; } }
 		public CommandLineArgs Arguments { get { return DESERVE.Arguments; } }
 		#endregion
 
