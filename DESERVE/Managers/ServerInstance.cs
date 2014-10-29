@@ -3,16 +3,17 @@ using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using System;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Threading;
 
 
 namespace DESERVE.Managers
 {
-	public class ServerInstance : IServerInstance
+	public class ServerInstance
 	{
 		#region Fields
 		private String m_saveFile;
-		private Thread m_serverThread;
+		private static Thread m_serverThread;
 		private static ServerInstance m_serverInstance;
 
 		private DedicatedServerWrapper m_dedicatedServerWrapper;
@@ -30,6 +31,7 @@ namespace DESERVE.Managers
 
 		#region Properties
 		public static ServerInstance Instance { get { return m_serverInstance; } }
+		public static Thread ServerThread { get { return m_serverThread; } }
 
 		public String Name { get { return m_saveFile; } }
 		public Boolean IsRunning { get; set; }
@@ -47,7 +49,20 @@ namespace DESERVE.Managers
 			m_serverInstance = this;
 			m_dedicatedServerWrapper = new DedicatedServerWrapper(Assembly.UnsafeLoadFrom("SpaceEngineersDedicated.exe"));
 			m_sandboxGameWrapper = new SandboxGameWrapper(Assembly.UnsafeLoadFrom("Sandbox.Game.dll"));
+			DedicatedServerWrapper.Program.OnServerStarted += Program_OnServerStarted;
+			DedicatedServerWrapper.Program.OnServerStopped += Program_OnServerStopped;
 		}
+
+		void Program_OnServerStarted()
+		{
+			IsRunning = true;
+		}
+
+		void Program_OnServerStopped()
+		{
+			IsRunning = false;
+		}
+
 
 		public void Start()
 		{

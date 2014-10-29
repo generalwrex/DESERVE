@@ -28,11 +28,22 @@ namespace DESERVE.Managers
 
 		public void RequestUpdate()
 		{
-			var callback = OperationContext.Current.GetCallbackChannel<IWCFClient>();
-			if (callback != null)
+			IWCFClient callback = OperationContext.Current.GetCallbackChannel<IWCFClient>();
+			ServerInfo info = new ServerInfo();
+			info.CurrentPlayers = ServerInstance.Instance.CurrentPlayers;
+			info.IsRunning = ServerInstance.Instance.IsRunning;
+			info.LastSave = ServerInstance.Instance.LastSave;
+			info.Name = ServerInstance.Instance.Name;
+			info.Uptime = ServerInstance.Instance.Uptime;
+
+
+			ThreadPool.QueueUserWorkItem((object state) =>
 			{
-				callback.ServerUpdate(ServerInstance.Instance as IServerInstance);
-			}
+				if (callback != null)
+				{
+					callback.ServerUpdate(info);
+				}
+			});
 		}
 	}
 }

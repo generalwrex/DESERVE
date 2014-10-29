@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using System.Timers;
 
 namespace DESERVE.Manager
 {
@@ -17,6 +18,7 @@ namespace DESERVE.Manager
 		private EndpointAddress m_endpoint;
 		private Boolean m_connected;
 		private ServerInstance m_serverInstance;
+		private Timer m_updateTimer;
 		#endregion
 
 		#region Properties
@@ -27,6 +29,22 @@ namespace DESERVE.Manager
 		public ClientController(String instanceName, ServerInstance instance)
 		{
 			m_endpoint = new EndpointAddress("net.pipe://localhost/DESERVE/" + instanceName);
+			m_serverInstance = instance;
+			m_updateTimer = new Timer(5000);
+			m_updateTimer.Elapsed += Timer_Elapsed;
+			m_updateTimer.Start();
+		}
+
+		void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			if (Connect())
+			{
+				m_pipeProxy.RequestUpdate();
+			}
+			else
+			{
+				ServerUpdate(new ServerInfo(m_serverInstance.Name, false, 0, TimeSpan.Zero, DateTime.MinValue));
+			}
 		}
 
 		public Boolean Connect()
@@ -36,38 +54,24 @@ namespace DESERVE.Manager
 			m_pipeProxy = m_pipeFactory.CreateChannel();
 			m_pipeChannel = m_pipeProxy as IClientChannel;
 
-			m_pipeChannel.Faulted += PipeProxyFaulted;
-
 			try
 			{
 				m_pipeChannel.Open();
-				m_pipeProxy.RequestUpdate();
+				return true;
 			}
 			catch (EndpointNotFoundException ex)
 			{
 				//TODO: LogManager.Log("Server not running");
-				return false;
 			}
 			catch (CommunicationException ex)
 			{
 				//TODO: LogManager.Log("Communication failed!");
-				return false;
 			}
-
-
-			return true;
-		}
-
-		void PipeProxyFaulted(object sender, EventArgs e)
-		{
-			IClientChannel proxy = sender as IClientChannel;
-			if (proxy != null)
+			catch (Exception ex)
 			{
-				proxy.Faulted -= PipeProxyFaulted;
-				proxy = null;
+				//TODO: LogManager.Log("Uncaught Exception!");
 			}
-
-			m_pipeFactory = null;
+			return false;
 		}
 
 		public void StopServer()
@@ -96,18 +100,16 @@ namespace DESERVE.Manager
 			m_pipeProxy.Save();
 		}
 	
-		public void ServerUpdate(IServerInstance serverInfo)
+		public void ServerUpdate(ServerInfo serverInfo)
 		{
-			if (!Connected)
-			{
-				m_connected = Connect();
-				if (!Connected)
-				{
-					return;
-				}
-			}
 			m_serverInstance.Update(serverInfo);
 		}
 		#endregion
+
+
+		public void ClosePipe()
+		{
+			m_pipeChannel.Close();
+		}
 	}
 }

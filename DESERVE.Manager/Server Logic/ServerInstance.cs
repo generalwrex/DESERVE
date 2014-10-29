@@ -2,13 +2,14 @@
 using DESERVE.Manager.Properties;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace DESERVE.Manager
 {
-	public class ServerInstance : IServerInstance
+	public class ServerInstance : ServerInfo, INotifyPropertyChanged
 	{
 
 		#region Fields
@@ -22,6 +23,11 @@ namespace DESERVE.Manager
 		private DateTime m_lastSave;
 
 		private ClientController m_clientController;
+
+		#region Events
+		public event PropertyChangedEventHandler PropertyChanged;
+		#endregion
+
 		#endregion
 
 		#region Properties
@@ -67,12 +73,16 @@ namespace DESERVE.Manager
 			m_clientController.SaveServer();
 		}
 
-		public void Update(IServerInstance serverInfo)
+		public void Update(ServerInfo serverInfo)
 		{
 			m_isRunning = serverInfo.IsRunning;
 			m_currentPlayers = serverInfo.CurrentPlayers;
 			m_uptime = serverInfo.Uptime;
 			m_lastSave = serverInfo.LastSave;
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(null));
+			}
 		}
 		#endregion
 	}

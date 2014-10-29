@@ -1,20 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 
 namespace DESERVE.Common
 {
-	public interface IServerInstance
+	[DataContract]
+	public class ServerInfo
 	{
 		#region Properties
-		String Name { get; }
-		Boolean IsRunning { get; }
-		Int32 CurrentPlayers { get; }
-		TimeSpan Uptime { get; }
-		DateTime LastSave { get; }
+		[DataMember]
+		public virtual String Name { get; set; }
+		[DataMember]
+		public virtual Boolean IsRunning { get; set; }
+		[DataMember]
+		public virtual Int32 CurrentPlayers { get; set; }
+		[DataMember]
+		public virtual TimeSpan Uptime { get; set; }
+		[DataMember]
+		public virtual DateTime LastSave { get; set; }
 		#endregion
+
+		public ServerInfo(String name, Boolean isRunning, Int32 currentPlayers, TimeSpan uptime, DateTime lastSave)
+		{
+			Name = name;
+			IsRunning = isRunning;
+			CurrentPlayers = currentPlayers;
+			Uptime = uptime;
+			LastSave = lastSave;
+		}
+
+		public ServerInfo() { }
 	}
 
 	public delegate void ServerStateEvent();
@@ -51,6 +66,9 @@ namespace DESERVE.Common
 		/// </summary>
 		/// <param name="serverInfo"></param>
 		[OperationContract(IsOneWay = true)]
-		void ServerUpdate(IServerInstance serverInfo);
+		void ServerUpdate(ServerInfo serverInfo);
+
+		[OperationContract(IsOneWay = true)]
+		void ClosePipe();
 	}
 }

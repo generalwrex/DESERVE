@@ -98,7 +98,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 					switch (key.Key)
 					{
 						case ConsoleKey.Escape:
-							//ServerInstance.Stop();
+							ServerInstance.Instance.Stop();
 							break;
 						case ConsoleKey.F1:
 							Console.WriteLine("DESERVE: Commands");
