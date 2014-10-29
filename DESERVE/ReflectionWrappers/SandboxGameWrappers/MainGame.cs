@@ -91,6 +91,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		/// <param name="action"></param>
 		public void EnqueueActionSync(Action action)
 		{
+			/*
 			if (Thread.CurrentThread == ServerInstance.ServerThread)
 			{
 				action.Invoke();
@@ -104,6 +105,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 				waitEvent.WaitOne();
 			}
+			 */
 		}
 
 		public void RegisterOnLoadedAction(Action action)

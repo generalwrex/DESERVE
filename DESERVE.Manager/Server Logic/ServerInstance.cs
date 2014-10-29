@@ -6,28 +6,30 @@ using System.Text;
 
 namespace DESERVE.Manager
 {
-	class ServerInstance : IServerInstance
+	public class ServerInstance : IServerInstance
 	{
 
 		#region Fields
-		#endregion
+		private String m_name;
+		private Boolean m_isRunning;
 
-		#region Events
+		private ClientController m_clientController;
 		#endregion
 
 		#region Properties
-		public String Name { get; set; }
-		public Boolean IsRunning { get; set; }
+		public String Name { get { return m_name; } }
+		public Boolean IsRunning { get { return m_isRunning; } }
 		//<TextBlock Foreground="{Binding RunningColor}" Grid.Column="2" Text="{Binding RunningString}"/>
 		public String RunningString { get { return (IsRunning ? "Running" : "Stopped"); } }
 		public String RunningColor { get { return (IsRunning ? "Green" : "Red"); } }
 		#endregion
 
 		#region Methods
-		public ServerInstance(String name, Boolean isRunning)
+		public ServerInstance(String name)
 		{
-			Name = name;
-			IsRunning = isRunning;
+			m_name = name;
+			m_clientController = new ClientController(m_name);
+			m_isRunning = m_clientController.Connect();
 		}
 
 		public void Start()
@@ -37,12 +39,12 @@ namespace DESERVE.Manager
 
 		public void Stop()
 		{
-
+			m_clientController.StopServer();
 		}
 
-		public void Save()
+		public void Save(Boolean enhancedSave = false)
 		{
-
+			m_clientController.SaveServer();
 		}
 		#endregion
 	}
