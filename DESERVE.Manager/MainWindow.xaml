@@ -22,31 +22,40 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="115,10,0,0" >
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox Header="Server Information" HorizontalAlignment="Stretch" Margin="0,0,115,10" VerticalAlignment="Stretch" Grid.Row="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Server Name:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="0" Grid.Column="0"/>
+                            <Label Content="Instance:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="1" Grid.Column="0"/>
+                            <Label Content="Binding IP:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="2" Grid.Column="0"/>
+                            <Label Content="Player Count:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="3" Grid.Column="0"/>
+                            <Label Content="Uptime:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="4" Grid.Column="0"/>
+                        </Grid>
+                    </GroupBox>
 
-        <GroupBox Header="Server Information" HorizontalAlignment="Stretch" Margin="115,10,0,0" VerticalAlignment="Stretch" Grid.Row="0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="20"/>
-                </Grid.RowDefinitions>
-                <Label Content="Server Name:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="0"/>
-                <Label Content="Instance:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="1"/>
-                <Label Content="Binding IP:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="2"/>
-                <Label Content="Player Count:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="3"/>
-                <Label Content="Uptime:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="4"/>
-            </Grid>
-        </GroupBox>
-
-        <GroupBox Header="Selected Server Controls" HorizontalAlignment="Stretch"  Margin="0,0,10,0" VerticalAlignment="Bottom" Height="45" Grid.Row="1">
-            <Grid>
-                <Button Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button Content="Stop" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button Content="Configure" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Top" Width="75"/>
-            </Grid>
-        </GroupBox>
-
+                    <GroupBox Header="Selected Server Controls" HorizontalAlignment="Stretch"  Margin="0,0,120,0" VerticalAlignment="Bottom" Height="45">
+                        <Grid>
+                            <Button Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75"/>
+                            <Button Content="Stop" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
