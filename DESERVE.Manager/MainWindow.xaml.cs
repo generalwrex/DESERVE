@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using DESERVE.Manager.Properties;
 
 namespace DESERVE.Manager
 {
@@ -56,6 +58,28 @@ namespace DESERVE.Manager
 		private void Stop_Click(object sender, RoutedEventArgs e)
 		{
 
+		}
+
+		private void MainMenu_Options_DeservePath_Click(object sender, RoutedEventArgs e)
+		{
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.CheckFileExists = true;
+			openFileDialog.InitialDirectory = Settings.Default.DESERVEPath;
+			openFileDialog.ShowDialog();
+
+			string fileName = openFileDialog.FileName;
+
+			if (fileName.Contains(@"\DESERVE.exe"))
+			{
+				Settings.Default.DESERVEPath = fileName.Replace(@"\DESERVE.exe", "");
+				Settings.Default.Save();				
+			}
+			
+		}
+
+		private void MainMenu_File_Quit_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
 		}
 	}
 }
