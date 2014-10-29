@@ -9,10 +9,11 @@
                     <Grid Margin="0,2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="90" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Text="{Binding RunningString}" />
+                        <TextBlock Grid.Column="2" Text="{Binding RunningString}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
