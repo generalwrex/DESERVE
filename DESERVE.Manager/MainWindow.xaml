@@ -4,10 +4,15 @@
         Title="MainWindow" Height="442" Width="786">
     <Grid Name="G_MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="26" />
         </Grid.RowDefinitions>
-        <ListBox Name="LB_ServerInstances" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Stretch"  Width="100" Grid.Row="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*" />
+            <ColumnDefinition Width="80*" />
+        </Grid.ColumnDefinitions>
+        <ListBox Name="LB_ServerInstances" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -22,7 +27,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="115,24,0,0" >
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">
             <TabItem Header="Server Info">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -67,9 +72,9 @@
                 <Grid />
             </TabItem>
         </TabControl>
-        <Label Content="Currently Selected Server:" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="{Binding Name}" HorizontalAlignment="Right" Grid.Row="1" />
-        <Menu HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="778" IsMainMenu="True">
+        <Label Content="Currently Selected Server:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="{Binding Name}" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="1" />
+        <Menu HorizontalAlignment="Stretch" Height="20" VerticalAlignment="Top" IsMainMenu="True" Grid.Row="0" Grid.ColumnSpan="10">
             <MenuItem x:Name="MainMenu" Header="File">
                 <MenuItem x:Name="MainMenu_File_Quit" Header="Quit" Click="MainMenu_File_Quit_Click"/>
             </MenuItem>
