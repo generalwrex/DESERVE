@@ -28,7 +28,11 @@ namespace DESERVE.Managers
 
 		public void RequestUpdate()
 		{
-			throw new NotImplementedException();
+			var callback = OperationContext.Current.GetCallbackChannel<IWCFClient>();
+			if (callback != null)
+			{
+				callback.ServerUpdate(ServerInstance.Instance as IServerInstance);
+			}
 		}
 	}
 }

@@ -16,6 +16,10 @@ namespace DESERVE.Manager
 		private Boolean m_isRunning;
 		private CommandLineArgs m_arguments;
 
+		private Int32 m_currentPlayers;
+		private TimeSpan m_uptime;
+		private DateTime m_lastSave;
+
 		private ClientController m_clientController;
 		#endregion
 
@@ -29,9 +33,9 @@ namespace DESERVE.Manager
 
 		public CommandLineArgs Arguments { get { return m_arguments; } }
 
-		public Int32 CurrentPlayers { get { throw new NotImplementedException(); } }
-		public TimeSpan Uptime { get { throw new NotImplementedException(); } }
-		public TimeSpan LastSave { get { throw new NotImplementedException(); } }
+		public Int32 CurrentPlayers { get { return m_currentPlayers; } }
+		public TimeSpan Uptime { get { return m_uptime; } }
+		public DateTime LastSave { get { return m_lastSave; } }
 
 
 		#endregion
@@ -40,7 +44,7 @@ namespace DESERVE.Manager
 		public ServerInstance(String instanceDir, String name)
 		{
 			m_name = name;
-			m_clientController = new ClientController(m_name);
+			m_clientController = new ClientController(m_name, this);
 			m_isRunning = m_clientController.Connect();
 		}
 
@@ -57,6 +61,14 @@ namespace DESERVE.Manager
 		public void Save(Boolean enhancedSave = false)
 		{
 			m_clientController.SaveServer();
+		}
+
+		public void Update(IServerInstance serverInfo)
+		{
+			m_isRunning = serverInfo.IsRunning;
+			m_currentPlayers = serverInfo.CurrentPlayers;
+			m_uptime = serverInfo.Uptime;
+			m_lastSave = serverInfo.LastSave;
 		}
 		#endregion
 	}

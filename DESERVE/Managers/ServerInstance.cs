@@ -18,6 +18,9 @@ namespace DESERVE.Managers
 		private DedicatedServerWrapper m_dedicatedServerWrapper;
 		private SandboxGameWrapper m_sandboxGameWrapper;
 
+		private DateTime m_launchedTime;
+		private DateTime m_lastSave;
+
 		#endregion
 
 		#region Events
@@ -30,14 +33,15 @@ namespace DESERVE.Managers
 
 		public String Name { get { return m_saveFile; } }
 		public Boolean IsRunning { get; set; }
-		public Int32 CurrentPlayers { get { throw new NotImplementedException(); } }
-		public TimeSpan Uptime { get { throw new NotImplementedException(); } }
-		public TimeSpan LastSave { get { throw new NotImplementedException(); } }
+		public Int32 CurrentPlayers { get; set; }
+		public TimeSpan Uptime { get { return DateTime.Now - m_launchedTime; } }
+		public DateTime LastSave { get { return m_lastSave; } }
 		#endregion
 
 		#region Methods
 		public ServerInstance(CommandLineArgs args)
 		{
+			m_launchedTime = DateTime.Now;
 			m_saveFile = args.Instance;
 			m_serverThread = null;
 			m_serverInstance = this;
@@ -69,9 +73,18 @@ namespace DESERVE.Managers
 			m_serverThread.Abort();
 		}
 
-		public void Save(Boolean enhancedSave = false)
+		public void Save()
 		{
-			SandboxGameWrapper.WorldManager.Save();
+			bool enhancedSave = true;
+			m_lastSave = DateTime.Now;
+			if (enhancedSave)
+			{
+				SandboxGameWrapper.WorldManager.EnhancedSave();
+			}
+			else
+			{
+				SandboxGameWrapper.WorldManager.Save();
+			}
 		}
 		#endregion
 	}

@@ -70,7 +70,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		public void Save()
 		{
-			SandboxGameWrapper.MainGame.EnqueueActionAsync(EnhancedSave);
+			SandboxGameWrapper.MainGame.EnqueueActionAsync(SaveWorld);
 		}
 
 		/// <summary>

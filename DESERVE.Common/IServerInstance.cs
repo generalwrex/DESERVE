@@ -13,7 +13,7 @@ namespace DESERVE.Common
 		Boolean IsRunning { get; }
 		Int32 CurrentPlayers { get; }
 		TimeSpan Uptime { get; }
-		TimeSpan LastSave { get; }
+		DateTime LastSave { get; }
 		#endregion
 	}
 

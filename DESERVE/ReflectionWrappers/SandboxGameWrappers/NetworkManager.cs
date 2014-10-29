@@ -63,10 +63,8 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 					//  TODO: Expand to actually have chat commands.
 					if (Command == "/save")
 					{
-						SandboxGameWrapper.WorldManager.Save();
+						//ServerInstance.Instance.Save();
 					}
-
-
 				}
 			}
 
