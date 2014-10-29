@@ -35,7 +35,7 @@ namespace DESERVE.Manager
 				{
 					// Instance found. Create and add it.
 					DirectoryInfo directoryInfo = new DirectoryInfo(instanceDir);
-					ServerInstances.Add(new ServerInstance(directoryInfo.Name));
+					ServerInstances.Add(new ServerInstance(instanceDir, directoryInfo.Name));
 				}
 			}
 		}

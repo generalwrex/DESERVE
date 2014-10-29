@@ -29,7 +29,7 @@ namespace DESERVE.Manager
 		#endregion
 
 		#region Methods
-		public ServerInstance(String name)
+		public ServerInstance(String instanceDir, String name)
 		{
 			m_name = name;
 			m_clientController = new ClientController(m_name);
