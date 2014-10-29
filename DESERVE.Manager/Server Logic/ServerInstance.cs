@@ -31,9 +31,10 @@ namespace DESERVE.Manager
 		#region Methods
 		public ServerInstance(String instanceDir, String name)
 		{
+			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
 			m_name = name;
 			m_clientController = new ClientController(m_name);
-			m_isRunning = m_clientController.Connect();
+			m_isRunning = m_clientController.Connect();		
 		}
 
 		public void Start()
