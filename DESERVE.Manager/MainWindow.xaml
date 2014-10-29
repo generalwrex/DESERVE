@@ -5,7 +5,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="45"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <ListBox Name="LB_ServerInstances" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Stretch"  Width="100" Grid.Row="0">
             <ListBox.ItemTemplate>
@@ -23,9 +23,13 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="115,10,0,0" >
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5">
-                    <GroupBox Header="Server Information" HorizontalAlignment="Stretch" Margin="0,0,115,10" VerticalAlignment="Stretch" Grid.Row="0">
+            <TabItem Header="Server Info">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Server Information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="80" />
@@ -45,7 +49,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Header="Selected Server Controls" HorizontalAlignment="Stretch"  Margin="0,0,120,0" VerticalAlignment="Bottom" Height="45">
+                    <GroupBox Header="Selected Server Controls" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="1">
                         <Grid>
                             <Button Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75"/>
                             <Button Content="Stop" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75"/>
@@ -53,9 +57,17 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Configuration">
+                <Grid />
+            </TabItem>
+            <TabItem Header="Chat">
+                <Grid />
+            </TabItem>
+            <TabItem Header="Plugins">
+                <Grid />
             </TabItem>
         </TabControl>
+        <Label Content="Currently Selected Server:" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="-TEST1-" HorizontalAlignment="Right" Grid.Row="1" />
     </Grid>
 </Window>
