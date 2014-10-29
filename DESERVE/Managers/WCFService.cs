@@ -1,9 +1,6 @@
 ﻿using DESERVE.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading;
 
 namespace DESERVE.Managers
@@ -31,7 +28,11 @@ namespace DESERVE.Managers
 
 		public void RequestUpdate()
 		{
-			throw new NotImplementedException();
+			var callback = OperationContext.Current.GetCallbackChannel<IWCFClient>();
+			if (callback != null)
+			{
+				callback.ServerUpdate(ServerInstance.Instance as IServerInstance);
+			}
 		}
 	}
 }

@@ -1,10 +1,6 @@
 ﻿using DESERVE.Managers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
@@ -74,7 +70,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		public void Save()
 		{
-			SandboxGameWrapper.MainGame.EnqueueActionAsync(EnhancedSave);
+			SandboxGameWrapper.MainGame.EnqueueActionAsync(SaveWorld);
 		}
 
 		/// <summary>

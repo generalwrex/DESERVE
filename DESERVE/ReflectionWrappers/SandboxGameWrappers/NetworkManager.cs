@@ -4,9 +4,7 @@ using SteamSDK;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 {
@@ -65,10 +63,8 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 					//  TODO: Expand to actually have chat commands.
 					if (Command == "/save")
 					{
-						SandboxGameWrapper.WorldManager.Save();
+						//ServerInstance.Instance.Save();
 					}
-
-
 				}
 			}
 

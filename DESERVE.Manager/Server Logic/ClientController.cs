@@ -16,6 +16,7 @@ namespace DESERVE.Manager
 		private IClientChannel m_pipeChannel;
 		private EndpointAddress m_endpoint;
 		private Boolean m_connected;
+		private ServerInstance m_serverInstance;
 		#endregion
 
 		#region Properties
@@ -23,7 +24,7 @@ namespace DESERVE.Manager
 		#endregion
 
 		#region Methods
-		public ClientController(String instanceName)
+		public ClientController(String instanceName, ServerInstance instance)
 		{
 			m_endpoint = new EndpointAddress("net.pipe://localhost/DESERVE/" + instanceName);
 		}
@@ -40,6 +41,7 @@ namespace DESERVE.Manager
 			try
 			{
 				m_pipeChannel.Open();
+				m_pipeProxy.RequestUpdate();
 			}
 			catch (EndpointNotFoundException ex)
 			{
@@ -104,7 +106,7 @@ namespace DESERVE.Manager
 					return;
 				}
 			}
- 			throw new NotImplementedException();
+			m_serverInstance.Update(serverInfo);
 		}
 		#endregion
 	}

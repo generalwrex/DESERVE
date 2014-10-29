@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Threading;
-using System.Reflection;
-using System.Globalization;
-using VRage.Common.Utils;
-using SysUtils.Utils;
+﻿using DESERVE.Common;
 using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
-using System.ServiceModel;
-using DESERVE.Managers;
-using DESERVE.Common;
+using System;
+using System.Reflection;
+using System.Threading;
 
 
 namespace DESERVE.Managers
@@ -27,6 +18,9 @@ namespace DESERVE.Managers
 		private DedicatedServerWrapper m_dedicatedServerWrapper;
 		private SandboxGameWrapper m_sandboxGameWrapper;
 
+		private DateTime m_launchedTime;
+		private DateTime m_lastSave;
+
 		#endregion
 
 		#region Events
@@ -35,14 +29,19 @@ namespace DESERVE.Managers
 		#endregion
 
 		#region Properties
+		public static ServerInstance Instance { get { return m_serverInstance; } }
+
 		public String Name { get { return m_saveFile; } }
 		public Boolean IsRunning { get; set; }
-		public static ServerInstance Instance { get { return m_serverInstance; } }
+		public Int32 CurrentPlayers { get; set; }
+		public TimeSpan Uptime { get { return DateTime.Now - m_launchedTime; } }
+		public DateTime LastSave { get { return m_lastSave; } }
 		#endregion
 
 		#region Methods
 		public ServerInstance(CommandLineArgs args)
 		{
+			m_launchedTime = DateTime.Now;
 			m_saveFile = args.Instance;
 			m_serverThread = null;
 			m_serverInstance = this;
@@ -74,9 +73,18 @@ namespace DESERVE.Managers
 			m_serverThread.Abort();
 		}
 
-		public void Save(Boolean enhancedSave = false)
+		public void Save()
 		{
-			SandboxGameWrapper.WorldManager.Save();
+			bool enhancedSave = true;
+			m_lastSave = DateTime.Now;
+			if (enhancedSave)
+			{
+				SandboxGameWrapper.WorldManager.EnhancedSave();
+			}
+			else
+			{
+				SandboxGameWrapper.WorldManager.Save();
+			}
 		}
 		#endregion
 	}
