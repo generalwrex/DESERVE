@@ -1,8 +1,9 @@
-﻿<Window x:Class="DESERVE.Manager.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="442" Width="786">
-    <Grid Name="G_MainGrid">
+        xmlns:Controls="clr-namespace:System.Windows.Controls" x:Class="DESERVE.Manager.MainWindow"
+        Title="MainWindow" Height="528" Width="920">
+    <Grid x:Name="G_MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
@@ -12,7 +13,7 @@
             <ColumnDefinition Width="20*" />
             <ColumnDefinition Width="80*" />
         </Grid.ColumnDefinitions>
-        <ListBox Name="LB_ServerInstances" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
+        <ListBox x:Name="LB_ServerInstances" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -63,7 +64,25 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Configuration">
-                <Grid />
+                <Grid Margin="0,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="326*"/>
+                        <RowDefinition Height="53*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="330*"/>
+                        <ColumnDefinition Width="331*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Command Line Args" Margin="0,0,0,0">
+                        <Controls:WpfPropertyGrid x:Name="PG_CommandLineArgs" Margin="0,0,0,0" SelectedObject="{Binding Arguments}"/>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="Dedicated Config" Margin="0,0,0,0">
+                        <Controls:WpfPropertyGrid x:Name="PG_DedicatedConfig" Margin="0,0,0,0" />
+                    </GroupBox>
+                    <GroupBox Header="Controls" Margin="0,0,0,0" Grid.Row="1" Grid.ColumnSpan="2">
+                        <Button x:Name="BTN_Configuration_SaveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top" Width="97" Click="BTN_Configuration_SaveChanges_Click"/>
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <TabItem Header="Chat">
                 <Grid />

@@ -29,6 +29,8 @@ namespace DESERVE.Manager
 			LB_ServerInstances.ItemsSource = Manager.ServerInstances;
 			LB_ServerInstances.SelectedIndex = 0;
 			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
+
+
 		}
 
 		/// <summary>
@@ -68,13 +70,19 @@ namespace DESERVE.Manager
 			{
 				Settings.Default.DESERVEPath = fileName.Replace(@"\DESERVE.exe", "");
 				Settings.Default.Save();				
-			}
-			
+			}		
 		}
 
 		private void MainMenu_File_Quit_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();
+		}
+
+		private void BTN_Configuration_SaveChanges_Click(object sender, RoutedEventArgs e)
+		{
+			var args = ((ServerInstance)LB_ServerInstances.SelectedItem).Arguments;
+			var path = ((ServerInstance)LB_ServerInstances.SelectedItem).InstanceDirectory;
+			FileManager.Instance.SaveArguments(path, args);
 		}
 	}
 }

@@ -15,6 +15,7 @@ namespace DESERVE.Manager
 		private String m_name;
 		private Boolean m_isRunning;
 		private CommandLineArgs m_arguments;
+		private String m_instanceDir;
 
 		private Int32 m_currentPlayers;
 		private TimeSpan m_uptime;
@@ -31,7 +32,8 @@ namespace DESERVE.Manager
 		public String RunningString { get { return (IsRunning ? "Running" : "Stopped"); } }
 		public String RunningColor { get { return (IsRunning ? "Green" : "Red"); } }
 
-		public CommandLineArgs Arguments { get { return m_arguments; } }
+		public CommandLineArgs Arguments { get { return m_arguments; } set { m_arguments = value; } }
+		public String InstanceDirectory { get { return m_instanceDir; } set { m_instanceDir = value; } }
 
 		public Int32 CurrentPlayers { get { return m_currentPlayers; } }
 		public TimeSpan Uptime { get { return m_uptime; } }
@@ -43,6 +45,7 @@ namespace DESERVE.Manager
 		#region Methods
 		public ServerInstance(String instanceDir, String name)
 		{
+			m_instanceDir = instanceDir;
 			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
 			m_name = name;
 			m_clientController = new ClientController(m_name, this);
