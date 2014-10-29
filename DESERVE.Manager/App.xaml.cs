@@ -25,14 +25,16 @@ namespace DESERVE.Manager
 			String[] args = Environment.GetCommandLineArgs();
 			String[] instanceDirs = Directory.GetDirectories(_SE_INSTANCE_PATH);
 
+			// Get Instances
 			foreach (String instanceDir in instanceDirs)
 			{
+				// Find the configuration file.
 				String[] config = Directory.GetFiles(instanceDir, "SpaceEngineers-Dedicated.cfg");
-
-				DirectoryInfo directoryInfo = new DirectoryInfo(instanceDir);
 
 				if (config.Length == 1)
 				{
+					// Instance found. Create and add it.
+					DirectoryInfo directoryInfo = new DirectoryInfo(instanceDir);
 					ServerInstances.Add(new ServerInstance(directoryInfo.Name));
 				}
 			}

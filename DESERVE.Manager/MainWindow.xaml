@@ -68,7 +68,7 @@
             </TabItem>
         </TabControl>
         <Label Content="Currently Selected Server:" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="-TEST1-" HorizontalAlignment="Right" Grid.Row="1" />
+        <Label Content="{Binding Name}" HorizontalAlignment="Right" Grid.Row="1" />
         <Menu HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="778" IsMainMenu="True">
             <MenuItem x:Name="MainMenu" Header="File">
                 <MenuItem x:Name="MainMenu_File_Quit" Header="Quit" Click="MainMenu_File_Quit_Click"/>

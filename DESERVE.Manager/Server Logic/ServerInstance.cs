@@ -1,6 +1,8 @@
 ﻿using DESERVE.Common;
+using DESERVE.Manager.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -12,6 +14,7 @@ namespace DESERVE.Manager
 		#region Fields
 		private String m_name;
 		private Boolean m_isRunning;
+		private CommandLineArgs m_arguments;
 
 		private ClientController m_clientController;
 		#endregion
@@ -22,6 +25,7 @@ namespace DESERVE.Manager
 		//<TextBlock Foreground="{Binding RunningColor}" Grid.Column="2" Text="{Binding RunningString}"/>
 		public String RunningString { get { return (IsRunning ? "Running" : "Stopped"); } }
 		public String RunningColor { get { return (IsRunning ? "Green" : "Red"); } }
+		public CommandLineArgs Arguments { get { return m_arguments; } }
 		#endregion
 
 		#region Methods
@@ -34,7 +38,7 @@ namespace DESERVE.Manager
 
 		public void Start()
 		{
-
+			ProcessStartInfo deserve = new ProcessStartInfo(Settings.Default.DESERVEPath, Arguments.ToString());
 		}
 
 		public void Stop()
