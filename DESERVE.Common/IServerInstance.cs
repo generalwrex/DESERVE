@@ -11,6 +11,9 @@ namespace DESERVE.Common
 		#region Properties
 		String Name { get; }
 		Boolean IsRunning { get; }
+		Int32 CurrentPlayers { get; }
+		TimeSpan Uptime { get; }
+		TimeSpan LastSave { get; }
 		#endregion
 	}
 

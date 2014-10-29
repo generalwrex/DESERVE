@@ -34,38 +34,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HavokWrapper, Version=1.0.5403.28459, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Sandbox.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\HavokWrapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Sandbox.Audio">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\Sandbox.Audio.dll</HintPath>
-    </Reference>
-    <Reference Include="Sandbox.Common">
       <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\Sandbox.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Sandbox.Common.XmlSerializers">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\Sandbox.Common.XmlSerializers.dll</HintPath>
-    </Reference>
-    <Reference Include="Sandbox.Game">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\Sandbox.Game.dll</HintPath>
-    </Reference>
-    <Reference Include="Sandbox.Graphics">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\Sandbox.Graphics.dll</HintPath>
-    </Reference>
-    <Reference Include="Sandbox.Input">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\Sandbox.Input.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\SharpDX.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.XAudio2">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\SharpDX.XAudio2.dll</HintPath>
     </Reference>
     <Reference Include="SpaceEngineersDedicated">
       <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\SpaceEngineersDedicated.exe</HintPath>
     </Reference>
-    <Reference Include="SteamSDK">
+    <Reference Include="SteamSDK, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\SteamSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -80,17 +57,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="VRage.Common">
+    <Reference Include="VRage.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\VRage.Common.dll</HintPath>
     </Reference>
-    <Reference Include="VRage.Library">
+    <Reference Include="VRage.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\VRage.Library.dll</HintPath>
-    </Reference>
-    <Reference Include="VRage.Math">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\VRage.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="VRage.Render">
-      <HintPath>D:\Steam\steamapps\common\SpaceEngineers\DedicatedServer64\VRage.Render.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

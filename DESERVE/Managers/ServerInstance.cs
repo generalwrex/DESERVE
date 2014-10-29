@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Threading;
-using System.Reflection;
-using System.Globalization;
-using VRage.Common.Utils;
-using SysUtils.Utils;
+﻿using DESERVE.Common;
 using DESERVE.ReflectionWrappers.DedicatedServerWrappers;
 using DESERVE.ReflectionWrappers.SandboxGameWrappers;
-using System.ServiceModel;
-using DESERVE.Managers;
-using DESERVE.Common;
+using System;
+using System.Reflection;
+using System.Threading;
 
 
 namespace DESERVE.Managers
@@ -35,9 +26,13 @@ namespace DESERVE.Managers
 		#endregion
 
 		#region Properties
+		public static ServerInstance Instance { get { return m_serverInstance; } }
+
 		public String Name { get { return m_saveFile; } }
 		public Boolean IsRunning { get; set; }
-		public static ServerInstance Instance { get { return m_serverInstance; } }
+		public Int32 CurrentPlayers { get { throw new NotImplementedException(); } }
+		public TimeSpan Uptime { get { throw new NotImplementedException(); } }
+		public TimeSpan LastSave { get { throw new NotImplementedException(); } }
 		#endregion
 
 		#region Methods

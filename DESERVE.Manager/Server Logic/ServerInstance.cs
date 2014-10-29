@@ -21,11 +21,19 @@ namespace DESERVE.Manager
 
 		#region Properties
 		public String Name { get { return m_name; } }
+
 		public Boolean IsRunning { get { return m_isRunning; } }
 		//<TextBlock Foreground="{Binding RunningColor}" Grid.Column="2" Text="{Binding RunningString}"/>
 		public String RunningString { get { return (IsRunning ? "Running" : "Stopped"); } }
 		public String RunningColor { get { return (IsRunning ? "Green" : "Red"); } }
+
 		public CommandLineArgs Arguments { get { return m_arguments; } }
+
+		public Int32 CurrentPlayers { get { throw new NotImplementedException(); } }
+		public TimeSpan Uptime { get { throw new NotImplementedException(); } }
+		public TimeSpan LastSave { get { throw new NotImplementedException(); } }
+
+
 		#endregion
 
 		#region Methods
