@@ -34,6 +34,7 @@ namespace DESERVE.Manager
 		public String Name { get { return m_name; } }
 
 		public Boolean IsRunning { get { return m_isRunning; } }
+		public Boolean NotIsRunning { get { return !IsRunning; } }
 		//<TextBlock Foreground="{Binding RunningColor}" Grid.Column="2" Text="{Binding RunningString}"/>
 		public String RunningString { get { return (IsRunning ? "Running" : "Stopped"); } }
 		public String RunningColor { get { return (IsRunning ? "Green" : "Red"); } }
@@ -61,6 +62,8 @@ namespace DESERVE.Manager
 		public void Start()
 		{
 			ProcessStartInfo deserve = new ProcessStartInfo(Settings.Default.DESERVEPath, Arguments.ToString());
+			deserve.WorkingDirectory = Settings.Default.DESERVEPath;
+			Process.Start(deserve);
 		}
 
 		public void Stop()
