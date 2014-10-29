@@ -3,7 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <ListBox Name="LB_ServerInstances" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+        <ListBox Name="LB_ServerInstances" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Stretch"  Width="100" Grid.Row="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -18,6 +22,31 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <GroupBox Header="Server Information" HorizontalAlignment="Stretch" Margin="115,10,0,0" VerticalAlignment="Stretch" Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <Label Content="Server Name:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="0"/>
+                <Label Content="Instance:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="1"/>
+                <Label Content="Binding IP:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="2"/>
+                <Label Content="Player Count:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="3"/>
+                <Label Content="Uptime:" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Width="390" Grid.Row="4"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Selected Server Controls" HorizontalAlignment="Stretch"  Margin="0,0,10,0" VerticalAlignment="Bottom" Height="45" Grid.Row="1">
+            <Grid>
+                <Button Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button Content="Stop" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button Content="Configure" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Top" Width="75"/>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Window>

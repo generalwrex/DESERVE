@@ -31,6 +31,7 @@ namespace DESERVE.Manager
 			InitializeComponent();
 
 			LB_ServerInstances.ItemsSource = m_servers;
+			LB_ServerInstances.SelectedIndex = 0;
 		}
 	}
 }
