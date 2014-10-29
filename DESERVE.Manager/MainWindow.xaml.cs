@@ -29,8 +29,6 @@ namespace DESERVE.Manager
 			LB_ServerInstances.ItemsSource = Manager.ServerInstances;
 			LB_ServerInstances.SelectedIndex = 0;
 			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
-
-
 		}
 
 		/// <summary>
@@ -83,6 +81,11 @@ namespace DESERVE.Manager
 			var args = ((ServerInstance)LB_ServerInstances.SelectedItem).Arguments;
 			var path = ((ServerInstance)LB_ServerInstances.SelectedItem).InstanceDirectory;
 			FileManager.Instance.SaveArguments(path, args);
+		}
+
+		private void LB_ServerInstances_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
 		}
 	}
 }

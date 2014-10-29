@@ -13,7 +13,7 @@
             <ColumnDefinition Width="20*" />
             <ColumnDefinition Width="80*" />
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="LB_ServerInstances" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0">
+        <ListBox x:Name="LB_ServerInstances" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" SelectionChanged="LB_ServerInstances_SelectionChanged" SelectionMode="Single">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
