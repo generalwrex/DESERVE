@@ -20,9 +20,17 @@ namespace DESERVE.Manager
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private List<ServerInstance> m_servers;
 		public MainWindow()
 		{
+			m_servers = new List<ServerInstance>();
+
+			m_servers.Add(new ServerInstance("Test1", true));
+			m_servers.Add(new ServerInstance("Test2", false));
+
 			InitializeComponent();
+
+			LB_ServerInstances.ItemsSource = m_servers;
 		}
 	}
 }
