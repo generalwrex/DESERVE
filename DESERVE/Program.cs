@@ -22,7 +22,9 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 		private CommandLineArgs m_commandLineArgs;
 		private LogManager m_logManager;
+		private ServerInstance m_serverInstance;
 		private PluginManager m_pluginManager;
+		private WCFHost m_wcfHost;
 
 		private static DESERVE m_instance;
 		#endregion
@@ -55,6 +57,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			m_instance = this;
 			m_commandLineArgs = new CommandLineArgs(args);
 			m_logManager = new LogManager(DESERVE.Arguments.LogDirectory);
+			m_serverInstance = new ServerInstance(DESERVE.Arguments);
 
 			LogManager.MainLog.WriteLineAndConsole("DESERVE Initialized. Version " + VersionString);
 
@@ -67,13 +70,14 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 			if (DESERVE.Arguments.WCF)
 			{
-
+				m_wcfHost = new WCFHost(DESERVE.Arguments.Instance);
+				m_wcfHost.StartServer();
 			}
 		}
 
 		private void Run()
 		{
-			ServerInstance.Start(DESERVE.Arguments);
+			ServerInstance.Instance.Start();
 
 			if (DESERVE.Arguments.AutosaveMinutes > 0)
 			{
@@ -100,7 +104,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 					switch (key.Key)
 					{
 						case ConsoleKey.Escape:
-							ServerInstance.Stop();
+							//ServerInstance.Stop();
 							break;
 						case ConsoleKey.F1:
 							Console.WriteLine("DESERVE: Commands");

@@ -20,29 +20,38 @@ namespace DESERVE.Managers
 	public class ServerInstance : IServerInstance
 	{
 		#region Fields
-		private static String m_saveFile;
-		private static Thread m_serverThread;
+		private String m_saveFile;
+		private Thread m_serverThread;
+		private static ServerInstance m_serverInstance;
 
-		private static DedicatedServerWrapper m_dedicatedServerWrapper;
-		private static SandboxGameWrapper m_sandboxGameWrapper;
+		private DedicatedServerWrapper m_dedicatedServerWrapper;
+		private SandboxGameWrapper m_sandboxGameWrapper;
 
 		#endregion
 
 		#region Events
+		public event ServerStateEvent ServerStarted;
+		public event ServerStateEvent ServerStopped;
 		#endregion
 
 		#region Properties
-		public static String Name { get { return m_saveFile; } }
-		public static Thread ServerThread { get { return m_serverThread; } }
+		public String Name { get { return m_saveFile; } }
+		public Boolean IsRunning { get; set; }
+		public static ServerInstance Instance { get { return m_serverInstance; } }
 		#endregion
 
 		#region Methods
-		public static void Start(CommandLineArgs args)
+		public ServerInstance(CommandLineArgs args)
 		{
 			m_saveFile = args.Instance;
+			m_serverThread = null;
+			m_serverInstance = this;
 			m_dedicatedServerWrapper = new DedicatedServerWrapper(Assembly.UnsafeLoadFrom("SpaceEngineersDedicated.exe"));
 			m_sandboxGameWrapper = new SandboxGameWrapper(Assembly.UnsafeLoadFrom("Sandbox.Game.dll"));
+		}
 
+		public void Start()
+		{
 			Object[] serverArgs = new Object[]
 				{
 					new String[] {
@@ -58,14 +67,14 @@ namespace DESERVE.Managers
 			m_sandboxGameWrapper.Init();
 		}
 
-		public static void Stop()
+		public void Stop()
 		{
 			SandboxGameWrapper.MainGame.SignalShutdown();
 			m_serverThread.Join(60000);
 			m_serverThread.Abort();
 		}
 
-		public static void Save()
+		public void Save(Boolean enhancedSave = false)
 		{
 			SandboxGameWrapper.WorldManager.Save();
 		}

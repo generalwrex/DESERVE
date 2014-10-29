@@ -20,18 +20,13 @@ namespace DESERVE.Manager
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private List<ServerInstance> m_servers;
 		public MainWindow()
 		{
-			m_servers = new List<ServerInstance>();
-
-			m_servers.Add(new ServerInstance("Test1", true));
-			m_servers.Add(new ServerInstance("Test2", false));
-
 			InitializeComponent();
 
-			LB_ServerInstances.ItemsSource = m_servers;
+			LB_ServerInstances.ItemsSource = Manager.ServerInstances;
 			LB_ServerInstances.SelectedIndex = 0;
+			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
 		}
 
 		/// <summary>
@@ -43,7 +38,7 @@ namespace DESERVE.Manager
 		/// <param name="e"></param>
 		private void Start_Click(object sender, RoutedEventArgs e)
 		{
-
+			((ServerInstance)LB_ServerInstances.SelectedItem).Start();
 		}
 
 		/// <summary>
@@ -55,7 +50,7 @@ namespace DESERVE.Manager
 		/// <param name="e"></param>
 		private void Stop_Click(object sender, RoutedEventArgs e)
 		{
-
+			((ServerInstance)LB_ServerInstances.SelectedItem).Stop();
 		}
 	}
 }
