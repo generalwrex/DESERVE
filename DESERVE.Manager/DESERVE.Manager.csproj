@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="System.Activities.Presentation" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,7 +56,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ServerInstance.cs" />
+    <Compile Include="Server Logic\ServerInstance.cs" />
+    <Compile Include="Server Logic\ClientController.cs" />
     <Compile Include="WpfPropertyGrid.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

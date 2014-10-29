@@ -95,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Managers\PluginManager.cs" />
+    <Compile Include="Managers\WCFHost.cs" />
+    <Compile Include="Managers\WCFService.cs" />
     <Compile Include="ReflectionWrappers\DedicatedServerWrappers\DedicatedServerWrapper.cs" />
     <Compile Include="Managers\LogManager.cs" />
     <Compile Include="Program.cs" />
