@@ -33,5 +33,29 @@ namespace DESERVE.Manager
 			LB_ServerInstances.ItemsSource = m_servers;
 			LB_ServerInstances.SelectedIndex = 0;
 		}
+
+		/// <summary>
+		/// <Button Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click"/>
+		/// 
+		/// Note: Click="Start_Click" in the above line.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Start_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		/// <summary>
+		/// <Button Content="Stop" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75" Click="Stop_Click"/>
+		/// 
+		/// Note: Click="Stop_Click" in the above line.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Stop_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }

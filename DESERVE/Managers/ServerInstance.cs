@@ -17,7 +17,7 @@ using DESERVE.Common;
 
 namespace DESERVE.Managers
 {
-	public static class ServerInstance
+	public class ServerInstance : IServerInstance
 	{
 		#region Fields
 		private static String m_saveFile;

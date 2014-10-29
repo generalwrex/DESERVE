@@ -43,10 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IServerInstance.cs" />
     <Compile Include="CommandLineArgs.cs" />
-    <Compile Include="Marshall\IManagerMarshall.cs" />
-    <Compile Include="Marshall\IServerMarshall.cs" />
-    <Compile Include="Marshall\IServerMarshallCallbacks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
