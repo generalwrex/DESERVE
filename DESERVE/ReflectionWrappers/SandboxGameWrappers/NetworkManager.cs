@@ -112,6 +112,11 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		public String GetName(ulong steamId)
 		{
+			if (steamId == 0)
+			{
+				return "Server";
+			}
+
 			List<IMyPlayer> players = new List<IMyPlayer>();
 			MyAPIGateway.Players.GetPlayers(players);
 			foreach (IMyPlayer player in players)
@@ -133,15 +138,17 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			{
 				List<IMyPlayer> players = new List<IMyPlayer>();
 				MyAPIGateway.Players.GetPlayers(players);
+
+				if (OnChatMessage != null)
+				{
+					OnChatMessage(0, message, ChatEntryTypeEnum.ChatMsg);
+				}
+
 				if (players.Count > 0)
 				{
 					foreach (IMyPlayer player in players)
 					{
 						SendStruct(player.SteamUserId, ChatMessage);
-					}
-					if (OnChatMessage != null)
-					{
-						OnChatMessage(0, message, ChatEntryTypeEnum.ChatMsg);
 					}
 				}
 			}
