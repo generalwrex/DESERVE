@@ -57,13 +57,6 @@ namespace DESERVE.Common
 		[Browsable(true)]
 		[ReadOnly(false)]
 		[Category("Command Line Arguments")]
-		[DisplayName("Mod API Initialization")]
-		[Description("Enable initializing the Modding API.")]
-		public Boolean ModAPI { get; set; }
-
-		[Browsable(true)]
-		[ReadOnly(false)]
-		[Category("Command Line Arguments")]
 		[DisplayName("Enable Plugins")]
 		[Description("Enable DESERVE Plugins.")]
 		public Boolean Plugins { get; set; }
@@ -113,7 +106,6 @@ namespace DESERVE.Common
 			Debug = false;
 			m_instance = "";
 			m_logDirectory = Path.Combine(Directory.GetCurrentDirectory(), "DESERVE");
-			ModAPI = false;
 			Plugins = false;
 			Update = false;
 			UpdateOldPath = "";
@@ -123,7 +115,7 @@ namespace DESERVE.Common
 
 		public override string ToString()
 		{
-			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (ModAPI ? "-modapi " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
+			return (Update ? "-update " + UpdateOldPath + " " + UpdateNewPath : (VSDebug ? "-vsdebug " : "") + (m_autosaveSet ? "-autosave " + AutosaveMinutes.ToString() + " " : "") + (Debug ? "-debug " : "") + (m_instanceSet ? "-instance \"" + Instance + "\" " : "") + (m_logDirectorySet ? "-logdir \"" + LogDirectory + "\" " : "") + (Plugins ? "-plugins " : "") + (WCF ? "-wcf " : ""));
 		}
 
 		private static String[] SeperateArgs(String argString)
@@ -199,9 +191,6 @@ namespace DESERVE.Common
 							Console.WriteLine("Argument Error: -logdir directory not specified.");
 						}
 						break;
-					case "-modapi":
-						ModAPI = true;
-						break;
 					case "-plugins":
 						Plugins = true;
 						break;
@@ -209,8 +198,7 @@ namespace DESERVE.Common
 						WCF = true;
 						break;
 					case "-vsdebug":
-						if (Debugger.IsAttached == false)
-							Debugger.Launch();
+						Debugger.Launch();
 						break;
 				}
 

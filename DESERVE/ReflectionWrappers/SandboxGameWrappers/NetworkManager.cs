@@ -110,18 +110,15 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			}
 		}
 
-		private String GetName(ulong steamId)
+		public String GetName(ulong steamId)
 		{
-			if (DESERVE.Arguments.ModAPI)
+			List<IMyPlayer> players = new List<IMyPlayer>();
+			MyAPIGateway.Players.GetPlayers(players);
+			foreach (IMyPlayer player in players)
 			{
-				List<IMyPlayer> players = new List<IMyPlayer>();
-				MyAPIGateway.Players.GetPlayers(players);
-				foreach (IMyPlayer player in players)
+				if (player.SteamUserId == steamId)
 				{
-					if (player.SteamUserId == steamId)
-					{
-						return player.DisplayName;
-					}
+					return player.DisplayName;
 				}
 			}
 
@@ -131,12 +128,6 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		public void SendChatMessage(String message, ulong steamId = 0)
 		{
 			Object ChatMessage = SandboxGameWrapper.ChatMessageStruct.CreateStruct(message);
-
-			if (!DESERVE.Arguments.ModAPI)
-			{
-				LogManager.ErrorLog.WriteLine(String.Format("DESERVE: SendChatMessage called, but ModAPIGateway not initialized. Stack Trace: {0}", (new StackTrace()).ToString()));
-				return;
-			}
 
 			if (steamId == 0)
 			{

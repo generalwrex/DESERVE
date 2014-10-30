@@ -30,14 +30,25 @@ namespace DESERVE.Managers
 		{
 			IWCFClient callback = OperationContext.Current.GetCallbackChannel<IWCFClient>();
 			ServerInfo info = new ServerInfo();
-			info.CurrentPlayers = ServerInstance.Instance.CurrentPlayers;
-			info.IsRunning = ServerInstance.Instance.IsRunning;
-			info.LastSave = ServerInstance.Instance.LastSave;
-			info.Name = ServerInstance.Instance.Name;
-			info.Uptime = ServerInstance.Instance.Uptime;
-			info.ChatMessages = ServerInstance.Instance.ChatMessages;
 
-
+			if (ServerInstance.Instance.IsRunning)
+			{
+				info.CurrentPlayers = ServerInstance.Instance.CurrentPlayers;
+				info.IsRunning = ServerInstance.Instance.IsRunning;
+				info.LastSave = ServerInstance.Instance.LastSave;
+				info.Name = ServerInstance.Instance.Name;
+				info.Uptime = ServerInstance.Instance.Uptime;
+				info.ChatMessages = ServerInstance.Instance.ChatMessages;
+			}
+			else
+			{
+				info.CurrentPlayers = new System.Collections.ObjectModel.ObservableCollection<Player>();
+				info.IsRunning = false;
+				info.LastSave = DateTime.MinValue;
+				info.Name = ServerInstance.Instance.Name;
+				info.Uptime = TimeSpan.Zero;
+				info.ChatMessages = new System.Collections.ObjectModel.ObservableCollection<ChatMessage>();
+			}
 			ThreadPool.QueueUserWorkItem((object state) =>
 			{
 				if (callback != null)
@@ -45,6 +56,11 @@ namespace DESERVE.Managers
 					callback.ServerUpdate(info);
 				}
 			});
+		}
+
+		public void SendChatMessage(ChatMessage message)
+		{
+			ServerInstance.Instance.SendChatMessage(message);
 		}
 	}
 }

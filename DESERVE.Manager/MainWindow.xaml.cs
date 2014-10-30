@@ -130,7 +130,8 @@ namespace DESERVE.Manager
 		#region Chat
 		private void BTN_Chat_SendMessage_Click(object sender, RoutedEventArgs e)
 		{
-			throw new NotImplementedException("Tried to send '" + TXT_Chat_MessageToSend.Text + "' to the server by clicking 'Send'! IT FAILED!");
+			((ServerInstance)LB_ServerInstances.SelectedItem).SendChatMessage(TXT_Chat_MessageToSend.Text);
+			TXT_Chat_MessageToSend.Clear();
 		}
 
 		private void TXT_Chat_MessageToSend_KeyDown(object sender, KeyEventArgs e)
@@ -138,7 +139,8 @@ namespace DESERVE.Manager
 			if (!(e.Key == Key.Enter) || !(e.Key == Key.Return))
 				return;
 
-			throw new NotImplementedException("Tried to send '" + TXT_Chat_MessageToSend.Text + "' to the server with the Enter or Return key! IT FAILED!");
+			((ServerInstance)LB_ServerInstances.SelectedItem).SendChatMessage(TXT_Chat_MessageToSend.Text);
+			TXT_Chat_MessageToSend.Clear();
 		}
 
 		private void LB_ChatMessages_SelectionChanged(object sender, SelectionChangedEventArgs e)

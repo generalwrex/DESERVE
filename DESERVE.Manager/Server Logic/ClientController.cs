@@ -22,6 +22,7 @@ namespace DESERVE.Manager
 		private Boolean m_connected;
 		private ServerInstance m_serverInstance;
 		private Timer m_updateTimer;
+		private readonly object _lockObj = new object();
 		#endregion
 
 		#region Properties
@@ -47,35 +48,38 @@ namespace DESERVE.Manager
 			}
 			else
 			{
-				ServerUpdate(new ServerInfo(m_serverInstance.Name, false, 0, TimeSpan.Zero, DateTime.MinValue, new ObservableCollection<string>()));
+				ServerUpdate(new ServerInfo(m_serverInstance.Name, false, new ObservableCollection<Player>(), TimeSpan.Zero, DateTime.MinValue, new ObservableCollection<ChatMessage>()));
 			}
 		}
 
 		public Boolean Connect()
 		{
-			m_pipeFactory = new DuplexChannelFactory<IWCFService>(this, new NetNamedPipeBinding(), m_endpoint);
+			lock (_lockObj)
+			{
+				m_pipeFactory = new DuplexChannelFactory<IWCFService>(this, new NetNamedPipeBinding(), m_endpoint);
 
-			m_pipeProxy = m_pipeFactory.CreateChannel();
-			m_pipeChannel = m_pipeProxy as IClientChannel;
+				m_pipeProxy = m_pipeFactory.CreateChannel();
+				m_pipeChannel = m_pipeProxy as IClientChannel;
 
-			try
-			{
-				m_pipeChannel.Open();
-				return true;
+				try
+				{
+					m_pipeChannel.Open();
+					return true;
+				}
+				catch (EndpointNotFoundException ex)
+				{
+					//TODO: LogManager.Log("Server not running");
+				}
+				catch (CommunicationException ex)
+				{
+					//TODO: LogManager.Log("Communication failed!");
+				}
+				catch (Exception ex)
+				{
+					//TODO: LogManager.Log("Uncaught Exception!");
+				}
+				return false;
 			}
-			catch (EndpointNotFoundException ex)
-			{
-				//TODO: LogManager.Log("Server not running");
-			}
-			catch (CommunicationException ex)
-			{
-				//TODO: LogManager.Log("Communication failed!");
-			}
-			catch (Exception ex)
-			{
-				//TODO: LogManager.Log("Uncaught Exception!");
-			}
-			return false;
 		}
 
 		public void StopServer()
@@ -103,7 +107,20 @@ namespace DESERVE.Manager
 			}
 			m_pipeProxy.Save();
 		}
-	
+
+		internal void SendChatMessage(ChatMessage chatMessage)
+		{
+			if (!Connected)
+			{
+				m_connected = Connect();
+				if (!Connected)
+				{
+					return;
+				}
+			}
+			m_pipeProxy.SendChatMessage(chatMessage);
+		}
+
 		public void ServerUpdate(ServerInfo serverInfo)
 		{
 			m_serverInstance.Update(serverInfo);

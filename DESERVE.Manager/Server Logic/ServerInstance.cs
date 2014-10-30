@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace DESERVE.Manager
 {
-	public class ServerInstance : ServerInfo, INotifyPropertyChanged
+	public class ServerInstance : INotifyPropertyChanged
 	{
 
 		#region Fields
@@ -21,12 +21,12 @@ namespace DESERVE.Manager
 		private CommandLineArgs m_arguments;
 		private String m_instanceDir;
 
-		private Int32 m_currentPlayers;
+		private ObservableCollection<Player> m_currentPlayers;
 		private TimeSpan m_uptime;
 		private DateTime m_lastSave;
 		private String m_bindingIp;
 		private String m_serverName;
-		private ObservableCollection<String> m_chatMessages;
+		private ObservableCollection<ChatMessage> m_chatMessages;
 
 		private ClientController m_clientController;
 
@@ -51,10 +51,11 @@ namespace DESERVE.Manager
 
 		public String BindingIp { get { return m_bindingIp; } }
 		public String ServerName { get { return m_serverName; } }
-		public Int32 CurrentPlayers { get { return m_currentPlayers; } }
-		public TimeSpan Uptime { get { return m_uptime; } }
-		public DateTime LastSave { get { return m_lastSave; } }
-		public ObservableCollection<String> ChatMessages { get { return m_chatMessages; } }
+		public ObservableCollection<Player> CurrentPlayers { get { return m_currentPlayers; } }
+		public Int32 PlayerCount { get { return CurrentPlayers.Count; } }
+		public String Uptime { get { return m_uptime.ToString(@"dd\:hh\:mm\:ss"); } }
+		public String LastSave { get { return m_lastSave.ToString("HH:mm:ss dd/mmm/yyyy"); } }
+		public ObservableCollection<ChatMessage> ChatMessages { get { return m_chatMessages; } }
 
 
 		#endregion
@@ -62,7 +63,7 @@ namespace DESERVE.Manager
 		#region Methods
 		public ServerInstance(String instanceDir, String name)
 		{
-			m_chatMessages = new ObservableCollection<string>();
+			m_chatMessages = new ObservableCollection<ChatMessage>();
 			m_instanceDir = instanceDir;
 			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
 			m_name = name;
@@ -119,6 +120,18 @@ namespace DESERVE.Manager
 			{
 				PropertyChanged(this, new PropertyChangedEventArgs(null));
 			}
+		}
+
+		public void SendChatMessage(String message)
+		{
+			ChatMessage chatMessage = new ChatMessage();
+			chatMessage.Message = message;
+			chatMessage.Timestamp = DateTime.Now;
+			chatMessage.SteamId = 0;
+			chatMessage.Name = "Server";
+
+			m_clientController.SendChatMessage(chatMessage);
+
 		}
 		#endregion
 	}

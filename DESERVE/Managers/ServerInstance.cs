@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using Sandbox.ModAPI;
 
 
 namespace DESERVE.Managers
@@ -15,7 +17,7 @@ namespace DESERVE.Managers
 		#region Fields
 		private String m_saveFile;
 
-		private ObservableCollection<String> m_chatMessages;
+		private ObservableCollection<ChatMessage> m_chatMessages;
 
 		private static Thread m_serverThread;
 		private static ServerInstance m_serverInstance;
@@ -39,16 +41,16 @@ namespace DESERVE.Managers
 
 		public String Name { get { return m_saveFile; } }
 		public Boolean IsRunning { get; set; }
-		public Int32 CurrentPlayers { get; set; }
+		public ObservableCollection<Player> CurrentPlayers { get { return GetCurrentPlayers(); } }
 		public TimeSpan Uptime { get { return DateTime.Now - m_launchedTime; } }
 		public DateTime LastSave { get { return m_lastSave; } }
-		public ObservableCollection<String> ChatMessages { get { return m_chatMessages; } }
+		public ObservableCollection<ChatMessage> ChatMessages { get { return m_chatMessages; } }
 		#endregion
 
 		#region Methods
 		public ServerInstance(CommandLineArgs args)
 		{
-			m_chatMessages = new ObservableCollection<string>();
+			m_chatMessages = new ObservableCollection<ChatMessage>();
 			m_launchedTime = DateTime.Now;
 			m_saveFile = args.Instance;
 			m_serverThread = null;
@@ -62,7 +64,12 @@ namespace DESERVE.Managers
 
 		void NetworkManager_OnChatMessage(ulong remoteUserId, string message, SteamSDK.ChatEntryTypeEnum entryType)
 		{
-			ChatMessages.Add(String.Format("[{0}] [{1}]: {2}", DateTime.Now, remoteUserId, message));
+			ChatMessage chatMessage = new ChatMessage();
+			chatMessage.Message = message;
+			chatMessage.Name = (remoteUserId == 0 ? "Server" : SandboxGameWrapper.NetworkManager.GetName(remoteUserId));
+			chatMessage.SteamId = remoteUserId;
+			chatMessage.Timestamp = DateTime.Now;
+			ChatMessages.Add(chatMessage);
 		}
 
 		void Program_OnServerStarted()
@@ -74,9 +81,6 @@ namespace DESERVE.Managers
 		{
 			IsRunning = false;
 		}
-
-
-
 
 		public void Start()
 		{
@@ -114,6 +118,26 @@ namespace DESERVE.Managers
 			{
 				SandboxGameWrapper.WorldManager.Save();
 			}
+		}
+
+		public void SendChatMessage(ChatMessage message)
+		{
+			SandboxGameWrapper.NetworkManager.SendChatMessage(message.Message, message.SteamId);
+		}
+
+		public ObservableCollection<Player> GetCurrentPlayers()
+		{
+			List<IMyPlayer> players = new List<IMyPlayer>();
+			ObservableCollection<Player> currentPlayers = new ObservableCollection<Player>();
+			MyAPIGateway.Players.GetPlayers(players);
+			if (players.Count > 0)
+			{
+				foreach (IMyPlayer player in players)
+				{
+					currentPlayers.Add(new Player() { Name = player.DisplayName, SteamId = player.SteamUserId });
+				}
+			}
+			return currentPlayers;
 		}
 		#endregion
 	}

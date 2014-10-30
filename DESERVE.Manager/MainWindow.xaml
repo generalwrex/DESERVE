@@ -60,7 +60,7 @@
                             <Label Content="{Binding ServerName}" Margin="11,0,10,0" Grid.Column="1"/>
                             <Label Content="{Binding Name}" Margin="11,0,10,0" Grid.Row="1" Grid.Column="1"/>
                             <Label Content="{Binding BindingIp}" Margin="11,0,10,0" Grid.Row="2" Grid.Column="1"/>
-                            <Label Content="{Binding CurrentPlayers}" Margin="11,0,10,0" Grid.Row="3" Grid.Column="1"/>
+                            <Label Content="{Binding PlayerCount}" Margin="11,0,10,0" Grid.Row="3" Grid.Column="1"/>
                             <Label Content="{Binding Uptime}" Margin="11,0,10,0" Grid.Row="4" Grid.Column="1"/>
                             <Label Content="{Binding LastSave}" Margin="11,0,10,0" Grid.Row="5" Grid.Column="1"/>
 
@@ -111,7 +111,7 @@
                         <ListBox x:Name="LB_ChatMessages" Margin="0,0,0,0" ItemsSource="{Binding ChatMessages}" ToolTip="Click on a message to copy to clipboard" Background="#FF0D0D0E" Foreground="White" SelectionChanged="LB_ChatMessages_SelectionChanged"/>
                     </GroupBox>
                     <GroupBox Grid.Column="1" Header="Players" Margin="0,0,0,0" >
-                        <ListBox x:Name="LB_Players" IsEnabled ="False" Margin="0,0,0,0"/>
+                        <ListBox x:Name="LB_Players" Margin="0,0,0,0" ItemsSource="{Binding Players}"/>
                     </GroupBox>
                     <GroupBox Header="Send Message" Margin="0,0,0,0" Grid.Row="1" Grid.ColumnSpan="2">
                         <Grid Margin="0,0,0,0">

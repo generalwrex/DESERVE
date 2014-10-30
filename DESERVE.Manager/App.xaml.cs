@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DESERVE.Common;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -22,8 +23,9 @@ namespace DESERVE.Manager
 		{
 			ServerInstances = new List<ServerInstance>();
 
-			String[] args = Environment.GetCommandLineArgs();
+			CommandLineArgs args = new CommandLineArgs(Environment.GetCommandLineArgs());
 			String[] instanceDirs = Directory.GetDirectories(_SE_INSTANCE_PATH);
+
 
 			// Get Instances
 			foreach (String instanceDir in instanceDirs)
