@@ -75,6 +75,19 @@ namespace DESERVE.Manager
 			((ServerInstance)LB_ServerInstances.SelectedItem).Stop();
 			StatusBar.Content = "Stopped '" + ((ServerInstance)LB_ServerInstances.SelectedItem).Name + "'";
 		}
+
+		/// <summary>
+		/// <Button x:Name="BTN_SaveServer" Content="Save" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
+		///  Saves the Currently Selected Server
+		/// Note: Click="Save_Click" in the above line.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Save_Click(object sender, RoutedEventArgs e)
+		{
+			((ServerInstance)LB_ServerInstances.SelectedItem).Save();
+			StatusBar.Content = "Saved '" + ((ServerInstance)LB_ServerInstances.SelectedItem).Name + "'";
+		}
 		#endregion
 
 		#region MainMenu
@@ -127,5 +140,7 @@ namespace DESERVE.Manager
 			throw new NotImplementedException("Tried to send '" + TXT_Chat_MessageToSend.Text + "' to the server with the Enter or Return key! IT FAILED!");
 		}
 		#endregion
+
+
 	}
 }

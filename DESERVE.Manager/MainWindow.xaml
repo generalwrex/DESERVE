@@ -71,6 +71,7 @@
                         <Grid>
                             <Button x:Name="BTN_StartServer" Content="Start" IsEnabled="{Binding NotIsRunning}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click"/>
                             <Button x:Name="BTN_StopServer" Content="Stop" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75" Click="Stop_Click"/>
+                            <Button x:Name="BTN_SaveServer" Content="Save" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
