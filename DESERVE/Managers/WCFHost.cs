@@ -46,6 +46,7 @@ namespace DESERVE.Managers
 					 m_service.Uri);
 				m_serviceHost.Open();
 
+				LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Opened WCF Pipe at {0}", m_service.Uri));
 				m_operational = true;
 			}
 			catch (Exception ex)

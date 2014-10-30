@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace DESERVE.Manager
 {
@@ -61,9 +63,22 @@ namespace DESERVE.Manager
 
 		public void Start()
 		{
-			ProcessStartInfo deserve = new ProcessStartInfo(Settings.Default.DESERVEPath, Arguments.ToString());
+			if (String.IsNullOrEmpty(Settings.Default.DESERVEPath))
+			{
+				MessageBox.Show("DESERVE.EXE not found! Make sure to set the path to DESERVE.EXE in the \"Options\" menu.");
+				return;
+			}
+
+			ProcessStartInfo deserve = new ProcessStartInfo(Path.Combine(Settings.Default.DESERVEPath, "DESERVE.exe"), Arguments.ToString());
 			deserve.WorkingDirectory = Settings.Default.DESERVEPath;
-			Process.Start(deserve);
+			try
+			{
+				Process.Start(deserve);
+			}
+			catch (FileNotFoundException ex)
+			{
+				MessageBox.Show("DESERVE.EXE not found! Make sure to set the correct path to DESERVE.EXE in the \"Options\" menu.");
+			}
 		}
 
 		public void Stop()

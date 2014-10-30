@@ -32,6 +32,7 @@ namespace DESERVE.Manager
 			m_serverInstance = instance;
 			m_updateTimer = new Timer(5000);
 			m_updateTimer.Elapsed += Timer_Elapsed;
+			m_updateTimer.AutoReset = false;
 			m_updateTimer.Start();
 		}
 
@@ -103,6 +104,7 @@ namespace DESERVE.Manager
 		public void ServerUpdate(ServerInfo serverInfo)
 		{
 			m_serverInstance.Update(serverInfo);
+			m_updateTimer.Start();
 		}
 		#endregion
 

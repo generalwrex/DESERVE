@@ -41,19 +41,19 @@ namespace DESERVE.Common
 		/// <summary>
 		/// Starts the process of stopping the server.
 		/// </summary>
-		[OperationContract]
+		[OperationContract(IsOneWay = true)]
 		void Stop();
 
 		/// <summary>
 		/// Used to make the server save the game.
 		/// </summary>
-		[OperationContract]
+		[OperationContract(IsOneWay = true)]
 		void Save();
 
 		/// <summary>
 		/// Used to request server information from the server.
 		/// </summary>
-		[OperationContract]
+		[OperationContract(IsOneWay = true)]
 		void RequestUpdate();
 
 
