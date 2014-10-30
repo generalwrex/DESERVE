@@ -38,27 +38,39 @@
                     <GroupBox Header="Server Information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="87" />
+                                <ColumnDefinition Width="227*"/>
+                                <ColumnDefinition Width="398*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="27"/>
+                                <RowDefinition Height="27"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="28"/>
+                                <RowDefinition Height="28"/>
+                                <RowDefinition Height="190"/>
                             </Grid.RowDefinitions>
-                            <Label Content="Server Name:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="0" Grid.Column="0"/>
-                            <Label Content="Instance:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="1" Grid.Column="0"/>
-                            <Label Content="Binding IP:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="2" Grid.Column="0"/>
-                            <Label Content="Player Count:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="3" Grid.Column="0"/>
-                            <Label Content="Uptime:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="Auto" Grid.Row="4" Grid.Column="0"/>
+                            <Label Content="Server Name:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Grid.Row="0" Grid.Column="0" Margin="0,0,3,0"/>
+                            <Label Content="Instance:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="56" Grid.Row="1" Grid.Column="0" Margin="0,0,3,0"/>
+                            <Label Content="Binding IP:" Height="27" HorizontalAlignment="Right" VerticalAlignment="Top" Width="66" Grid.Row="2" Grid.Column="0" Margin="0,0,3,0"/>
+                            <Label Content="Player Count:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Grid.Row="3" Grid.Column="0" Margin="0,0,3,0"/>
+                            <Label Content="Uptime:" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="51" Grid.Row="4" Grid.Column="0" Margin="0,0,3,0"/>
+                            <Label Content="Last Save:"   Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="67" Grid.Row="5" Grid.Column="0"/>
+                            <Label Content="{Binding ServerName}" Margin="11,0,10,0" Grid.Column="1"/>
+                            <Label Content="{Binding Name}" Margin="11,0,10,0" Grid.Row="1" Grid.Column="1"/>
+                            <Label Content="{Binding BindingIp}" Margin="11,0,10,0" Grid.Row="2" Grid.Column="1"/>
+                            <Label Content="{Binding CurrentPlayers}" Margin="11,0,10,0" Grid.Row="3" Grid.Column="1"/>
+                            <Label Content="{Binding Uptime}" Margin="11,0,10,0" Grid.Row="4" Grid.Column="1"/>
+                            <Label Content="{Binding LastSave}" Margin="11,0,10,0" Grid.Row="5" Grid.Column="1"/>
+
                         </Grid>
                     </GroupBox>
 
                     <GroupBox Header="Selected Server Controls" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="1">
                         <Grid>
-                            <Button Content="Start" IsEnabled="{Binding NotIsRunning}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click"/>
-                            <Button Content="Stop" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75" Click="Stop_Click"/>
+                            <Button x:Name="BTN_StartServer" Content="Start" IsEnabled="{Binding NotIsRunning}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click"/>
+                            <Button x:Name="BTN_StopServer" Content="Stop" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75" Click="Stop_Click"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -66,33 +78,65 @@
             <TabItem Header="Configuration">
                 <Grid Margin="0,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="326*"/>
-                        <RowDefinition Height="53*"/>
+                        <RowDefinition Height="104*"/>
+                        <RowDefinition Height="105*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="330*"/>
-                        <ColumnDefinition Width="331*"/>
+                        <ColumnDefinition Width="581*"/>
+                        <ColumnDefinition Width="143*"/>
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Command Line Args" Margin="0,0,0,0">
-                        <Controls:WpfPropertyGrid x:Name="PG_CommandLineArgs" Margin="0,0,0,0" SelectedObject="{Binding Arguments}"/>
+                    <GroupBox Header="Command Line Args" Margin="0,0,0,0" Grid.RowSpan="2">
+                        <Controls:WpfPropertyGrid x:Name="PG_CommandLineArgs" Margin="0,0,0,0" SelectedObject="{Binding Arguments}" Height="185" VerticalAlignment="Top"/>
                     </GroupBox>
-                    <GroupBox Grid.Column="1" Header="Dedicated Config" Margin="0,0,0,0">
+                    <GroupBox Header="Dedicated Config" Margin="0,0,0,0" Grid.Row="1">
                         <Controls:WpfPropertyGrid x:Name="PG_DedicatedConfig" Margin="0,0,0,0" />
                     </GroupBox>
-                    <GroupBox Header="Controls" Margin="0,0,0,0" Grid.Row="1" Grid.ColumnSpan="2">
+                    <GroupBox Header="Controls" Margin="0,0,0,0" Grid.Column="1" Grid.RowSpan="2">
                         <Button x:Name="BTN_Configuration_SaveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top" Width="97" Click="BTN_Configuration_SaveChanges_Click"/>
                     </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Chat">
-                <Grid />
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="459*"/>
+                        <ColumnDefinition Width="265*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="17*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Chat Window" Margin="0,0,0,0" >
+                        <RichTextBox x:Name="RTB_ChatMessages" IsEnabled="{Binding IsRunning}" IsReadOnly="True" Margin="0,0,0,0">
+                            <FlowDocument>
+                                <Paragraph>
+                                    <Run Text="RichTextBox"/>
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="Players" Margin="0,0,0,0" >
+                        <ListBox x:Name="LB_Players" Margin="0,0,0,0"/>
+                    </GroupBox>
+                    <GroupBox Header="Send Message" IsEnabled="{Binding IsRunning}" Margin="0,0,0,0" Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid Margin="0,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="295*"/>
+                                <ColumnDefinition Width="61*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="TXT_Chat_MessageToSend" SpellCheck.IsEnabled="True" IsEnabled="{Binding IsRunning}" Margin="0,0,0,0" TextWrapping="Wrap" KeyDown="TXT_Chat_MessageToSend_KeyDown"/>
+                            <Button x:Name="BTN_Chat_SendMessage" IsEnabled="{Binding IsRunning}" Content="Send" Grid.Column="1" Margin="0,0,0,0" Click="BTN_Chat_SendMessage_Click"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <TabItem Header="Plugins">
                 <Grid />
             </TabItem>
         </TabControl>
-        <Label Content="Currently Selected Server:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="Currently Selected Server:" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="1" Margin="385,0,0,0" Width="146"/>
         <Label Content="{Binding Name}" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="1" />
+        <Label x:Name="StatusBar" Content="Ready..." HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="557"/>
         <Menu HorizontalAlignment="Stretch" Height="20" VerticalAlignment="Top" IsMainMenu="True" Grid.Row="0" Grid.ColumnSpan="10">
             <MenuItem x:Name="MainMenu" Header="File">
                 <MenuItem x:Name="MainMenu_File_Quit" Header="Quit" Click="MainMenu_File_Quit_Click"/>
@@ -101,5 +145,6 @@
                 <MenuItem x:Name="MainMenu_Options_DeservePath" Header="DESERVE Path..." Width="200" Click="MainMenu_Options_DeservePath_Click"/>
             </MenuItem>
         </Menu>
+
     </Grid>
 </Window>

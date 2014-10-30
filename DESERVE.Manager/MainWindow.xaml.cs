@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using DESERVE.Manager.Properties;
+using System.Reflection;
 
 namespace DESERVE.Manager
 {
@@ -29,8 +30,26 @@ namespace DESERVE.Manager
 			LB_ServerInstances.ItemsSource = Manager.ServerInstances;
 			LB_ServerInstances.SelectedIndex = 0;
 			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
+
+			string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+			this.Title = "DESERVE Manager v" + version ;
+
+			if (Settings.Default.DESERVEPath == "")
+				StatusBar.Content = "Set path to DESERVE.exe under 'Options'";
+			else
+				StatusBar.Content = "Welcome to DESERVE Manager v" + version;				
 		}
 
+		#region General
+		private void LB_ServerInstances_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
+			StatusBar.Content = "Ready...";
+		}
+		#endregion
+
+		#region Server Info
 		/// <summary>
 		/// <Button Content="Start" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click"/>
 		/// 
@@ -41,6 +60,7 @@ namespace DESERVE.Manager
 		private void Start_Click(object sender, RoutedEventArgs e)
 		{
 			((ServerInstance)LB_ServerInstances.SelectedItem).Start();
+			StatusBar.Content = "Started '" + ((ServerInstance)LB_ServerInstances.SelectedItem).Name + "'";
 		}
 
 		/// <summary>
@@ -53,8 +73,11 @@ namespace DESERVE.Manager
 		private void Stop_Click(object sender, RoutedEventArgs e)
 		{
 			((ServerInstance)LB_ServerInstances.SelectedItem).Stop();
+			StatusBar.Content = "Stopped '" + ((ServerInstance)LB_ServerInstances.SelectedItem).Name + "'";
 		}
+		#endregion
 
+		#region MainMenu
 		private void MainMenu_Options_DeservePath_Click(object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -67,25 +90,42 @@ namespace DESERVE.Manager
 			if (fileName.Contains(@"\DESERVE.exe"))
 			{
 				Settings.Default.DESERVEPath = fileName.Replace(@"\DESERVE.exe", "");
-				Settings.Default.Save();				
-			}		
+				Settings.Default.Save();
+				StatusBar.Content = "DESERVE Path now set to: " + Settings.Default.DESERVEPath;
+			}
+			else
+				MessageBox.Show("Deserve.exe not found in the selected location", "File not found", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
 		}
 
 		private void MainMenu_File_Quit_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();
 		}
+		#endregion
 
+		#region Configuration
 		private void BTN_Configuration_SaveChanges_Click(object sender, RoutedEventArgs e)
 		{
 			var args = ((ServerInstance)LB_ServerInstances.SelectedItem).Arguments;
 			var path = ((ServerInstance)LB_ServerInstances.SelectedItem).InstanceDirectory;
 			FileManager.Instance.SaveArguments(path, args);
+			StatusBar.Content = "Saved Configuration changes of: " + ((ServerInstance)LB_ServerInstances.SelectedItem).Name;
+		}
+		#endregion
+
+		#region Chat
+		private void BTN_Chat_SendMessage_Click(object sender, RoutedEventArgs e)
+		{
+			throw new NotImplementedException("Tried to send '" + TXT_Chat_MessageToSend.Text + "' to the server by clicking 'Send'! IT FAILED!");
 		}
 
-		private void LB_ServerInstances_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void TXT_Chat_MessageToSend_KeyDown(object sender, KeyEventArgs e)
 		{
-			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
+			if (!(e.Key == Key.Enter) || !(e.Key == Key.Return))
+				return;
+
+			throw new NotImplementedException("Tried to send '" + TXT_Chat_MessageToSend.Text + "' to the server with the Enter or Return key! IT FAILED!");
 		}
+		#endregion
 	}
 }
