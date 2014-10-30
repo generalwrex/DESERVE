@@ -51,7 +51,7 @@ namespace DESERVE.Managers
 		public ServerInstance(CommandLineArgs args)
 		{
 			m_chatMessages = new ObservableCollection<ChatMessage>();
-			m_launchedTime = DateTime.Now;
+			m_launchedTime = DateTime.MinValue;
 			m_saveFile = args.Instance;
 			m_serverThread = null;
 			m_serverInstance = this;
@@ -74,6 +74,7 @@ namespace DESERVE.Managers
 
 		void Program_OnServerStarted()
 		{
+			m_launchedTime = DateTime.Now;
 			IsRunning = true;
 		}
 
