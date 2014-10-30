@@ -3,24 +3,39 @@ DESERVE
 (DEdicated SERVer, Enhanced) - Not Ready Yet
 
 #Description
-A New Dedicated Server application for Space Engineers paired with a Manager GUI for full server control and a ton of features!
+A New Dedicated Server application for Space Engineers paired with a WPF Manager GUI for full server control and a ton of features!
 
 "Because you DESERVE it!"
 
 #Features
 
-**Current Features - including in progress**
+**Current Features**
 * Plugins featuring a ‘HotSwap’ system.
-* Comprehensive GUI with configuration saving 
+* Beautiful WPF GUI that will run from anywhere on the local machine
 * Manage Multiple Servers 
 
-**Planned Features**
 
-* Auto Update system for DESERVE 
-* Mod Manager to manage mods of individual servers with collection support
-* Supporting CRON jobs (Any Date/Time)
- * Auto-Restarting of specific/all servers
- * Auto-Server updating using SteamCMD
- * Auto-Backup of servers
- * Auto-Updating of DESERVE
+ 
+**Planned Features for 2nd release**
+ *PluginBase default config save location in map save folder.
+ *Dedicated Config
+ *DESERVE as a service.
+ *Auto-Update DESERVE feature
+ *Plugins Tab
+
+**Planned Features for 3rd Release**
+ *Console Output Redirection to Console Tab
+ *Auto updating of DESERVE (Server, Common, Manager)
+ *Auto-Restart on server crashes
+
+
+ **Planned Features for 4th Release**
+  *SteamCMD Intergration for automatic server updating
+  *Manager WCF service with SSH keys Authencation for Remote Control
+  *Automatic Map Backup
+  
+  
+  ** Possible Features That May or May Not happen!**
+   *Intergrated Mod Manager
+   * and more!
  
