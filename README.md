@@ -12,7 +12,7 @@ A New Dedicated Server application for Space Engineers paired with a WPF Manager
 #Current Features
 * WPF GUI that will run from anywhere on the local machine
 * Manage Multiple Servers from one application
-* Plugins featuring a ‘HotSwap’ system using MyAPIGateway
+* Plugins featuring a ‘HotSwap’ system Utilizing Keens APIGateway
 
 **Planned Features for 2nd release**
 * PluginBase default config save location in map save folder.
@@ -28,17 +28,16 @@ A New Dedicated Server application for Space Engineers paired with a WPF Manager
     
 **Planned Features for 3rd Release**
 * SteamCMD Intergration for automatic server updating
-* CRON Jobs
-    * Auto updating of DESERVE (Server, Common, Manager)
-    * Auto-Restart on server crashes
+* Auto-Restart on server crashes
 
 **Planned Features for 4th Release**
 * Manager remote control with SSH keys and User/Pass Authencation
+* Map Backup
 * CRON Jobs
     * Automatic Map Backup
 
 **Possible Planned Future Features**
-* Live server editing in full 3D
+* Live world editing/viewing in full 3D using in-game models and cube grids
 * Intergrated Mod Manager
 * and more!
  
