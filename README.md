@@ -6,6 +6,10 @@ DESERVE
 #Description
 A New Dedicated Server application for Space Engineers paired with a WPF Manager GUI for full server control and a ton of features!
 
+#Installation
+Place DESERVE.exe and DESERVE.Common.dll in DedicatedServer64.
+Place DESERVE.Manager.exe and DESERVE.Common.dll where you would like it to run from.
+
 **"Because you DESERVE it!"**
 
 
