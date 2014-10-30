@@ -53,7 +53,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			m_logManager = new LogManager(DESERVE.Arguments.LogDirectory);
 			m_serverInstance = new ServerInstance(DESERVE.Arguments);
 
-			LogManager.MainLog.WriteLineAndConsole("DESERVE Initialized. Version " + VersionString);
+			LogManager.MainLog.WriteLineAndConsole("DESERVE v" + VersionString);
 
 			LogManager.MainLog.WriteLineAndConsole("DESERVE Arguments: " + DESERVE.Arguments.ToString());
 

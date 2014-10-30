@@ -32,14 +32,12 @@ namespace DESERVE.Manager
 			LB_ServerInstances.SelectedIndex = 0;
 			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
 
-			string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-			this.Title = "DESERVE Manager v" + version ;
+			this.Title = "DESERVE Manager v" + Manager.VersionString;
 
 			if (Settings.Default.DESERVEPath == "")
 				StatusBar.Content = "Set path to DESERVE.exe under 'Options'";
 			else
-				StatusBar.Content = "Welcome to DESERVE Manager v" + version;				
+				StatusBar.Content = "Welcome to DESERVE Manager v" + Manager.VersionString;
 		}
 
 		#region General
