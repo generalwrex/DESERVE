@@ -23,6 +23,8 @@ namespace DESERVE.Manager
 		private Int32 m_currentPlayers;
 		private TimeSpan m_uptime;
 		private DateTime m_lastSave;
+		private String m_bindingIp;
+		private String m_serverName;
 
 		private ClientController m_clientController;
 
@@ -34,6 +36,7 @@ namespace DESERVE.Manager
 
 		#region Properties
 		public String Name { get { return m_name; } }
+		
 
 		public Boolean IsRunning { get { return m_isRunning; } }
 		public Boolean NotIsRunning { get { return !IsRunning; } }
@@ -44,6 +47,8 @@ namespace DESERVE.Manager
 		public CommandLineArgs Arguments { get { return m_arguments; } set { m_arguments = value; } }
 		public String InstanceDirectory { get { return m_instanceDir; } set { m_instanceDir = value; } }
 
+		public String BindingIp { get { return m_bindingIp; } }
+		public String ServerName { get { return m_serverName; } }
 		public Int32 CurrentPlayers { get { return m_currentPlayers; } }
 		public TimeSpan Uptime { get { return m_uptime; } }
 		public DateTime LastSave { get { return m_lastSave; } }
@@ -58,14 +63,17 @@ namespace DESERVE.Manager
 			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
 			m_name = name;
 			m_clientController = new ClientController(m_name, this);
-			m_isRunning = m_clientController.Connect();		
+			m_isRunning = m_clientController.Connect();
+			m_bindingIp = "";
+			m_serverName = "";
 		}
 
 		public void Start()
 		{
 			if (String.IsNullOrEmpty(Settings.Default.DESERVEPath))
 			{
-				MessageBox.Show("DESERVE.EXE not found! Make sure to set the path to DESERVE.EXE in the \"Options\" menu.");
+				MessageBox.Show("Make sure to set the path to DESERVE.EXE in the \"Options\" menu.", 
+					"DESERVE.EXE not found!",MessageBoxButton.OK, MessageBoxImage.Error,MessageBoxResult.OK);
 				return;
 			}
 
@@ -75,9 +83,14 @@ namespace DESERVE.Manager
 			{
 				Process.Start(deserve);
 			}
+			catch (OperationCanceledException)
+			{
+				// Don't do anything if they canceled the UAC prompt
+			}
 			catch (FileNotFoundException ex)
 			{
-				MessageBox.Show("DESERVE.EXE not found! Make sure to set the correct path to DESERVE.EXE in the \"Options\" menu.");
+				MessageBox.Show("Make sure to set the path to DESERVE.EXE in the \"Options\" menu.",
+					"DESERVE.EXE not found!", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
 			}
 		}
 
