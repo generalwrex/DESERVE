@@ -15,5 +15,7 @@ namespace DESERVE.Common
 		public ulong SteamId { get; set; }
 		[DataMember]
 		public String Name { get; set; }
+		[DataMember]
+		public DateTime Timestamp { get; set; }
 	}
 }
