@@ -14,23 +14,19 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		private static MainGame m_mainGame;
 		private static WorldManager m_worldManager;
-		private static MPSession m_mpSession;
 		private static NetworkManager m_networkManager;
 		private static SteamNetworkWrapper m_steamNetworkWrapper;
 		private static WorldResourceManager m_worldResourceManager;
 		private static ChatMessageStruct m_chatMessageStruct;
-		//private static ServerNetworkManager m_serverNetworkManager;
 		#endregion
 
 		#region Properties
 		public static MainGame MainGame { get { return m_mainGame; } }
 		public static WorldManager WorldManager { get { return m_worldManager; } }
-		public static MPSession MPSession { get { return m_mpSession; } }
 		public static NetworkManager NetworkManager { get { return m_networkManager; } }
 		public static SteamNetworkWrapper SteamNetworkWrapper { get { return m_steamNetworkWrapper; } }
 		public static WorldResourceManager WorldResourceManager { get { return m_worldResourceManager; } }
 		public static ChatMessageStruct ChatMessageStruct { get { return m_chatMessageStruct; } }
-		//public static ServerNetworkManager ServerNetworkManager { get { return m_serverNetworkManager; } }
 		#endregion
 
 		#region Methods
@@ -39,24 +35,20 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		{
 			m_mainGame = new MainGame(Assembly, MainGameNamespace);
 			m_worldManager = new WorldManager(Assembly, WorldManagerNamespace);
-			m_mpSession = new MPSession(Assembly, MPSessionNamespace);
 			m_networkManager = new NetworkManager(Assembly, NetworkManagerNamespace);
 			m_steamNetworkWrapper = new SteamNetworkWrapper(Assembly, NetworkManagerNamespace);
 			m_worldResourceManager = new WorldResourceManager(Assembly, WorldManagerNamespace);
 			m_chatMessageStruct = new ChatMessageStruct(Assembly, NetworkManagerNamespace);
-			//m_serverNetworkManager = new ServerNetworkManager(Assembly, NetworkManagerNamespace);
 		}
 
 		internal void Init()
 		{
 			m_mainGame.Init();
 			m_worldManager.Init();
-			m_mpSession.Init();
 			m_networkManager.Init();
 			m_steamNetworkWrapper.Init();
 			m_worldResourceManager.Init();
 			m_chatMessageStruct.Init();
-			//m_serverNetworkManager.Init();
 		}
 		#endregion
 	}

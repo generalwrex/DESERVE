@@ -14,16 +14,17 @@ namespace DESERVE.Common
 		[DataMember]
 		public virtual Boolean IsRunning { get; set; }
 		[DataMember]
-		public virtual Int32 CurrentPlayers { get; set; }
+		public virtual ObservableCollection<Player> CurrentPlayers { get; set; }
 		[DataMember]
 		public virtual TimeSpan Uptime { get; set; }
 		[DataMember]
 		public virtual DateTime LastSave { get; set; }
 		[DataMember]
-		public virtual ObservableCollection<String> ChatMessages { get; set; }
+		public virtual ObservableCollection<ChatMessage> ChatMessages { get; set; }
+
 		#endregion
 
-		public ServerInfo(String name, Boolean isRunning, Int32 currentPlayers, TimeSpan uptime, DateTime lastSave, ObservableCollection<String> chatMessages)
+		public ServerInfo(String name, Boolean isRunning, ObservableCollection<Player> currentPlayers, TimeSpan uptime, DateTime lastSave, ObservableCollection<ChatMessage> chatMessages)
 		{
 			Name = name;
 			IsRunning = isRunning;
@@ -60,6 +61,8 @@ namespace DESERVE.Common
 		[OperationContract(IsOneWay = true)]
 		void RequestUpdate();
 
+		[OperationContract(IsOneWay = true)]
+		void SendChatMessage(ChatMessage message);
 
 	}
 
@@ -71,8 +74,5 @@ namespace DESERVE.Common
 		/// <param name="serverInfo"></param>
 		[OperationContract(IsOneWay = true)]
 		void ServerUpdate(ServerInfo serverInfo);
-
-		[OperationContract(IsOneWay = true)]
-		void ClosePipe();
 	}
 }
