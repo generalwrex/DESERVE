@@ -12,6 +12,8 @@ namespace DESERVE.Manager
 	class ClientController : IWCFClient
 	{
 		#region Fields
+		private static Int32 _MS_PER_UPDATE = 1000;
+
 		private DuplexChannelFactory<IWCFService> m_pipeFactory;
 		private IWCFService m_pipeProxy;
 		private IClientChannel m_pipeChannel;
@@ -30,7 +32,7 @@ namespace DESERVE.Manager
 		{
 			m_endpoint = new EndpointAddress("net.pipe://localhost/DESERVE/" + instanceName);
 			m_serverInstance = instance;
-			m_updateTimer = new Timer(5000);
+			m_updateTimer = new Timer(_MS_PER_UPDATE);
 			m_updateTimer.Elapsed += Timer_Elapsed;
 			m_updateTimer.AutoReset = false;
 			m_updateTimer.Start();
