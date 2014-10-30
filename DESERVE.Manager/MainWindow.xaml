@@ -110,8 +110,8 @@
                     <GroupBox Header="Chat Window" Margin="0,0,0,0" >
                         <ListBox x:Name="LB_ChatMessages" Margin="0,0,0,0" ItemsSource="{Binding ChatMessages}" ToolTip="Click on a message to copy to clipboard" Background="#FF0D0D0E" Foreground="White" SelectionChanged="LB_ChatMessages_SelectionChanged"/>
                     </GroupBox>
-                    <GroupBox Grid.Column="1" Header="Players" IsEnabled ="False" Margin="0,0,0,0" >
-                        <ListBox x:Name="LB_Players" Margin="0,0,0,0"/>
+                    <GroupBox Grid.Column="1" Header="Players" Margin="0,0,0,0" >
+                        <ListBox x:Name="LB_Players" IsEnabled ="False" Margin="0,0,0,0"/>
                     </GroupBox>
                     <GroupBox Header="Send Message" Margin="0,0,0,0" Grid.Row="1" Grid.ColumnSpan="2">
                         <Grid Margin="0,0,0,0">
