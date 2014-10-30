@@ -25,7 +25,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 		#region Properties
 		public static Version Version { get { return Assembly.GetEntryAssembly().GetName().Version; } }
-		public static String BuildBranch { get { return "DevBuild"; } }
+		public static String BuildBranch { get { return "Master Branch"; } }
 		public static String VersionString { get { return Version.ToString(3) + " " + BuildBranch; } }
 		public static DESERVE Instance { get { return m_instance; } }
 		public static String InstanceDirectory { get { return Path.Combine(_SE_INSTANCE_PATH, DESERVE.Arguments.Instance); } }
@@ -39,6 +39,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		/// <param name="args"></param>
 		static void Main(String[] args)
 		{
+			Console.Title = "DESERVE v" + DESERVE.VersionString;
 			DESERVE program = new DESERVE(args);
 
 			program.Run();

@@ -17,7 +17,7 @@ namespace DESERVE.Manager
 	public partial class Manager : Application
 	{
 		public static Version Version { get { return Assembly.GetEntryAssembly().GetName().Version; } }
-		public static String BuildBranch { get { return "DevBuild"; } }
+		public static String BuildBranch { get { return "Master Branch"; } }
 		public static String VersionString { get { return Version.ToString(3) + " " + BuildBranch; } }
 
 		private static String _SE_INSTANCE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SpaceEngineersDedicated");
