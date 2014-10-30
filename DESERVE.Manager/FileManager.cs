@@ -13,7 +13,6 @@ using System.Windows;
 
 namespace DESERVE.Manager
 {
-	// for anything specific to instances that should be saved
 	public class FileManager
 	{
 		
@@ -21,10 +20,7 @@ namespace DESERVE.Manager
 		private static FileManager m_instance;
 		#endregion
 
-		public FileManager()
-		{
-			m_instance = this;
-		}
+		public FileManager() { m_instance = this; }
 
 		#region Properties
 		public static FileManager Instance
@@ -40,13 +36,17 @@ namespace DESERVE.Manager
 		#endregion
 
 		#region Methods
-		public void SaveArguments(string instancePath, CommandLineArgs args)
+		/// <summary>
+		/// Serializes CommandLineArgs into a config file.
+		/// </summary>
+		/// <param name="instancePath"> Where to save the config file to. </param>
+		/// <param name="args"> The CommandLineArgs to serialize. </param>
+		public CommandLineArgs SaveArguments(string instancePath, CommandLineArgs args)
 		{
 			try
 			{
-
 				if (args == null)
-					return;
+					return null;
 
 				string filePath = Path.Combine(instancePath, "DESERVEManager.cfg");
 
@@ -55,21 +55,25 @@ namespace DESERVE.Manager
 				{
 					serializer.Serialize(writer, args);
 				} 
+				return args;
 			}
 			catch (Exception ex)
 			{
 				//TODO: LogManager.Log("Something bad happened!");
 				MessageBox.Show(ex.ToString());
+				return null;
 			}
-			
-
 		}
 
+		/// <summary>
+		/// Loads CommandLineArgs from a config file.
+		/// </summary>
+		/// <param name="instanceName"> The full path to the instance folder where the config file is located </param>
+		/// <param name="currentInstance"> The ServerInstance of the instance to load the config into. </param>
 		public CommandLineArgs LoadArguments(string fullInstancePath, string instanceName, ServerInstance currentInstance)
 		{
 			try
 			{
-
 				string filePath = Path.Combine(fullInstancePath, "DESERVEManager.cfg");
 
 				if (File.Exists(filePath))
@@ -81,29 +85,16 @@ namespace DESERVE.Manager
 					return args;
 				}
 				else
-				{
-
-					CommandLineArgs args = new CommandLineArgs();
-					args.Instance = instanceName;
-					args.AutosaveMinutes = -1;
-					args.WCF = true;
-					args.ModAPI = false;
-					args.Plugins = false;
-
-					SaveArguments(fullInstancePath, args);
-
-					return args;
-				}
-								
+					return SaveArguments(fullInstancePath, new CommandLineArgs() { Instance = instanceName, WCF = true }); ;					
 			}
 			catch (Exception ex)
 			{
 				//TODO: LogManager.Log("Something bad happened!");
 				MessageBox.Show(ex.ToString());
 				return null;
-			}
-			
+			}		
 		}
 		#endregion
 	}
 }
+
