@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace DESERVE.Manager
 {
@@ -25,6 +26,7 @@ namespace DESERVE.Manager
 		private DateTime m_lastSave;
 		private String m_bindingIp;
 		private String m_serverName;
+		private ObservableCollection<String> m_chatMessages;
 
 		private ClientController m_clientController;
 
@@ -52,6 +54,7 @@ namespace DESERVE.Manager
 		public Int32 CurrentPlayers { get { return m_currentPlayers; } }
 		public TimeSpan Uptime { get { return m_uptime; } }
 		public DateTime LastSave { get { return m_lastSave; } }
+		public ObservableCollection<String> ChatMessages { get { return m_chatMessages; } }
 
 
 		#endregion
@@ -59,6 +62,7 @@ namespace DESERVE.Manager
 		#region Methods
 		public ServerInstance(String instanceDir, String name)
 		{
+			m_chatMessages = new ObservableCollection<string>();
 			m_instanceDir = instanceDir;
 			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
 			m_name = name;
@@ -110,6 +114,7 @@ namespace DESERVE.Manager
 			m_currentPlayers = serverInfo.CurrentPlayers;
 			m_uptime = serverInfo.Uptime;
 			m_lastSave = serverInfo.LastSave;
+			m_chatMessages = serverInfo.ChatMessages;
 			if (PropertyChanged != null)
 			{
 				PropertyChanged(this, new PropertyChangedEventArgs(null));

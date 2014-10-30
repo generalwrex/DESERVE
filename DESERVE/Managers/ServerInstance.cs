@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 
 namespace DESERVE.Managers
@@ -13,6 +14,9 @@ namespace DESERVE.Managers
 	{
 		#region Fields
 		private String m_saveFile;
+
+		private ObservableCollection<String> m_chatMessages;
+
 		private static Thread m_serverThread;
 		private static ServerInstance m_serverInstance;
 
@@ -38,11 +42,13 @@ namespace DESERVE.Managers
 		public Int32 CurrentPlayers { get; set; }
 		public TimeSpan Uptime { get { return DateTime.Now - m_launchedTime; } }
 		public DateTime LastSave { get { return m_lastSave; } }
+		public ObservableCollection<String> ChatMessages { get { return m_chatMessages; } }
 		#endregion
 
 		#region Methods
 		public ServerInstance(CommandLineArgs args)
 		{
+			m_chatMessages = new ObservableCollection<string>();
 			m_launchedTime = DateTime.Now;
 			m_saveFile = args.Instance;
 			m_serverThread = null;
@@ -51,6 +57,12 @@ namespace DESERVE.Managers
 			m_sandboxGameWrapper = new SandboxGameWrapper(Assembly.UnsafeLoadFrom("Sandbox.Game.dll"));
 			DedicatedServerWrapper.Program.OnServerStarted += Program_OnServerStarted;
 			DedicatedServerWrapper.Program.OnServerStopped += Program_OnServerStopped;
+			SandboxGameWrapper.NetworkManager.OnChatMessage += NetworkManager_OnChatMessage;
+		}
+
+		void NetworkManager_OnChatMessage(ulong remoteUserId, string message, SteamSDK.ChatEntryTypeEnum entryType)
+		{
+			ChatMessages.Add(String.Format("[{0}] [{1}]: {2}", DateTime.Now, remoteUserId, message));
 		}
 
 		void Program_OnServerStarted()
@@ -62,6 +74,8 @@ namespace DESERVE.Managers
 		{
 			IsRunning = false;
 		}
+
+
 
 
 		public void Start()

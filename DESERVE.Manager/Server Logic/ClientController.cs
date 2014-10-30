@@ -6,6 +6,7 @@ using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Timers;
+using System.Collections.ObjectModel;
 
 namespace DESERVE.Manager
 {
@@ -46,7 +47,7 @@ namespace DESERVE.Manager
 			}
 			else
 			{
-				ServerUpdate(new ServerInfo(m_serverInstance.Name, false, 0, TimeSpan.Zero, DateTime.MinValue));
+				ServerUpdate(new ServerInfo(m_serverInstance.Name, false, 0, TimeSpan.Zero, DateTime.MinValue, new ObservableCollection<string>()));
 			}
 		}
 

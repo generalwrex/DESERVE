@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using DESERVE.Manager.Properties;
 using System.Reflection;
+using DESERVE.Common;
 
 namespace DESERVE.Manager
 {
@@ -139,7 +140,19 @@ namespace DESERVE.Manager
 
 			throw new NotImplementedException("Tried to send '" + TXT_Chat_MessageToSend.Text + "' to the server with the Enter or Return key! IT FAILED!");
 		}
+
+		private void LB_ChatMessages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (LB_ChatMessages.SelectedItem == null)
+				return;
+
+			Clipboard.SetText(LB_ChatMessages.SelectedItem.ToString());
+		}
 		#endregion
+
+
+
+
 
 
 	}

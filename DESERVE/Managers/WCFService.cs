@@ -35,6 +35,7 @@ namespace DESERVE.Managers
 			info.LastSave = ServerInstance.Instance.LastSave;
 			info.Name = ServerInstance.Instance.Name;
 			info.Uptime = ServerInstance.Instance.Uptime;
+			info.ChatMessages = ServerInstance.Instance.ChatMessages;
 
 
 			ThreadPool.QueueUserWorkItem((object state) =>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.Collections.ObjectModel;
 
 namespace DESERVE.Common
 {
@@ -18,15 +19,18 @@ namespace DESERVE.Common
 		public virtual TimeSpan Uptime { get; set; }
 		[DataMember]
 		public virtual DateTime LastSave { get; set; }
+		[DataMember]
+		public virtual ObservableCollection<String> ChatMessages { get; set; }
 		#endregion
 
-		public ServerInfo(String name, Boolean isRunning, Int32 currentPlayers, TimeSpan uptime, DateTime lastSave)
+		public ServerInfo(String name, Boolean isRunning, Int32 currentPlayers, TimeSpan uptime, DateTime lastSave, ObservableCollection<String> chatMessages)
 		{
 			Name = name;
 			IsRunning = isRunning;
 			CurrentPlayers = currentPlayers;
 			Uptime = uptime;
 			LastSave = lastSave;
+			ChatMessages = chatMessages;
 		}
 
 		public ServerInfo() { }
