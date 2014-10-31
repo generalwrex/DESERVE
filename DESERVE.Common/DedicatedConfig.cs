@@ -23,9 +23,9 @@ namespace DESERVE.Common
 		[DataMember]
 		String IP { get; set; }
 		[DataMember]
-		String LoadWorld { get; }
+		String LoadWorld { get; set; }
 		[DataMember]
-		List<UInt64> Mods { get; }
+		List<UInt64> Mods { get; set; }
 		[DataMember]
 		Boolean PauseGameWhenEmpty { get; set; }
 		[DataMember]
