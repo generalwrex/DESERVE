@@ -56,7 +56,7 @@ namespace DESERVE.Manager
 		public ObservableCollection<Player> CurrentPlayers { get { return m_currentPlayers; } }
 		public Int32 PlayerCount { get { return CurrentPlayers.Count; } }
 		public String Uptime { get { return m_uptime.ToString(@"dd\:hh\:mm\:ss"); } }
-		public String LastSave { get { return m_lastSave.ToString("HH:mm:ss dd/mmm/yyyy"); } }
+		public String LastSave { get { return m_lastSave.ToString("HH:mm:ss dd/MMM/yyyy"); } }
 		public ObservableCollection<ChatMessage> ChatMessages { get { return m_chatMessages; } }
 
 
