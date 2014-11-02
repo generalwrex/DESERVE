@@ -95,7 +95,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			if (result)
 			{
 				TimeSpan timeToSave = DateTime.Now - saveStartTime;
-				LogManager.MainLog.WriteLineAndConsole("DESERVE: Save complete and took " + timeToSave.TotalSeconds + " seconds");
+				LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Save complete and took {0} seconds", timeToSave.TotalSeconds));
 			}
 			else
 			{
@@ -131,7 +131,6 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 			bool result = false;
 
-			
 			SandboxGameWrapper.MainGame.EnqueueActionSync(() =>
 				{
 					result = (bool)m_save.Call(Instance, parameters, paramTypes);
@@ -153,7 +152,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 			if (result)
 			{
 				TimeSpan timeToSave = DateTime.Now - saveStartTime;
-				LogManager.MainLog.WriteLineAndConsole("DESERVE: File write complete. File write took " + timeToSave.TotalSeconds + " seconds");
+				LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: File write complete. File write took seconds", timeToSave.TotalSeconds));
 			}
 			else
 			{
