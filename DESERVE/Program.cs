@@ -66,8 +66,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			if (DESERVE.Arguments.WCF)
 			{
 				// Initialize the WCF NamedPipe.
-				m_wcfService = new WCFService(DESERVE.Arguments.Instance);
-				m_wcfService.StartService();
+				m_wcfService = new WCFService();
 			}
 		}
 

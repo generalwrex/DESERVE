@@ -6,37 +6,36 @@ using System.Text;
 
 namespace DESERVE.Common
 {
+	/// <summary>
+	/// IWCFService is implimented by DESERVE.
+	/// </summary>
 	[ServiceContract(SessionMode = SessionMode.Required,
 	CallbackContract = typeof(IWCFClient))]
 	public interface IWCFService
 	{
-		/// <summary>
-		/// Starts the process of stopping the server.
-		/// </summary>
+		[OperationContract]
+		ServerInfo Connect();
+
+		[OperationContract(IsOneWay = true)]
+		void Disconnect();
+
 		[OperationContract(IsOneWay = true)]
 		void Stop();
 
-		/// <summary>
-		/// Used to make the server save the game.
-		/// </summary>
 		[OperationContract(IsOneWay = true)]
 		void Save();
 
 		[OperationContract(IsOneWay = true)]
-		void RegisterForUpdates();
-
-		[OperationContract(IsOneWay = true)]
 		void SendChatMessage(ChatMessage message);
-
 	}
 
+	/// <summary>
+	/// IWCFClient is implimented by managers to talk to DESERVE servers.
+	/// </summary>
 	public interface IWCFClient
 	{
 		[OperationContract(IsOneWay = true)]
-		void ServerStateUpdate(ServerInfo serverInfo);
-
-		[OperationContract(IsOneWay = true)]
-		void ServerStateUpdatePartial(ServerInfoPartial serverInfo);
+		void UpdateServerInfo(ServerInfoPartial serverInfo);
 
 		[OperationContract(IsOneWay = true)]
 		void ChatMessageUpdate(ChatMessage message);

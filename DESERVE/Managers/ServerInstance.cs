@@ -75,24 +75,26 @@ namespace DESERVE.Managers
 			SandboxGameWrapper.NetworkManager.OnPlayerDisconnected += NetworkManager_OnPlayerDisconnected;
 		}
 
-		void NetworkManager_OnPlayerConnected(IMyPlayer player)
+		void NetworkManager_OnPlayerConnected(ulong steamId)
 		{
+			Player playerInfo = new Player();
+			playerInfo.SteamId = steamId;
+
+			m_currentPlayers.Add(playerInfo);
 			if (PlayerUpdated != null)
 			{
-				Player playerInfo = new Player();
-				playerInfo.SteamId = player.SteamUserId;
-				playerInfo.Name = player.DisplayName;
 				PlayerUpdated(playerInfo, PlayerAction.Joined);
 			}
 		}
 
-		void NetworkManager_OnPlayerDisconnected(IMyPlayer player)
+		void NetworkManager_OnPlayerDisconnected(ulong steamId)
 		{
+			Player playerInfo = new Player();
+			playerInfo.SteamId = steamId;
+
+			m_currentPlayers.Remove(playerInfo);
 			if (PlayerUpdated != null)
 			{
-				Player playerInfo = new Player();
-				playerInfo.SteamId = player.SteamUserId;
-				playerInfo.Name = player.DisplayName;
 				PlayerUpdated(playerInfo, PlayerAction.Left);
 			}
 		}

@@ -25,7 +25,7 @@ namespace DESERVE.Common
 
 		public override string ToString()
 		{
-			return Name;
+			return (String.IsNullOrEmpty(Name) ? SteamId.ToString() : Name);
 		}
 	}
 }

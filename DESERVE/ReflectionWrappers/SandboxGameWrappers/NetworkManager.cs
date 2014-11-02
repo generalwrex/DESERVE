@@ -23,7 +23,7 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 		public delegate void ChatMessageEventHandler(ulong remoteUserId, String message, ChatEntryTypeEnum entryType);
 		public event ChatMessageEventHandler OnChatMessage;
 
-		public delegate void PlayerEventHandler(IMyPlayer player);
+		public delegate void PlayerEventHandler(ulong steamId);
 		public event PlayerEventHandler OnPlayerConnected;
 		public event PlayerEventHandler OnPlayerDisconnected;
 		#endregion
@@ -111,35 +111,19 @@ namespace DESERVE.ReflectionWrappers.SandboxGameWrappers
 
 		private void PlayerConnected(ulong steamId)
 		{
-			if (OnPlayerDisconnected != null)
+			if (OnPlayerConnected != null)
 			{
-				//TODO: Test if MyAPIGateway.Players update before event called.
-				List<IMyPlayer> players = new List<IMyPlayer>();
-				MyAPIGateway.Players.GetPlayers(players);
-				foreach (IMyPlayer player in players)
-				{
-					if (player.SteamUserId == steamId)
-					{
-						OnPlayerDisconnected(player);
-					}
-				}
+				// MyAPIGateway.Players updates after this event.
+				OnPlayerConnected(steamId);
 			}
 		}
 
 		private void PlayerDisconnected(ulong steamId, ChatMemberStateChangeEnum stateChange)
 		{
-			if (OnPlayerConnected != null)
+			if (OnPlayerDisconnected != null)
 			{
-				//TODO: Test if MyAPIGateway.Players update before event called.
-				List<IMyPlayer> players = new List<IMyPlayer>();
-				MyAPIGateway.Players.GetPlayers(players);
-				foreach (IMyPlayer player in players)
-				{
-					if (player.SteamUserId == steamId)
-					{
-						OnPlayerConnected(player);
-					}
-				}
+				// MyAPIGateway.Players updates before this event.
+				OnPlayerDisconnected(steamId);
 			}
 		}
 

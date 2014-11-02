@@ -61,7 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="FileManager.cs" />
     <Compile Include="Server Logic\ServerInstance.cs" />
-    <Compile Include="Server Logic\ClientController.cs" />
+    <Compile Include="Server Logic\WCFClient.cs" />
     <Compile Include="WpfPropertyGrid.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

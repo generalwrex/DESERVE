@@ -28,7 +28,9 @@ namespace DESERVE.Manager
 		private String m_serverName;
 		private ObservableCollection<ChatMessage> m_chatMessages;
 
-		private ClientController m_clientController;
+		private WCFClient m_wcfClient;
+
+		private System.Windows.Threading.Dispatcher m_dispatcher;
 
 		#region Events
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -61,16 +63,17 @@ namespace DESERVE.Manager
 		#endregion
 
 		#region Methods
-		public ServerInstance(String instanceDir, String name)
+		public ServerInstance(String instanceDir, String name, System.Windows.Threading.Dispatcher dispatcher)
 		{
 			m_chatMessages = new ObservableCollection<ChatMessage>();
 			m_instanceDir = instanceDir;
 			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
 			m_name = name;
-			m_clientController = new ClientController(m_name, this);
+			m_wcfClient = new WCFClient(this);
 			m_isRunning = false;
 			m_bindingIp = "";
 			m_serverName = "";
+			m_dispatcher = dispatcher;
 		}
 
 		public void Start()
@@ -101,12 +104,12 @@ namespace DESERVE.Manager
 
 		public void Stop()
 		{
-			m_clientController.StopServer();
+			m_wcfClient.StopServer();
 		}
 
 		public void Save(Boolean enhancedSave = false)
 		{
-			m_clientController.SaveServer();
+			m_wcfClient.SaveServer();
 		}
 
 		internal void Update(ServerInfo serverInfo)
@@ -145,9 +148,35 @@ namespace DESERVE.Manager
 			chatMessage.SteamId = 0;
 			chatMessage.Name = "Server";
 
-			m_clientController.SendChatMessage(chatMessage);
+			m_wcfClient.SendChatMessage(chatMessage);
 
 		}
 		#endregion
+
+		internal void PlayerUpdate(Player player, PlayerAction action)
+		{
+			RunInUiThread(() =>
+			{
+				if (action == PlayerAction.Joined)
+				{
+					CurrentPlayers.Add(player);
+				}
+				else
+				{
+					CurrentPlayers.Remove(player);
+				}
+				PropertyChanged(this, new PropertyChangedEventArgs("CurrentPlayers"));
+			});
+		}
+
+		internal void ChatUpdate(ChatMessage message)
+		{
+			RunInUiThread(() => m_chatMessages.Add(message));
+		}
+
+		private void RunInUiThread(Action action)
+		{
+			 m_dispatcher.Invoke(action);
+		}
 	}
 }
