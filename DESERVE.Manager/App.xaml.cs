@@ -20,12 +20,15 @@ namespace DESERVE.Manager
 		public static String BuildBranch { get { return "Dev Branch"; } }
 		public static String VersionString { get { return Version.ToString(3) + " " + BuildBranch; } }
 
+		public static Log ErrorLog;
+
 		private static String _SE_INSTANCE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SpaceEngineersDedicated");
 
 		public static List<ServerInstance> ServerInstances { get; set; }
 
 		public Manager()
 		{
+			ErrorLog = new Log(Environment.CurrentDirectory, "ManagerErrors.log");
 			ServerInstances = new List<ServerInstance>();
 
 			CommandLineArgs args = new CommandLineArgs(Environment.GetCommandLineArgs());

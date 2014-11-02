@@ -16,46 +16,11 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 
 		private ReflectionMethod m_startupMethod;
 
-		private Boolean m_isRunning;
-		private ManualResetEvent m_waitEvent;
-		#endregion
-
-		#region Events
-		public delegate void ServerRunningEvent();
-		public event ServerRunningEvent OnServerStarted;
-		public event ServerRunningEvent OnServerStopped;
 		#endregion
 
 		#region Properties
 		public override String ClassName { get { return "Program"; } }
 		public override String AssemblyName { get { return "SpaceEngineersDedicated"; } }
-		private Boolean isRunning
-		{
-			get { return m_isRunning; }
-			set
-			{
-				if (m_isRunning == value)
-				{
-					return;
-				}
-				m_isRunning = value;
-				if (m_isRunning)
-				{
-					if (OnServerStarted != null)
-					{
-						OnServerStarted();
-					}
-				}
-				else
-				{
-					if (OnServerStopped != null)
-					{
-						OnServerStopped();
-					}
-				}
-			}
-		}
-		public Boolean IsRunning { get { return isRunning; } }
 		#endregion
 
 		#region Methods
@@ -63,7 +28,6 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 			: base(Assembly, Namespace, Class)
 		{
 			SetupReflection(Assembly);
-			m_waitEvent = new ManualResetEvent(false);
 		}
 
 		private void SetupReflection(Assembly Assembly)
@@ -78,29 +42,26 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 			}
 		}
 
-		public Thread StartServer(Object args)
+		/// <summary>
+		/// Creates and sets up the main thread to be used by DedicatedServer.exe
+		/// </summary>
+		/// <returns></returns>
+		public Thread PrepareServerThread()
 		{
-			LogManager.MainLog.WriteLineAndConsole("DESERVE: Loading server.");
-
-			SandboxGameWrapper.MainGame.RegisterOnLoadedAction((Action)(() => this.m_waitEvent.Set()));
-
-			Thread serverThread = new Thread(new ParameterizedThreadStart(this.ThreadStart));
+			// Set ThreadStart(Object args) as the starting function of this thread.
+			Thread serverThread = new Thread(new ParameterizedThreadStart(ThreadStart));
 
 			serverThread.IsBackground = true;
 			serverThread.CurrentCulture = CultureInfo.InvariantCulture;
 			serverThread.CurrentUICulture = CultureInfo.InvariantCulture;
-			serverThread.Start(args);
-
-			// Wait for map to load.
-			m_waitEvent.WaitOne();
-
-			LogManager.MainLog.WriteLineAndConsole("DESERVE: Server loaded.");
-
-			isRunning = true;
 
 			return serverThread;
 		}
 
+		/// <summary>
+		/// Starts the DedicatedServer.exe by calling DedicatedServer.exe's entry point.
+		/// </summary>
+		/// <param name="args"></param>
 		private void ThreadStart(Object args)
 		{
 			try
@@ -108,16 +69,23 @@ namespace DESERVE.ReflectionWrappers.DedicatedServerWrappers
 				if (MyLog.Default != null)
 					MyLog.Default.Close();
 				MyFileSystem.Reset();
-				DedicatedServerWrapper.Program.Start(args as Object[]);
+				// Call DedicatedServer.exe's entry point.
+				// This call does not return until DedicatedServer.exe closes.
+				Start(args as Object[]);
 			}
 			catch (Exception ex)
 			{
 				LogManager.MainLog.WriteLineAndConsole("Unhandled Exception! Server Stopped.");
-				LogManager.ErrorLog.WriteLine("Unhandled Exception caused server to crash. Exception: " + ex.ToString());
+				LogManager.ErrorLog.WriteLine(String.Format("Unhandled Exception caused server to crash. Exception: {0}", ex.ToString()));
 			}
-			isRunning = false;
+			// DedicatedServer.exe has been closed. Report it to ServerInstance.
+			ServerInstance.Instance.ServerThreadStopped();
 		}
 
+		/// <summary>
+		/// Calls the entry point of DedicatedServer.exe
+		/// </summary>
+		/// <param name="args"></param>
 		private void Start(Object[] args)
 		{
 			m_startupMethod.Call(null, args);

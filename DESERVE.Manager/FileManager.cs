@@ -59,7 +59,7 @@ namespace DESERVE.Manager
 			}
 			catch (Exception ex)
 			{
-				//TODO: LogManager.Log("Something bad happened!");
+				Manager.ErrorLog.WriteLine(String.Format("Manager Uncaught Exception while saving arguments. Exception: {0}", ex.ToString()));
 				MessageBox.Show(ex.ToString());
 				return null;
 			}
@@ -89,7 +89,7 @@ namespace DESERVE.Manager
 			}
 			catch (Exception ex)
 			{
-				//TODO: LogManager.Log("Something bad happened!");
+				Manager.ErrorLog.WriteLine(String.Format("Manager Uncaught Exception while loading arguments. Exception: {0}", ex.ToString()));
 				MessageBox.Show(ex.ToString());
 				return null;
 			}		

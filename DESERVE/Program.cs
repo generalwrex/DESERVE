@@ -18,7 +18,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		private LogManager m_logManager;
 		private ServerInstance m_serverInstance;
 		private PluginManager m_pluginManager;
-		private WCFHost m_wcfHost;
+		private WCFService m_wcfService;
 
 		private static DESERVE m_instance;
 		#endregion
@@ -52,28 +52,31 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			m_instance = this;
 			m_commandLineArgs = new CommandLineArgs(args);
 			m_logManager = new LogManager(DESERVE.Arguments.LogDirectory);
-			m_serverInstance = new ServerInstance(DESERVE.Arguments);
+			m_serverInstance = new ServerInstance();
 
-			LogManager.MainLog.WriteLineAndConsole("DESERVE v" + VersionString);
-
-			LogManager.MainLog.WriteLineAndConsole("DESERVE Arguments: " + DESERVE.Arguments.ToString());
+			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE v{0}", VersionString));
+			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE Arguments: {0}", DESERVE.Arguments.ToString()));
 
 			if (DESERVE.Arguments.Plugins)
 			{
+				// Initialize the Plugin Manager.
 				m_pluginManager = new PluginManager();
 			}
 
 			if (DESERVE.Arguments.WCF)
 			{
-				m_wcfHost = new WCFHost(DESERVE.Arguments.Instance);
-				m_wcfHost.StartServer();
+				// Initialize the WCF NamedPipe.
+				m_wcfService = new WCFService(DESERVE.Arguments.Instance);
+				m_wcfService.StartService();
 			}
 		}
 
 		private void Run()
 		{
+			// Start the dedicated server.
 			ServerInstance.Instance.Start();
 
+			// Setup autosave timer.
 			if (DESERVE.Arguments.AutosaveMinutes > 0)
 			{
 				System.Timers.Timer autoSave = new System.Timers.Timer(DESERVE.Arguments.AutosaveMinutes * 60000);
@@ -82,16 +85,9 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 				autoSave.Start();
 			}
 
-			if (DESERVE.Arguments.Plugins)
-			{
-				m_pluginManager.InitializeAllPlugins();
-			}
-
-			Console.WriteLine();
-			Console.WriteLine("DESERVE: Server Loaded.");
 			Console.WriteLine();
 			Console.WriteLine("DESERVE: Press Escape to shut down server. F1 for more commands.");
-			while (DedicatedServerWrapper.Program.IsRunning)
+			while (ServerInstance.Instance.IsRunning)
 			{
 				if (Console.KeyAvailable)
 				{
@@ -120,7 +116,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 
 		private void AutoSave(object sender, ElapsedEventArgs e)
 		{
-			if (DedicatedServerWrapper.Program.IsRunning)
+			if (ServerInstance.Instance.IsRunning)
 			{
 				ServerInstance.Instance.Save();
 			}

@@ -68,7 +68,7 @@ namespace DESERVE.Manager
 			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
 			m_name = name;
 			m_clientController = new ClientController(m_name, this);
-			m_isRunning = m_clientController.Connect();
+			m_isRunning = false;
 			m_bindingIp = "";
 			m_serverName = "";
 		}
@@ -92,7 +92,7 @@ namespace DESERVE.Manager
 			{
 				// Don't do anything if they canceled the UAC prompt
 			}
-			catch (FileNotFoundException ex)
+			catch (FileNotFoundException)
 			{
 				MessageBox.Show("Make sure to set the path to DESERVE.EXE in the \"Options\" menu.",
 					"DESERVE.EXE not found!", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
@@ -109,16 +109,28 @@ namespace DESERVE.Manager
 			m_clientController.SaveServer();
 		}
 
-		public void Update(ServerInfo serverInfo)
+		internal void Update(ServerInfo serverInfo)
 		{
 			m_isRunning = serverInfo.IsRunning;
-			m_currentPlayers = serverInfo.CurrentPlayers;
+			m_currentPlayers = new ObservableCollection<Player>(serverInfo.CurrentPlayers);
 			m_uptime = serverInfo.Uptime;
 			m_lastSave = serverInfo.LastSave;
-			m_chatMessages = serverInfo.ChatMessages;
+			m_chatMessages = new ObservableCollection<ChatMessage>(serverInfo.ChatMessages);
 			if (PropertyChanged != null)
 			{
 				PropertyChanged(this, new PropertyChangedEventArgs(null));
+			}
+		}
+		internal void Update(ServerInfoPartial serverInfo)
+		{
+			m_isRunning = serverInfo.IsRunning;
+			m_uptime = serverInfo.Uptime;
+			m_lastSave = serverInfo.LastSave;
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs("IsRunning"));
+				PropertyChanged(this, new PropertyChangedEventArgs("Uptime"));
+				PropertyChanged(this, new PropertyChangedEventArgs("LastSave"));
 			}
 		}
 

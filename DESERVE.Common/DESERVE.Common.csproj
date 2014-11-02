@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ChatMessage.cs" />
     <Compile Include="DedicatedConfig.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="ServerInfo.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Player.cs" />

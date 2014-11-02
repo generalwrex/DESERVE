@@ -22,13 +22,7 @@ namespace DESERVE.Common
 		[OperationContract(IsOneWay = true)]
 		void Save();
 
-		/// <summary>
-		/// Used to request server information from the server.
-		/// </summary>
-		[OperationContract(IsOneWay = true)]
-		void RequestUpdate();
-
-		[OperationContract(IsOneWay = true)]
+		[OperationContract]
 		void RegisterForUpdates();
 
 		[OperationContract(IsOneWay = true)]
@@ -38,12 +32,11 @@ namespace DESERVE.Common
 
 	public interface IWCFClient
 	{
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="serverInfo"></param>
 		[OperationContract(IsOneWay = true)]
 		void ServerStateUpdate(ServerInfo serverInfo);
+
+		[OperationContract(IsOneWay = true)]
+		void ServerStateUpdate(ServerInfoPartial serverInfo);
 
 		[OperationContract(IsOneWay = true)]
 		void ChatMessageUpdate(ChatMessage message);

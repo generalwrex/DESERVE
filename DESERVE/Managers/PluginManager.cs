@@ -1,4 +1,5 @@
-﻿using DESERVE.ReflectionWrappers.SandboxGameWrappers;
+﻿using DESERVE.Common;
+using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +31,9 @@ namespace DESERVE.Managers
 		{
 			m_discoveredPlugins = new List<PluginInfo>();
 			m_loadedPlugins = new List<PluginInfo>();
+			// Register plugin initialization/shutdown events when the server loads.
+			ServerInstance.Instance.OnServerStarted += InitializeAllPlugins;
+			ServerInstance.Instance.OnServerStopped += ShutdownAllPlugins;
 		}
 
 		public void InitializeAllPlugins()
@@ -52,33 +56,26 @@ namespace DESERVE.Managers
 			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE: Initializing {0}", plugin.Assembly.GetName().Name));
 			bool pluginInitialized = false;
 
-			try
+			plugin.MainClass = (IPlugin)Activator.CreateInstance(plugin.MainClassType);
+			if (plugin.MainClass != null)
 			{
-				plugin.MainClass = (IPlugin)Activator.CreateInstance(plugin.MainClassType);
-				if (plugin.MainClass != null)
+				// Sync to make sure we initialized properly.
+				SandboxGameWrapper.MainGame.EnqueueActionSync(() =>
 				{
-					// Sync to catch exceptions.
-					SandboxGameWrapper.MainGame.EnqueueActionSync(() =>
+					try
 					{
-						try
-						{
-							plugin.MainClass.Init(plugin.Directory);
-							pluginInitialized = true;
-						}
-						catch (MissingMethodException)
-						{
-							LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Initialization of {0} failed. Could not find a public, parameterless constructor for {0}", plugin.Assembly.GetName().Name, plugin.MainClassType.ToString()));
-						}
-						catch (Exception ex)
-						{
-							LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Failed initialzation of {0}. Uncaught Exception: {1}", plugin.Assembly.GetName().Name, ex.ToString()));
-						}
-					});
-				}
-			}
-			catch (Exception ex)
-			{
-				LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Failed initialzation of {0}. Uncaught Exception: {1}", plugin.Assembly.GetName().Name, ex.ToString()));
+						plugin.MainClass.Init(plugin.Directory);
+						pluginInitialized = true;
+					}
+					catch (MissingMethodException)
+					{
+						LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Initialization of {0} failed. Could not find a public, parameterless constructor for {0}", plugin.Assembly.GetName().Name, plugin.MainClassType.ToString()));
+					}
+					catch (Exception ex)
+					{
+						LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Failed initialzation of {0}. Uncaught Exception: {1}", plugin.Assembly.GetName().Name, ex.ToString()));
+					}
+				});
 			}
 
 			if (pluginInitialized)
@@ -231,7 +228,7 @@ namespace DESERVE.Managers
 
 			catch (Exception ex)
 			{
-				LogManager.ErrorLog.WriteLineAndConsole("DESERVE: Failed to load assembly: " + library + " Error: " + ex.ToString());
+				LogManager.ErrorLog.WriteLineAndConsole(String.Format("DESERVE: Failed to load assembly: {0} Error: {1}", library, ex.ToString()));
 			}
 			return null;
 		}
@@ -308,7 +305,7 @@ namespace DESERVE.Managers
 		protected String m_version;
 		protected String m_directory;
 
-		protected LogInstance m_log;
+		protected Log m_log;
 		protected PluginBaseConfig m_config;
 		#endregion
 
@@ -318,7 +315,7 @@ namespace DESERVE.Managers
 		public virtual String Version { get { return m_version; } }
 		public virtual String Directory { get { return m_directory; } }
 
-		public virtual LogInstance PluginLog { get { return m_log; } }
+		public virtual Log PluginLog { get { return m_log; } }
 		public virtual PluginBaseConfig Config { get { return m_config; } }
 		#endregion
 
@@ -339,7 +336,7 @@ namespace DESERVE.Managers
 		public virtual void Init(String modDirectory)
 		{
 			m_directory = modDirectory;
-			m_log = new LogInstance(m_directory, Name + ".log");
+			m_log = new Log(m_directory, Name + ".log");
 			m_config.Init();
 			m_config.Load();
 		}

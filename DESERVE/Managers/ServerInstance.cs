@@ -12,12 +12,13 @@ using Sandbox.ModAPI;
 
 namespace DESERVE.Managers
 {
-	public class ServerInstance
+	public class ServerInstance : ServerInfo
 	{
 		#region Fields
 		private String m_saveFile;
 
-		private ObservableCollection<ChatMessage> m_chatMessages;
+		private List<ChatMessage> m_chatMessages;
+		private List<Player> m_currentPlayers;
 
 		private static Thread m_serverThread;
 		private static ServerInstance m_serverInstance;
@@ -28,38 +29,72 @@ namespace DESERVE.Managers
 		private DateTime m_launchedTime;
 		private DateTime m_lastSave;
 
+		private Boolean m_isRunning;
+
 		#endregion
 
 		#region Events
-		public event ServerStateEvent ServerStarted;
-		public event ServerStateEvent ServerStopped;
-		#endregion
+		public delegate void ServerRunningEvent();
+		public event ServerRunningEvent OnServerStarted;
+		public event ServerRunningEvent OnServerStopped;
 
+		public delegate void PlayerActionEvent(Player player, PlayerAction action);
+		public event PlayerActionEvent PlayerUpdated;
+
+		public delegate void ChatMessageEvent(ChatMessage message);
+		public event ChatMessageEvent OnChatMessage;
+		#endregion
+		
 		#region Properties
 		public static ServerInstance Instance { get { return m_serverInstance; } }
 		public static Thread ServerThread { get { return m_serverThread; } }
 
-		public String Name { get { return m_saveFile; } }
-		public Boolean IsRunning { get; set; }
-		public ObservableCollection<Player> CurrentPlayers { get { return GetCurrentPlayers(); } }
-		public TimeSpan Uptime { get { return DateTime.Now - m_launchedTime; } }
-		public DateTime LastSave { get { return m_lastSave; } }
-		public ObservableCollection<ChatMessage> ChatMessages { get { return m_chatMessages; } }
+		#region ServerInfo Properties
+		public override String Name { get { return m_saveFile; } }
+		public override Boolean IsRunning { get { return m_isRunning; } }
+		public override List<Player> CurrentPlayers { get { return m_currentPlayers; } }
+		public override TimeSpan Uptime { get { return DateTime.Now - m_launchedTime; } }
+		public override DateTime LastSave { get { return m_lastSave; } }
+		public override List<ChatMessage> ChatMessages { get { return m_chatMessages; } }
+		#endregion
 		#endregion
 
 		#region Methods
-		public ServerInstance(CommandLineArgs args)
+		public ServerInstance()
 		{
-			m_chatMessages = new ObservableCollection<ChatMessage>();
+			m_chatMessages = new List<ChatMessage>();
+			m_currentPlayers = new List<Player>();
 			m_launchedTime = DateTime.MinValue;
-			m_saveFile = args.Instance;
+			m_saveFile = DESERVE.Arguments.Instance;
 			m_serverThread = null;
 			m_serverInstance = this;
 			m_dedicatedServerWrapper = new DedicatedServerWrapper(Assembly.UnsafeLoadFrom("SpaceEngineersDedicated.exe"));
 			m_sandboxGameWrapper = new SandboxGameWrapper(Assembly.UnsafeLoadFrom("Sandbox.Game.dll"));
-			DedicatedServerWrapper.Program.OnServerStarted += Program_OnServerStarted;
-			DedicatedServerWrapper.Program.OnServerStopped += Program_OnServerStopped;
 			SandboxGameWrapper.NetworkManager.OnChatMessage += NetworkManager_OnChatMessage;
+			SandboxGameWrapper.NetworkManager.OnPlayerConnected += NetworkManager_OnPlayerConnected;
+			SandboxGameWrapper.NetworkManager.OnPlayerDisconnected += NetworkManager_OnPlayerDisconnected;
+		}
+
+		void NetworkManager_OnPlayerConnected(IMyPlayer player)
+		{
+			if (PlayerUpdated != null)
+			{
+				Player playerInfo = new Player();
+				playerInfo.SteamId = player.SteamUserId;
+				playerInfo.Name = player.DisplayName;
+				PlayerUpdated(playerInfo, PlayerAction.Joined);
+			}
+		}
+
+		void NetworkManager_OnPlayerDisconnected(IMyPlayer player)
+		{
+			if (PlayerUpdated != null)
+			{
+				Player playerInfo = new Player();
+				playerInfo.SteamId = player.SteamUserId;
+				playerInfo.Name = player.DisplayName;
+				PlayerUpdated(playerInfo, PlayerAction.Left);
+			}
 		}
 
 		void NetworkManager_OnChatMessage(ulong remoteUserId, string message, SteamSDK.ChatEntryTypeEnum entryType)
@@ -70,21 +105,18 @@ namespace DESERVE.Managers
 			chatMessage.SteamId = remoteUserId;
 			chatMessage.Timestamp = DateTime.Now;
 			ChatMessages.Add(chatMessage);
-		}
 
-		void Program_OnServerStarted()
-		{
-			m_launchedTime = DateTime.Now;
-			IsRunning = true;
-		}
+			if (OnChatMessage != null)
+			{
+				OnChatMessage(chatMessage);
+			}
 
-		void Program_OnServerStopped()
-		{
-			IsRunning = false;
 		}
 
 		public void Start()
 		{
+			// Setup the arguments that DedicatedServer.exe will recieve.
+			// DedicatedServer.exe -path "instance" -noconsole
 			Object[] serverArgs = new Object[]
 				{
 					new String[] {
@@ -94,17 +126,65 @@ namespace DESERVE.Managers
 					}
 				};
 
-			m_serverThread = DedicatedServerWrapper.Program.StartServer(serverArgs);
+			// Setup the wait event to wait for server load.
+			ManualResetEvent serverWaitEvent = new ManualResetEvent(false);
 
+			// Registers serverWaitEvent.Set() to the MainGame.OnLoaded event.
+			SandboxGameWrapper.MainGame.RegisterOnLoadedAction(
+				() => serverWaitEvent.Set() //
+				);
+
+			// Prepare the thread that DedicatedServer.exe will run on.
+			m_serverThread = DedicatedServerWrapper.Program.PrepareServerThread();
+
+			LogManager.MainLog.WriteLineAndConsole("DESERVE: Loading server...");
+
+			// Start DedicatedServer.exe This will call DedicatedServerWrapper.Program.ThreadStart [as setup in PrepareServerThread()]
+			m_serverThread.Start(serverArgs);
+
+			// Wait for the map to be loaded.
+			serverWaitEvent.WaitOne();
+			LogManager.MainLog.WriteLineAndConsole("DESERVE: Server Loaded.");
+
+			// Initialize our wrappers now that the main game has been loaded.
 			m_dedicatedServerWrapper.Init();
 			m_sandboxGameWrapper.Init();
+
+			// Register that we are now enabled.
+			m_launchedTime = DateTime.Now;
+			m_isRunning = true;
+
+			// Fire the OnServerStarted event.
+			if (OnServerStarted != null)
+			{
+				OnServerStarted();
+			}
 		}
 
 		public void Stop()
 		{
 			SandboxGameWrapper.MainGame.SignalShutdown();
-			m_serverThread.Join(60000);
-			m_serverThread.Abort();
+			if (m_serverThread.Join(60000))
+			{
+				LogManager.MainLog.WriteLineAndConsole("DESERVE: Server stopped successfully");
+			}
+			else
+			{
+				LogManager.MainLog.WriteLineAndConsole("DESERVE: Server shutdown timed out. Server aborted.");
+				m_serverThread.Abort();
+				ServerThreadStopped();
+			}
+		}
+
+		internal void ServerThreadStopped()
+		{
+			m_isRunning = false;
+
+			// Fire the OnServerStopped event.
+			if (OnServerStopped != null)
+			{
+				OnServerStopped();
+			}
 		}
 
 		public void Save()
@@ -126,19 +206,14 @@ namespace DESERVE.Managers
 			SandboxGameWrapper.NetworkManager.SendChatMessage(message.Message, message.SteamId);
 		}
 
-		public ObservableCollection<Player> GetCurrentPlayers()
+		internal ServerInfo GetInfo()
 		{
-			List<IMyPlayer> players = new List<IMyPlayer>();
-			ObservableCollection<Player> currentPlayers = new ObservableCollection<Player>();
-			MyAPIGateway.Players.GetPlayers(players);
-			if (players.Count > 0)
-			{
-				foreach (IMyPlayer player in players)
-				{
-					currentPlayers.Add(new Player() { Name = player.DisplayName, SteamId = player.SteamUserId });
-				}
-			}
-			return currentPlayers;
+			return new ServerInfo(Name, IsRunning, CurrentPlayers, Uptime, LastSave, ChatMessages);
+		}
+
+		internal ServerInfoPartial GetInfoPartial()
+		{
+			return new ServerInfoPartial(IsRunning, Uptime, LastSave);
 		}
 		#endregion
 	}

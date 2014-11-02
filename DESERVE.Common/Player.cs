@@ -6,8 +6,17 @@ using System.Text;
 
 namespace DESERVE.Common
 {
+	public enum PlayerAction
+	{
+		Joined,
+		Entered,
+		Left,
+		Kicked,
+		Banned,
+	}
+
 	[DataContract]
-	public class Player
+	public struct Player
 	{
 		[DataMember]
 		public String Name { get; set; }
