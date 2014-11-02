@@ -129,6 +129,9 @@ namespace DESERVE.Manager
 			if (PropertyChanged != null)
 			{
 				PropertyChanged(this, new PropertyChangedEventArgs("IsRunning"));
+				PropertyChanged(this, new PropertyChangedEventArgs("NotIsRunning"));
+				PropertyChanged(this, new PropertyChangedEventArgs("RunningString"));
+				PropertyChanged(this, new PropertyChangedEventArgs("RunningColor"));
 				PropertyChanged(this, new PropertyChangedEventArgs("Uptime"));
 				PropertyChanged(this, new PropertyChangedEventArgs("LastSave"));
 			}

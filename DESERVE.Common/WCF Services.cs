@@ -22,7 +22,7 @@ namespace DESERVE.Common
 		[OperationContract(IsOneWay = true)]
 		void Save();
 
-		[OperationContract]
+		[OperationContract(IsOneWay = true)]
 		void RegisterForUpdates();
 
 		[OperationContract(IsOneWay = true)]
@@ -36,7 +36,7 @@ namespace DESERVE.Common
 		void ServerStateUpdate(ServerInfo serverInfo);
 
 		[OperationContract(IsOneWay = true)]
-		void ServerStateUpdate(ServerInfoPartial serverInfo);
+		void ServerStateUpdatePartial(ServerInfoPartial serverInfo);
 
 		[OperationContract(IsOneWay = true)]
 		void ChatMessageUpdate(ChatMessage message);

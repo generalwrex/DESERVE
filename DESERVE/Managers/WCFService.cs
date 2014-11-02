@@ -117,7 +117,7 @@ namespace DESERVE.Managers
 		{
 			foreach (IWCFClient callback in m_updateCallbacks)
 			{
-				callback.ServerStateUpdate(ServerInstance.Instance as ServerInfoPartial);
+				callback.ServerStateUpdatePartial(ServerInstance.Instance.GetInfoPartial());
 			}
 
 			// Restart the timer for next time.

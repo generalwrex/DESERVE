@@ -62,7 +62,7 @@ namespace DESERVE.Manager
 		private void OnChannelFaulted(object sender, EventArgs e)
 		{
 			m_pipeChannel.Faulted -= OnChannelFaulted;
-			Connect();
+			m_connected = false;
 		}
 
 		internal void StopServer()
@@ -159,7 +159,7 @@ namespace DESERVE.Manager
 			m_lastUpdate = DateTime.Now;
 		}
 
-		public void ServerStateUpdate(ServerInfoPartial serverInfo)
+		public void ServerStateUpdatePartial(ServerInfoPartial serverInfo)
 		{
 			m_serverInstance.Update(serverInfo);
 			m_lastUpdate = DateTime.Now;
