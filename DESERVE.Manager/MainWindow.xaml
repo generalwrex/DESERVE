@@ -90,7 +90,7 @@
                         <Controls:WpfPropertyGrid x:Name="PG_CommandLineArgs" Margin="0,0,0,0" SelectedObject="{Binding Arguments}" Height="185" VerticalAlignment="Top"/>
                     </GroupBox>
                     <GroupBox Header="Dedicated Config" Margin="0,0,0,0" Grid.Row="1">
-                        <Controls:WpfPropertyGrid x:Name="PG_DedicatedConfig" Margin="0,0,0,0" />
+                        <Controls:WpfPropertyGrid x:Name="PG_DedicatedConfig" SelectedObject="{Binding DedicatedConfiguration}" Margin="0,0,0,0" />
                     </GroupBox>
                     <GroupBox Header="Controls" Margin="0,0,0,0" Grid.Column="1" Grid.RowSpan="2">
                         <Button x:Name="BTN_Configuration_SaveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top" Width="97" Click="BTN_Configuration_SaveChanges_Click"/>

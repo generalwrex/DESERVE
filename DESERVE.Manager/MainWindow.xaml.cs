@@ -119,8 +119,11 @@ namespace DESERVE.Manager
 		private void BTN_Configuration_SaveChanges_Click(object sender, RoutedEventArgs e)
 		{
 			var args = ((ServerInstance)LB_ServerInstances.SelectedItem).Arguments;
+			var config = ((ServerInstance)LB_ServerInstances.SelectedItem).DedicatedConfiguration;
 			var path = ((ServerInstance)LB_ServerInstances.SelectedItem).InstanceDirectory;
+
 			FileManager.Instance.SaveArguments(path, args);
+			DedicatedConfig.SaveDedicatedConfig(path, config);
 			StatusBar.Content = "Saved Configuration changes of: " + ((ServerInstance)LB_ServerInstances.SelectedItem).Name;
 		}
 		#endregion
