@@ -57,11 +57,13 @@ namespace DESERVE.Manager
 		public String Uptime { get { return m_uptime.ToString(@"dd\:hh\:mm\:ss"); } }
 		public String LastSave { get { return m_lastSave.ToString("HH:mm:ss dd/MMM/yyyy"); } }
 		public ObservableCollection<ChatMessage> ChatMessages { get { return m_chatMessages; } }
+		public DedicatedConfig DedicatedConfiguration { get; set; }
 		#endregion
 
 		#region Methods
 		public ServerInstance(String instanceDir, String name, System.Windows.Threading.Dispatcher dispatcher)
 		{
+			this.DedicatedConfiguration = DedicatedConfig.LoadDedicatedConfig(instanceDir, name);
 			m_chatMessages = new ObservableCollection<ChatMessage>();
 			m_instanceDir = instanceDir;
 			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
