@@ -39,6 +39,14 @@ namespace DESERVE.Manager
 		{
 			if (DateTime.Now - m_lastUpdate > TimeSpan.FromMilliseconds(_MS_PER_UPDATE_))
 			{
+				if (m_pipeChannel != null && m_pipeChannel.State == CommunicationState.Opened)
+				{
+					try
+					{
+						m_pipeChannel.Close();
+					}
+					catch {}
+				}
 				Connect();
 			}
 			m_updateTimer.Start();
