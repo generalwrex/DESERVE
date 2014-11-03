@@ -41,7 +41,6 @@ namespace DESERVE.Manager
 		#region Properties
 		public String Name { get { return m_name; } }
 		
-
 		public Boolean IsRunning { get { return m_isRunning; } }
 		public Boolean NotIsRunning { get { return !IsRunning; } }
 		//<TextBlock Foreground="{Binding RunningColor}" Grid.Column="2" Text="{Binding RunningString}"/>
@@ -58,8 +57,6 @@ namespace DESERVE.Manager
 		public String Uptime { get { return m_uptime.ToString(@"dd\:hh\:mm\:ss"); } }
 		public String LastSave { get { return m_lastSave.ToString("HH:mm:ss dd/MMM/yyyy"); } }
 		public ObservableCollection<ChatMessage> ChatMessages { get { return m_chatMessages; } }
-
-
 		#endregion
 
 		#region Methods
@@ -161,9 +158,14 @@ namespace DESERVE.Manager
 				{
 					CurrentPlayers.Add(player);
 				}
-				else
+				else if (action == PlayerAction.Left)
 				{
 					CurrentPlayers.Remove(player);
+				}
+				else
+				{
+					int i = CurrentPlayers.IndexOf(player);
+					CurrentPlayers[i] = player;
 				}
 				PropertyChanged(this, new PropertyChangedEventArgs("CurrentPlayers"));
 			});
@@ -176,7 +178,7 @@ namespace DESERVE.Manager
 
 		private void RunInUiThread(Action action)
 		{
-			 m_dispatcher.Invoke(action);
+			m_dispatcher.BeginInvoke(action);
 		}
 	}
 }

@@ -4,10 +4,10 @@ using DESERVE.ReflectionWrappers.SandboxGameWrappers;
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Threading;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Sandbox.ModAPI;
+using System.Threading;
 
 
 namespace DESERVE.Managers
@@ -19,6 +19,7 @@ namespace DESERVE.Managers
 
 		private List<ChatMessage> m_chatMessages;
 		private List<Player> m_currentPlayers;
+		private List<Player> m_joiningPlayers;
 
 		private static Thread m_serverThread;
 		private static ServerInstance m_serverInstance;
@@ -30,6 +31,11 @@ namespace DESERVE.Managers
 		private DateTime m_lastSave;
 
 		private Boolean m_isRunning;
+
+		private static int _MS_PER_UPDATE_ = 5000;
+		private System.Timers.Timer m_updateTimer;
+
+		private static readonly object _lockObj = new object();
 
 		#endregion
 
@@ -64,6 +70,7 @@ namespace DESERVE.Managers
 		{
 			m_chatMessages = new List<ChatMessage>();
 			m_currentPlayers = new List<Player>();
+			m_joiningPlayers = new List<Player>();
 			m_launchedTime = DateTime.MinValue;
 			m_saveFile = DESERVE.Arguments.Instance;
 			m_serverThread = null;
@@ -73,6 +80,47 @@ namespace DESERVE.Managers
 			SandboxGameWrapper.NetworkManager.OnChatMessage += NetworkManager_OnChatMessage;
 			SandboxGameWrapper.NetworkManager.OnPlayerConnected += NetworkManager_OnPlayerConnected;
 			SandboxGameWrapper.NetworkManager.OnPlayerDisconnected += NetworkManager_OnPlayerDisconnected;
+
+			m_updateTimer = new System.Timers.Timer(_MS_PER_UPDATE_);
+			m_updateTimer.Elapsed += OnUpdateTimer;
+			m_updateTimer.AutoReset = false;
+			m_updateTimer.Start();
+		}
+
+		private void OnUpdateTimer(object sender, System.Timers.ElapsedEventArgs e)
+		{
+			if (m_joiningPlayers.Count == 0)
+			{
+				m_updateTimer.Start();
+				return;
+			}
+			List<Player> joiningPlayers;
+			lock (_lockObj)
+			{
+				joiningPlayers = new List<Player>(m_joiningPlayers);
+			}
+			Player joiner;
+			foreach (Player player in joiningPlayers)
+			{
+				joiner = player;
+				List<IMyPlayer> currentPlayers = new List<IMyPlayer>();
+				MyAPIGateway.Players.GetPlayers(currentPlayers);
+				foreach (IMyPlayer currentPlayer in currentPlayers)
+				{
+					if (currentPlayer.SteamUserId == player.SteamId)
+					{
+						if (currentPlayer.Controller.ControlledEntity != null)
+						{
+							joiner.Name = currentPlayer.DisplayName;
+							m_joiningPlayers.Remove(player);
+							if (PlayerUpdated != null)
+							{
+								PlayerUpdated(joiner, PlayerAction.Entered);
+							}
+						}
+					}
+				}
+			}
 		}
 
 		void NetworkManager_OnPlayerConnected(ulong steamId)
@@ -85,6 +133,7 @@ namespace DESERVE.Managers
 			{
 				PlayerUpdated(playerInfo, PlayerAction.Joined);
 			}
+			m_joiningPlayers.Add(playerInfo);
 		}
 
 		void NetworkManager_OnPlayerDisconnected(ulong steamId)
