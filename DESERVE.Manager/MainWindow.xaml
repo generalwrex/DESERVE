@@ -75,17 +75,14 @@
                         <RowDefinition Height="105*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="581*"/>
-                        <ColumnDefinition Width="143*"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="0*"/>
                     </Grid.ColumnDefinitions>
                     <GroupBox Header="Command Line Args" Margin="0,0,0,0" Grid.RowSpan="2">
                         <Controls:WpfPropertyGrid x:Name="PG_CommandLineArgs" Margin="0,0,0,0" SelectedObject="{Binding Arguments}" Height="185" VerticalAlignment="Top"/>
                     </GroupBox>
                     <GroupBox Header="Dedicated Config" Margin="0,0,0,0" Grid.Row="1">
                         <Controls:WpfPropertyGrid x:Name="PG_DedicatedConfig" SelectedObject="{Binding DedicatedConfiguration}" Margin="0,0,0,0" />
-                    </GroupBox>
-                    <GroupBox Header="Controls" Margin="0,0,0,0" Grid.Column="1" Grid.RowSpan="2">
-                        <Button x:Name="BTN_Configuration_SaveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top" Width="97" Click="BTN_Configuration_SaveChanges_Click"/>
                     </GroupBox>
                 </Grid>
             </TabItem>
@@ -137,6 +134,7 @@
                 <Button x:Name="BTN_StartServer" Content="Start" IsEnabled="{Binding NotIsRunning}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click"/>
                 <Button x:Name="BTN_StopServer" Content="Stop" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75" Click="Stop_Click"/>
                 <Button x:Name="BTN_SaveServer" Content="Save" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
+                <Button x:Name="BTN_Configuration_SaveChanges" Content="Save Config Changes" HorizontalAlignment="Left" Height="21" Margin="481,-1,0,0" VerticalAlignment="Top" Width="128" Click="BTN_Configuration_SaveChanges_Click"/>
             </Grid>
         </GroupBox>
 

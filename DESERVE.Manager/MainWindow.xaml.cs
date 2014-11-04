@@ -118,16 +118,19 @@ namespace DESERVE.Manager
 		#region Configuration
 		private void BTN_Configuration_SaveChanges_Click(object sender, RoutedEventArgs e)
 		{
-			var args = ((ServerInstance)LB_ServerInstances.SelectedItem).Arguments;
-			var config = ((ServerInstance)LB_ServerInstances.SelectedItem).DedicatedConfiguration;
-			var path = ((ServerInstance)LB_ServerInstances.SelectedItem).InstanceDirectory;
+			var selected = ((ServerInstance)LB_ServerInstances.SelectedItem);
 
-			FileManager.Instance.SaveArguments(path, args);
+			bool args = FileManager.Instance.SaveArguments(selected.InstanceDirectory, selected.Arguments) == null ? false : true;
+			bool config = DedicatedConfig.SaveDedicatedConfig(selected.InstanceDirectory, selected.DedicatedConfiguration) == null ? false : true;
 
-			if(DedicatedConfig.SaveDedicatedConfig(path, config) == null)
-				StatusBar.Content = "Dedicated Config Failed to save!" ;
-
-			StatusBar.Content = "Saved Configuration changes of: " + ((ServerInstance)LB_ServerInstances.SelectedItem).Name;
+			if(!args)
+				StatusBar.Content = "Failed Saving Argument Changes!";
+			else if(!config)
+				StatusBar.Content = "Failed Saving Config Changes!";
+			else if (!config && !args)
+				StatusBar.Content = "Failed Saving Argument and Config Changes!";
+			else
+				StatusBar.Content = "Saved Changes!";
 		}
 		#endregion
 
