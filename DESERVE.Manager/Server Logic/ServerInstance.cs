@@ -27,6 +27,7 @@ namespace DESERVE.Manager
 		private String m_bindingIp;
 		private String m_serverName;
 		private ObservableCollection<ChatMessage> m_chatMessages;
+		private DedicatedConfig m_dedicatedConfig;
 
 		private WCFClient m_wcfClient;
 
@@ -57,14 +58,14 @@ namespace DESERVE.Manager
 		public String Uptime { get { return m_uptime.ToString(@"dd\:hh\:mm\:ss"); } }
 		public String LastSave { get { return m_lastSave.ToString("HH:mm:ss dd/MMM/yyyy"); } }
 		public ObservableCollection<ChatMessage> ChatMessages { get { return m_chatMessages; } }
-		public DedicatedConfig DedicatedConfiguration { get; set; }
+		public DedicatedConfig DedicatedConfiguration { get { return m_dedicatedConfig; } set { m_dedicatedConfig = value; } }
 		public CommandLineArgs Arguments { get { return m_arguments; } set { m_arguments = value; } }
 		#endregion
 
 		#region Methods
 		public ServerInstance(String instanceDir, String name, System.Windows.Threading.Dispatcher dispatcher)
 		{
-			this.DedicatedConfiguration = DedicatedConfig.LoadDedicatedConfig(instanceDir, name);
+			m_dedicatedConfig = DedicatedConfig.LoadDedicatedConfig(instanceDir, name);
 			m_chatMessages = new ObservableCollection<ChatMessage>();
 			m_instanceDir = instanceDir;
 			m_arguments = FileManager.Instance.LoadArguments(instanceDir, name, this);
