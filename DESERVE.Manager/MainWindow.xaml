@@ -71,11 +71,42 @@
             <TabItem Header="Server Settings">
                 <Grid Margin="0,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="187*"/>
-                        <RowDefinition Height="186*"/>
+                        <RowDefinition Height="185*"/>
+                        <RowDefinition Height="185*"/>
                     </Grid.RowDefinitions>
-                    <GroupBox Header="Command Line Args" Margin="0,0,0,0" Grid.Row="1">
+                    <GroupBox Header="Command Line Arguments" Margin="0,0,0,0" Grid.Row="1" Grid.ColumnSpan="3">
                         <Controls:WpfPropertyGrid x:Name="PG_CommandLineArgs" Margin="0,0,0,0" SelectedObject="{Binding Arguments}"/>
+                    </GroupBox>
+                    <GroupBox Header="Settings" Grid.Row="0" Margin="0,0,0,0">
+                        <Grid Margin="0,0,0,0" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25*"/>
+                                <RowDefinition Height="25*"/>
+                                <RowDefinition Height="25*"/>
+                                <RowDefinition Height="25*"/>
+                                <RowDefinition Height="25*"/>
+                                <RowDefinition Height="25*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100*"/>
+                                <ColumnDefinition Width="250*"/>
+                                <ColumnDefinition Width="100*"/>
+                                <ColumnDefinition Width="250*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Bind IP: " HorizontalAlignment="Right" />                         
+                            <Label Content="Bind Port: " HorizontalAlignment="Right" Grid.Row="1"/>                         
+                            <Label Content="Server Name: " HorizontalAlignment="Right" Grid.Row="2"/>                          
+                            <Label Content="World Name: " HorizontalAlignment="Right" Grid.Row="3"/>
+                            <Label Content="Password: " HorizontalAlignment="Right" Grid.Row="4"/>
+                            <Label Content="GroupID: " HorizontalAlignment="Right" Grid.Row="5"/>
+
+                            <TextBox Text="{Binding Server_BindIP}" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1"/>
+                            <TextBox Text="{Binding Server_BindPort}" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1"/>
+                            <TextBox Text="{Binding Server_Name}" HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1"/>
+                            <TextBox Text="{Binding Server_WorldName}" HorizontalAlignment="Stretch" Grid.Row="3" Grid.Column="1"/>
+                            <TextBox Text="{Binding Server_Pass}" HorizontalAlignment="Stretch" Grid.Row="4" Grid.Column="1"/>
+                            <TextBox Text="{Binding Server_GroupID}" HorizontalAlignment="Stretch" Grid.Row="5" Grid.Column="1"/>
+                        </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
