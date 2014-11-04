@@ -56,26 +56,31 @@ namespace DESERVE.Common
 
 		[DataMember]
 		[XmlArrayItem("unsignedLong")]
+		[Browsable(false)]
 		public List<String> Administrators { get; set; }
 
 		[DataMember]
 		[XmlArrayItem("unsignedLong")]
+		[Browsable(false)]
 		public List<UInt64> Banned { get; set; }
 
 		[DataMember]
 		[XmlArrayItem("unsignedLong")]
+		[Browsable(false)]
 		public List<UInt64> Mods { get; set; }
 
 		[DataMember]
 		public Int32 AsteroidAmount { get; set; }
 
 		[DataMember]
+		[Browsable(false)]
 		public UInt64 GroupID { get; set; }
 
 		[DataMember]
 		public Boolean IgnoreLastSession { get; set; }
 
 		[DataMember]
+		[Browsable(false)]
 		public String IP { get; set; }
 
 		[DataMember]
@@ -85,15 +90,18 @@ namespace DESERVE.Common
 		public Boolean PauseGameWhenEmpty { get; set; }
 
 		[DataMember]
+		[Browsable(false)]
 		public String ServerName { get; set; }
 
 		[DataMember]
+		[Browsable(false)]
 		public Int32 ServerPort { get; set; }
 
 		[DataMember]
 		public Int32 SteamPort { get; set; }
 
 		[DataMember]
+		[Browsable(false)]
 		public String WorldName { get; set; }
 		#endregion
 
