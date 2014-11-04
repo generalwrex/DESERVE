@@ -45,6 +45,7 @@ namespace DESERVE.Manager
 		{
 			G_MainGrid.DataContext = LB_ServerInstances.SelectedItem;
 			StatusBar.Content = "Ready...";
+			UpdateSettings(false, ((ServerInstance)LB_ServerInstances.SelectedItem).DedicatedConfiguration);
 		}
 		#endregion
 
@@ -115,10 +116,34 @@ namespace DESERVE.Manager
 		}
 		#endregion
 
+		#region Server Settings
+		private void UpdateSettings(bool save, DedicatedConfig selected)
+		{
+			if (save)
+			{
+				selected.IP = TXT_Server_BindIP.Text;
+				selected.ServerPort = Int32.Parse(TXT_Server_BindPort.Text);
+				selected.WorldName = TXT_Server_WorldName.Text;
+				selected.ServerName = TXT_Server_Name.Text;
+				selected.GroupID = ulong.Parse(TXT_Server_GroupID.Text);
+			}
+			else
+			{
+				TXT_Server_BindIP.Text = selected.IP;
+				TXT_Server_BindPort.Text = selected.ServerPort.ToString();
+				TXT_Server_WorldName.Text = selected.WorldName;
+				TXT_Server_Name.Text = selected.ServerName;
+				TXT_Server_GroupID.Text = selected.GroupID.ToString();
+			}
+		}
+		#endregion
+
 		#region Configuration
 		private void BTN_Configuration_SaveChanges_Click(object sender, RoutedEventArgs e)
 		{
 			var selected = ((ServerInstance)LB_ServerInstances.SelectedItem);
+
+			UpdateSettings(true, selected.DedicatedConfiguration);
 
 			bool args = FileManager.Instance.SaveArguments(selected.InstanceDirectory, selected.Arguments) == null ? false : true;
 			bool config = DedicatedConfig.SaveDedicatedConfig(selected.InstanceDirectory, selected.DedicatedConfiguration) == null ? false : true;

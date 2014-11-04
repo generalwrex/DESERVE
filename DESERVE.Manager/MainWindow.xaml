@@ -100,12 +100,12 @@
                             <Label Content="Password: " HorizontalAlignment="Right" Grid.Row="4"/>
                             <Label Content="GroupID: " HorizontalAlignment="Right" Grid.Row="5"/>
 
-                            <TextBox Text="{Binding Server_BindIP}" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1"/>
-                            <TextBox Text="{Binding Server_BindPort}" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1"/>
-                            <TextBox Text="{Binding Server_Name}" HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1"/>
-                            <TextBox Text="{Binding Server_WorldName}" HorizontalAlignment="Stretch" Grid.Row="3" Grid.Column="1"/>
-                            <TextBox Text="{Binding Server_Pass}" HorizontalAlignment="Stretch" Grid.Row="4" Grid.Column="1"/>
-                            <TextBox Text="{Binding Server_GroupID}" HorizontalAlignment="Stretch" Grid.Row="5" Grid.Column="1"/>
+                            <TextBox x:Name="TXT_Server_BindIP" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1"/>
+                            <TextBox x:Name="TXT_Server_BindPort" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1"/>
+                            <TextBox x:Name="TXT_Server_Name"  HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1"/>
+                            <TextBox x:Name="TXT_Server_WorldName" HorizontalAlignment="Stretch" Grid.Row="3" Grid.Column="1"/>
+                            <TextBox x:Name="TXT_Server_Pass"  HorizontalAlignment="Stretch" Grid.Row="4" Grid.Column="1"/>
+                            <TextBox x:Name="TXT_Server_GroupID"  HorizontalAlignment="Stretch" Grid.Row="5" Grid.Column="1"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
