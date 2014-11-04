@@ -68,20 +68,21 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Configuration">
+            <TabItem Header="Server Settings">
                 <Grid Margin="0,0,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="104*"/>
-                        <RowDefinition Height="105*"/>
+                        <RowDefinition Height="187*"/>
+                        <RowDefinition Height="186*"/>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="0*"/>
-                    </Grid.ColumnDefinitions>
-                    <GroupBox Header="Command Line Args" Margin="0,0,0,0" Grid.RowSpan="2">
-                        <Controls:WpfPropertyGrid x:Name="PG_CommandLineArgs" Margin="0,0,0,0" SelectedObject="{Binding Arguments}" Height="185" VerticalAlignment="Top"/>
+                    <GroupBox Header="Command Line Args" Margin="0,0,0,0" Grid.Row="1">
+                        <Controls:WpfPropertyGrid x:Name="PG_CommandLineArgs" Margin="0,0,0,0" SelectedObject="{Binding Arguments}"/>
                     </GroupBox>
-                    <GroupBox Header="Dedicated Config" Margin="0,0,0,0" Grid.Row="1">
+                </Grid>
+            </TabItem>
+            <TabItem Header="Configuration">
+                <Grid Margin="0,0,0,0">
+
+                    <GroupBox Header="Dedicated Configuration" Margin="0,0,0,0">
                         <Controls:WpfPropertyGrid x:Name="PG_DedicatedConfig" SelectedObject="{Binding DedicatedConfiguration}" Margin="0,0,0,0" />
                     </GroupBox>
                 </Grid>
