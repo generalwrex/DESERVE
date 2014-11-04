@@ -58,17 +58,7 @@ namespace DESERVE.Manager
 		public String LastSave { get { return m_lastSave.ToString("HH:mm:ss dd/MMM/yyyy"); } }
 		public ObservableCollection<ChatMessage> ChatMessages { get { return m_chatMessages; } }
 		public DedicatedConfig DedicatedConfiguration { get; set; }
-
-		#region Server Settings
 		public CommandLineArgs Arguments { get { return m_arguments; } set { m_arguments = value; } }
-		//BUG:  For some reason the textboxes are clearing out after 5 seconds..
-		public String Server_BindIP { get { return DedicatedConfiguration.IP; } set { DedicatedConfiguration.IP = value; } }
-		public Int32 Server_BindPort { get { return DedicatedConfiguration.ServerPort; } set { DedicatedConfiguration.ServerPort = value; } }
-		public String Server_WorldName { get { return DedicatedConfiguration.WorldName; } set { DedicatedConfiguration.WorldName = value; } }
-		public String Server_Name { get { return DedicatedConfiguration.ServerName; } set { DedicatedConfiguration.ServerName = value;} } // Todo Hook to ModAPI for realtime
-		public String Server_Pass { get; set; } // Todo Hook to ModAPI for realtime
-		public ulong Server_GroupID { get { return DedicatedConfiguration.GroupID; } set { DedicatedConfiguration.GroupID = value; } }
-		#endregion
 		#endregion
 
 		#region Methods
