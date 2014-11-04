@@ -123,7 +123,10 @@ namespace DESERVE.Manager
 			var path = ((ServerInstance)LB_ServerInstances.SelectedItem).InstanceDirectory;
 
 			FileManager.Instance.SaveArguments(path, args);
-			DedicatedConfig.SaveDedicatedConfig(path, config);
+
+			if(DedicatedConfig.SaveDedicatedConfig(path, config) == null)
+				StatusBar.Content = "Dedicated Config Failed to save!" ;
+
 			StatusBar.Content = "Saved Configuration changes of: " + ((ServerInstance)LB_ServerInstances.SelectedItem).Name;
 		}
 		#endregion

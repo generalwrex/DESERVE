@@ -28,7 +28,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">
+        <TabControl HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="0,0,0,45">
             <TabItem Header="Server Info">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -64,14 +64,6 @@
                             <Label Content="{Binding Uptime}" Margin="11,0,10,0" Grid.Row="4" Grid.Column="1"/>
                             <Label Content="{Binding LastSave}" Margin="11,0,10,0" Grid.Row="5" Grid.Column="1"/>
 
-                        </Grid>
-                    </GroupBox>
-
-                    <GroupBox Header="Selected Server Controls" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="1">
-                        <Grid>
-                            <Button x:Name="BTN_StartServer" Content="Start" IsEnabled="{Binding NotIsRunning}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click"/>
-                            <Button x:Name="BTN_StopServer" Content="Stop" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75" Click="Stop_Click"/>
-                            <Button x:Name="BTN_SaveServer" Content="Save" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -140,6 +132,13 @@
                 <MenuItem x:Name="MainMenu_Options_DeservePath" Header="DESERVE Path..." Width="200" Click="MainMenu_Options_DeservePath_Click"/>
             </MenuItem>
         </Menu>
+        <GroupBox Header="Selected Server Controls" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="45" Grid.Row="1" Grid.Column="1" Margin="0,0,6,0">
+            <Grid>
+                <Button x:Name="BTN_StartServer" Content="Start" IsEnabled="{Binding NotIsRunning}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click"/>
+                <Button x:Name="BTN_StopServer" Content="Stop" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Top" Width="75" Click="Stop_Click"/>
+                <Button x:Name="BTN_SaveServer" Content="Save" IsEnabled="{Binding IsRunning}" HorizontalAlignment="Left" Margin="200,0,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Window>
