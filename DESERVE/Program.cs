@@ -19,6 +19,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 		private ServerInstance m_serverInstance;
 		private PluginManager m_pluginManager;
 		private WCFService m_wcfService;
+		private SessionManager m_sessionManager;
 
 		private static DESERVE m_instance;
 		#endregion
@@ -53,6 +54,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 			m_commandLineArgs = new CommandLineArgs(args);
 			m_logManager = new LogManager(DESERVE.Arguments.LogDirectory);
 			m_serverInstance = new ServerInstance();
+			
 
 			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE v{0}", VersionString));
 			LogManager.MainLog.WriteLineAndConsole(String.Format("DESERVE Arguments: {0}", DESERVE.Arguments.ToString()));
@@ -68,6 +70,7 @@ namespace DESERVE //DEdicated SERVer, Enhanced
 				// Initialize the WCF NamedPipe.
 				m_wcfService = new WCFService();
 			}
+			m_sessionManager = new SessionManager(DESERVE.InstanceDirectory, DESERVE.Arguments.Instance);
 		}
 
 		private void Run()
