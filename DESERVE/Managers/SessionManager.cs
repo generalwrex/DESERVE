@@ -26,7 +26,7 @@ namespace DESERVE.Managers
 
 				LogManager.MainLog.WriteLineAndConsole("Loading Sandbox.sbc: " + worldPath);
 
-				m_checkPoint = LoadSandbox(config.LoadWorld, out fileSize);
+				m_checkPoint = LoadSandbox(worldPath, out fileSize);
 				if (m_checkPoint == null)
 				{
 					LogManager.ErrorLog.WriteLineAndConsole("Failed to deserialize Sandbox.sbc: check save name");
@@ -36,9 +36,20 @@ namespace DESERVE.Managers
 				LogManager.MainLog.WriteLineAndConsole("Loaded Sandbox.sbc - filesize: " + fileSize);
 
 				LogManager.MainLog.WriteLineAndConsole("Applying SessionSettings From DedicatedConfig");
-				var configSession = config.SessionSettings;
+				
 
 				#region SessionSettings
+				m_checkPoint.Password = config.Password;
+
+				m_checkPoint.Mods.Clear();
+				foreach (ulong modid in config.Mods)
+					m_checkPoint.Mods.Add(new MyObjectBuilder_Checkpoint.ModItem(modid));
+
+				m_checkPoint.Scenario.TypeId = MyObjectBuilderType.Parse(config.Scenario.TypeId);
+				m_checkPoint.Scenario.SubtypeId = config.Scenario.SubtypeId.ToString();
+
+				var configSession = config.SessionSettings;
+
 				m_checkPoint.Settings.GameMode = (Sandbox.Common.ObjectBuilders.MyGameModeEnum)configSession.GameMode;
 				m_checkPoint.Settings.EnvironmentHostility = (Sandbox.Common.ObjectBuilders.MyEnvironmentHostilityEnum)configSession.EnvironmentHostility;
 				m_checkPoint.Settings.OnlineMode = (Sandbox.Common.ObjectBuilders.MyOnlineModeEnum)configSession.OnlineMode;
@@ -69,11 +80,9 @@ namespace DESERVE.Managers
 				m_checkPoint.Settings.WeaponsEnabled = configSession.WeaponsEnabled;
 				m_checkPoint.Settings.WelderSpeedMultiplier = configSession.WelderSpeedMultiplier;
 				m_checkPoint.Settings.WorldSizeKm = configSession.WorldSizeKm;
-
-				//TODO Mods, Administrators and banned
 				#endregion
 
-				SaveSandbox(m_checkPoint, config.LoadWorld, out fileSize);
+				SaveSandbox(m_checkPoint, worldPath, out fileSize);
 				LogManager.MainLog.WriteLineAndConsole("Saved Sandbox.sbc - new filesize: " + fileSize + Environment.NewLine);
 
 				LogManager.MainLog.WriteLineAndConsole("Max Players: " + m_checkPoint.Settings.MaxPlayers);
