@@ -38,6 +38,7 @@ namespace DESERVE.Common
 			this.Mods = new List<ulong>();
 			this.ServerName = "";
 			this.WorldName = "";
+			this.Password = "";
 
 
 		}
@@ -96,6 +97,10 @@ namespace DESERVE.Common
 		[DataMember]
 		[Browsable(false)]
 		public Int32 ServerPort { get; set; }
+
+		[DataMember]
+		[Browsable(false)]
+		public String Password { get; set; }
 
 		[DataMember]
 		public Int32 SteamPort { get; set; }
