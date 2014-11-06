@@ -126,6 +126,7 @@ namespace DESERVE.Manager
 				selected.WorldName = TXT_Server_WorldName.Text;
 				selected.ServerName = TXT_Server_Name.Text;
 				selected.GroupID = ulong.Parse(TXT_Server_GroupID.Text);
+				selected.Password = TXT_Server_Pass.Text;
 			}
 			else
 			{
@@ -134,6 +135,7 @@ namespace DESERVE.Manager
 				TXT_Server_WorldName.Text = selected.WorldName;
 				TXT_Server_Name.Text = selected.ServerName;
 				TXT_Server_GroupID.Text = selected.GroupID.ToString();
+				TXT_Server_Pass.Text = selected.Password;
 			}
 		}
 		#endregion
